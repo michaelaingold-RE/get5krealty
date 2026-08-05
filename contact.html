@@ -1,41 +1,211 @@
-<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4">
-  <!-- Honeypot spam protection (hidden from users) -->
-  <p class="hidden">
-    <label>Don’t fill this out: <input name="bot-field" /></label>
-  </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | 5K Realty</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-    <input type="text" name="name" required
-           class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-navy">
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header a {
+      color: #1a1a1a;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: #111;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .phone-box {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 35px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .phone-box p {
+      margin-bottom: 8px;
+      color: #555;
+    }
+
+    .phone-box a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0b5fff;
+      text-decoration: none;
+    }
+
+    .phone-box a:hover {
+      text-decoration: underline;
+    }
+
+    form {
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid #eaeaea;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #0b5fff;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      background-color: #0b5fff;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #094bcc;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+      .container {
+        padding: 25px 16px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .phone-box a {
+        font-size: 1.35rem;
+      }
+
+      form {
+        padding: 22px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="/">5K Realty</a>
+    </header>
+
+    <h1>Contact Us</h1>
+    <p class="subtitle">Have a question about selling or buying? We’re here to help.</p>
+
+    <div class="phone-box">
+      <p>Prefer to talk now?</p>
+      <a href="tel:7046496781">704.649.6781</a>
+    </div>
+
+    <form action="#" method="POST">
+      <!-- Simple honeypot (hidden from users) -->
+      <div style="display:none;">
+        <label>Don’t fill this out</label>
+        <input type="text" name="bot-field">
+      </div>
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Property Address <span style="font-weight:400; color:#777;">(optional)</span></label>
+        <input type="text" id="address" name="address">
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+
+      <button type="submit">Send Message</button>
+
+      <p class="note">We typically respond within a few hours during business days.</p>
+    </form>
   </div>
-  
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-    <input type="tel" name="phone"
-           class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-navy">
-  </div>
-  
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-    <input type="email" name="email"
-           class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-navy">
-  </div>
-  
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-1">Property Address (if applicable)</label>
-    <input type="text" name="address"
-           class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-navy">
-  </div>
-  
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-    <textarea name="message" rows="4"
-              class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-navy"></textarea>
-  </div>
-  
-  <button type="submit" 
-          class="w-full bg-navy text-white py-3 rounded font-semibold hover:bg-opacity-90">
-    Send Message
-  </button>
-</form>
+</body>
+</html>
