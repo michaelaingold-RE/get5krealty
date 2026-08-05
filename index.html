@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5K Realty | Keep More of Your Equity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --navy: #0A2540;
+      --gold: #C9A227;
+    }
+    .text-navy { color: var(--navy); }
+    .bg-navy { background-color: var(--navy); }
+    .text-gold { color: var(--gold); }
+    .bg-gold { background-color: var(--gold); }
+  </style>
+</head>
+<body class="font-sans text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div>
+        <div class="text-xl sm:text-2xl font-bold">
+          <span class="text-navy">5K</span> <span class="text-gold">Realty</span>
+        </div>
+        <div class="text-xs text-gray-500 tracking-wide">Keep More of Your Equity</div>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-8 text-sm font-medium">
+        <a href="index.html" class="hover:text-gold">Home</a>
+        <a href="sellers.html" class="hover:text-gold">Sellers</a>
+        <a href="buyers.html" class="hover:text-gold">Buyers</a>
+        <a href="about.html" class="hover:text-gold">About</a>
+        <a href="contact.html" class="hover:text-gold">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">
+          704.649.6781
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
+          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t bg-white">
+      <nav class="flex flex-col px-4 py-3 space-y-3 text-sm font-medium">
+        <a href="index.html" class="py-2 hover:text-gold">Home</a>
+        <a href="sellers.html" class="py-2 hover:text-gold">Sellers</a>
+        <a href="buyers.html" class="py-2 hover:text-gold">Buyers</a>
+        <a href="about.html" class="py-2 hover:text-gold">About</a>
+        <a href="contact.html" class="py-2 hover:text-gold">Contact</a>
+        <a href="tel:7046496781" class="py-2 text-navy font-semibold">Call / Text 704.649.6781</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-navy text-white">
+    <div class="max-w-6xl mx-auto px-4 py-16 sm:py-20 md:py-28 text-center">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
+        Sell Your Home.<br>Keep More of Your Equity.
+      </h1>
+      <p class="text-base sm:text-lg md:text-xl text-gray-200 mb-3 max-w-2xl mx-auto">
+        Flat-fee real estate services for the Greater Charlotte area — backed by over 20 years of experience working with major home builders.
+      </p>
+      <p class="text-gold font-semibold text-base sm:text-lg mb-8">
+        Seller fee: $5,000 or 1%, whichever is greater
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+        <a href="tel:7046496781" class="bg-gold text-navy px-6 py-3 rounded font-semibold hover:bg-opacity-90 text-center">
+          Call / Text 704.649.6781
+        </a>
+        <a href="contact.html" class="border-2 border-white text-white px-6 py-3 rounded font-semibold hover:bg-white hover:text-navy text-center">
+          Get Started
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why 5K Realty -->
+  <section class="py-12 sm:py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl sm:text-3xl font-bold text-center text-navy mb-8 sm:mb-12">Why 5K Realty</h2>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="bg-white p-5 sm:p-6 rounded-lg shadow-sm">
+          <h3 class="text-lg sm:text-xl font-bold text-navy mb-2">Keep More Equity</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Transparent pricing of $5,000 or 1% (whichever is greater) so you keep more of what you’ve built.</p>
+        </div>
+        <div class="bg-white p-5 sm:p-6 rounded-lg shadow-sm">
+          <h3 class="text-lg sm:text-xl font-bold text-navy mb-2">Experienced Guidance</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Over 20 years helping buyers and sellers in the Greater Charlotte market, including work with major builders.</p>
+        </div>
+        <div class="bg-white p-5 sm:p-6 rounded-lg shadow-sm sm:col-span-2 md:col-span-1">
+          <h3 class="text-lg sm:text-xl font-bold text-navy mb-2">Full Service Support</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Professional marketing, pricing strategy, and transaction management without traditional high commissions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sellers & Buyers -->
+  <section class="py-12 sm:py-16">
+    <div class="max-w-6xl mx-auto px-4 grid sm:grid-cols-2 gap-6">
+      <div class="border border-gray-200 rounded-lg p-6 sm:p-8">
+        <h3 class="text-xl sm:text-2xl font-bold text-navy mb-3">For Sellers</h3>
+        <p class="text-gray-600 mb-5 text-sm sm:text-base">List your home with confidence and keep more of what you’ve built with our flat-fee structure.</p>
+        <a href="sellers.html" class="text-gold font-semibold hover:underline">See Seller Options →</a>
+      </div>
+      <div class="border border-gray-200 rounded-lg p-6 sm:p-8">
+        <h3 class="text-xl sm:text-2xl font-bold text-navy mb-3">For Buyers</h3>
+        <p class="text-gray-600 mb-5 text-sm sm:text-base">Get expert help finding and purchasing your next home in the Greater Charlotte area.</p>
+        <a href="buyers.html" class="text-gold font-semibold hover:underline">Buyer Services →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="py-12 sm:py-16 bg-gray-50">
+    <div class="max-w-xl mx-auto px-4 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-navy mb-4">Ready to Get Started?</h2>
+      <p class="text-gray-600 mb-6">Prefer to talk now? Call or text <a href="tel:7046496781" class="text-navy font-semibold">704.649.6781</a></p>
+      <a href="contact.html" class="inline-block bg-navy text-white px-8 py-3 rounded font-semibold hover:bg-opacity-90">
+        Contact Us
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-navy text-white py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="text-xl font-bold mb-1">
+        <span class="text-white">5K</span> <span class="text-gold">Realty</span>
+      </div>
+      <div class="text-sm text-gray-300 mb-4">Keep More of Your Equity</div>
+      <p class="text-gray-300 text-sm mb-2">Greater Charlotte Area</p>
+      <a href="tel:7046496781" class="text-gold font-medium">704.649.6781</a>
+      <p class="text-gray-400 text-xs mt-6">© 2026 5K Realty. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>
