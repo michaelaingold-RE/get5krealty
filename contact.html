@@ -91,36 +91,41 @@
       </div>
     </div>
 
-    <!-- Contact Form -->
+    <!-- Contact Form with stronger validation -->
     <form action="https://formspree.io/f/mvkpgapo" method="POST" class="space-y-5">
-      
+
       <!-- Honeypot spam protection -->
       <div style="display:none;">
         <input type="text" name="_gotcha">
       </div>
 
       <div>
-        <label for="name" class="block font-medium mb-1">Full Name</label>
-        <input type="text" id="name" name="name" required
-          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy">
+        <label for="name" class="block font-medium mb-1">Full Name *</label>
+        <input type="text" id="name" name="name" required minlength="2"
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy"
+          placeholder="Your full name">
       </div>
 
       <div>
-        <label for="phone" class="block font-medium mb-1">Phone</label>
-        <input type="tel" id="phone" name="phone"
-          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy">
+        <label for="phone" class="block font-medium mb-1">Phone *</label>
+        <input type="tel" id="phone" name="phone" required
+          pattern="[\d\s\-\(\)]{10,}"
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy"
+          placeholder="704-555-1234">
       </div>
 
       <div>
-        <label for="email" class="block font-medium mb-1">Email</label>
+        <label for="email" class="block font-medium mb-1">Email *</label>
         <input type="email" id="email" name="email" required
-          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy">
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy"
+          placeholder="you@email.com">
       </div>
 
       <div>
-        <label for="message" class="block font-medium mb-1">Message</label>
-        <textarea id="message" name="message" rows="5" required
-          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy"></textarea>
+        <label for="message" class="block font-medium mb-1">Message *</label>
+        <textarea id="message" name="message" rows="5" required minlength="10"
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy"
+          placeholder="How can we help you?"></textarea>
       </div>
 
       <button type="submit"
