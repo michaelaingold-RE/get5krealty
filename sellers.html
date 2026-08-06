@@ -4,180 +4,81 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sellers | 5K Realty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.7;
-      color: #1a1a1a;
-      background: #f8f9fa;
-    }
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 36px;
-    }
-    header a {
-      color: #1a1a1a;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.2rem;
-    }
-    h1 {
-      font-size: 1.9rem;
-      margin-bottom: 12px;
-      color: #111;
-    }
-    .subtitle {
-      font-size: 1.15rem;
-      color: #444;
-      margin-bottom: 28px;
-    }
-    h2 {
-      font-size: 1.35rem;
-      margin: 36px 0 14px;
-      color: #111;
-    }
-    p, ul {
-      margin-bottom: 16px;
-      color: #333;
-    }
-    ul {
-      padding-left: 22px;
-    }
-    li {
-      margin-bottom: 8px;
-    }
-    .fee-box {
-      background: #fff;
-      border: 2px solid #0b5fff;
-      border-radius: 10px;
-      padding: 24px;
-      margin: 28px 0;
-      text-align: center;
-    }
-    .fee-box strong {
-      font-size: 1.25rem;
-      color: #0b5fff;
-    }
-    .calculator {
-      background: #fff;
-      border: 1px solid #e5e5e5;
-      border-radius: 10px;
-      padding: 24px;
-      margin: 28px 0;
-    }
-    .calculator label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .calculator input {
-      width: 100%;
-      padding: 12px 14px;
-      font-size: 1.1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 20px;
-    }
-    .results {
-      display: grid;
-      gap: 12px;
-    }
-    .result-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-    .result-row:last-child {
-      border-bottom: none;
-      font-weight: 700;
-      font-size: 1.15rem;
-      color: #0b5fff;
-      padding-top: 14px;
-    }
-    .highlight {
-      background: #fff;
-      border: 1px solid #e5e5e5;
-      border-radius: 10px;
-      padding: 22px 24px;
-      margin: 28px 0;
-    }
-    .cta {
-      background: #0b5fff;
-      color: white;
-      text-align: center;
-      padding: 28px 24px;
-      border-radius: 10px;
-      margin-top: 48px;
-    }
-    .cta p {
-      color: white;
-      margin-bottom: 16px;
-      font-size: 1.05rem;
-    }
-    .cta a {
-      display: inline-block;
-      background: white;
-      color: #0b5fff;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 12px 28px;
-      border-radius: 6px;
-    }
-    @media (max-width: 480px) {
-      .container { padding: 28px 16px 50px; }
-      h1 { font-size: 1.6rem; }
-    }
+    :root { --navy: #0A2540; --gold: #C9A227; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .text-navy { color: var(--navy); }
+    .bg-navy { background-color: var(--navy); }
+    .text-gold { color: var(--gold); }
+    .bg-gold { background-color: var(--gold); }
   </style>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <a href="/">5K Realty</a>
-    </header>
+<body class="text-gray-800">
 
-    <h1>Sell Your Home & Keep More of Your Equity</h1>
-    <p class="subtitle">
-      Professional full-service representation with a simple, transparent fee.
-    </p>
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div>
+        <a href="index.html" class="text-xl sm:text-2xl font-bold">
+          <span class="text-navy">5K</span> <span class="text-gold">Realty</span>
+        </a>
+        <div class="text-xs text-gray-500 tracking-wide">Keep More of Your Equity</div>
+      </div>
+      <nav class="hidden md:flex space-x-8 text-sm font-medium">
+        <a href="index.html" class="hover:text-gold">Home</a>
+        <a href="sellers.html" class="hover:text-gold">Sellers</a>
+        <a href="buyers.html" class="hover:text-gold">Buyers</a>
+        <a href="about.html" class="hover:text-gold">About</a>
+        <a href="contact.html" class="hover:text-gold">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">704.649.6781</a>
+        <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
+          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t bg-white">
+      <nav class="flex flex-col px-4 py-3 space-y-3 text-sm font-medium">
+        <a href="index.html" class="py-2 hover:text-gold">Home</a>
+        <a href="sellers.html" class="py-2 hover:text-gold">Sellers</a>
+        <a href="buyers.html" class="py-2 hover:text-gold">Buyers</a>
+        <a href="about.html" class="py-2 hover:text-gold">About</a>
+        <a href="contact.html" class="py-2 hover:text-gold">Contact</a>
+        <a href="tel:7046496781" class="py-2 text-navy font-semibold">Call / Text 704.649.6781</a>
+        <a href="mailto:info@get5krealty.com" class="py-2 text-navy font-semibold">info@get5krealty.com</a>
+      </nav>
+    </div>
+  </header>
 
-    <div class="fee-box">
-      <p>Our fee is straightforward:</p>
-      <p><strong>$5,000 or 1% of the sale price,<br>whichever is greater</strong></p>
+  <!-- Page Content -->
+  <main class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-4">Sell Your Home & Keep More of Your Equity</h1>
+    <p class="text-lg text-gray-600 mb-8">Professional full-service representation with a simple, transparent fee.</p>
+
+    <div class="bg-white border-2 border-navy rounded-lg p-6 text-center mb-10">
+      <p class="text-gray-600 mb-2">Our fee is straightforward:</p>
+      <p class="text-xl font-bold text-navy">$5,000 or 1% of the sale price,<br>whichever is greater</p>
     </div>
 
-    <!-- Interactive Savings Calculator -->
-    <div class="calculator">
-      <h2 style="margin-top:0;">Savings Calculator</h2>
-      <p>Enter your estimated home sale price to see how much you can keep:</p>
-      
-      <label for="salePrice">Estimated Sale Price ($)</label>
-      <input type="number" id="salePrice" placeholder="e.g. 450000" min="0" step="1000">
-
-      <div class="results">
-        <div class="result-row">
-          <span>Traditional Commission (5.5%)</span>
-          <span id="traditional">—</span>
-        </div>
-        <div class="result-row">
-          <span>5K Realty Fee</span>
-          <span id="ourFee">—</span>
-        </div>
-        <div class="result-row">
-          <span>Your Savings</span>
-          <span id="savings">—</span>
-        </div>
+    <!-- Savings Calculator -->
+    <div class="bg-gray-50 border rounded-lg p-6 mb-10">
+      <h2 class="text-xl font-bold text-navy mb-4">Savings Calculator</h2>
+      <label class="block font-medium mb-2">Estimated Sale Price ($)</label>
+      <input type="number" id="salePrice" placeholder="e.g. 450000" class="w-full border rounded px-4 py-3 mb-6 text-lg" min="0" step="1000">
+      <div class="space-y-3">
+        <div class="flex justify-between border-b pb-2"><span>Traditional Commission (5.5%)</span><span id="traditional">—</span></div>
+        <div class="flex justify-between border-b pb-2"><span>5K Realty Fee</span><span id="ourFee">—</span></div>
+        <div class="flex justify-between font-bold text-navy text-lg pt-2"><span>Your Savings</span><span id="savings">—</span></div>
       </div>
     </div>
 
-    <h2>What’s Included in the Flat Fee</h2>
-    <ul>
+    <h2 class="text-2xl font-bold text-navy mb-4">What’s Included in the Flat Fee</h2>
+    <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
       <li>Professional market analysis & pricing guidance</li>
       <li>Full MLS listing & online exposure</li>
       <li>Standard marketing materials</li>
@@ -186,63 +87,56 @@
       <li>Guidance through closing</li>
     </ul>
 
-    <h2>Optional À La Carte Services</h2>
-    <p>
-      Some sellers want additional services based on their specific needs. These are optional and priced separately so you only pay for what you want:
-    </p>
-    <ul>
+    <h2 class="text-2xl font-bold text-navy mb-4">Optional À La Carte Services</h2>
+    <p class="mb-4 text-gray-700">These are optional and priced separately so you only pay for what you want:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
       <li>Co-brokerage compensation (offering a commission to the buyer’s agent)</li>
       <li>Drone photography</li>
       <li>Video options (property video / walkthrough video)</li>
       <li>Virtual staging</li>
       <li>Enhanced online advertising or social media promotion</li>
       <li>Professional staging consultation</li>
-      <li>Additional marketing materials (brochures, feature sheets, etc.)</li>
+      <li>Additional marketing materials</li>
       <li>Other custom services as needed</li>
     </ul>
-    <p>
-      We’ll discuss these options with you and only recommend what makes sense for your home and goals.
-    </p>
 
-    <div class="highlight">
-      <p><strong>Bottom line:</strong> You get full-service representation without the traditional high commission. Transparent pricing. More equity kept in your pocket.</p>
+    <div class="bg-navy text-white rounded-lg p-8 text-center mt-12">
+      <p class="text-lg mb-4">Ready to talk about selling your home?</p>
+      <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">Call for a Free Consultation</a>
     </div>
+  </main>
 
-    <div class="cta">
-      <p>Ready to talk about selling your home?</p>
-      <a href="/contact.html">Contact 5K Realty</a>
+  <footer class="bg-navy text-white py-10 mt-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="text-xl font-bold mb-1"><span class="text-white">5K</span> <span class="text-gold">Realty</span></div>
+      <div class="text-sm text-gray-300 mb-4">Keep More of Your Equity</div>
+      <a href="tel:7046496781" class="text-gold font-medium block">704.649.6781</a>
+      <a href="mailto:info@get5krealty.com" class="text-gold font-medium">info@get5krealty.com</a>
+      <p class="text-gray-400 text-xs mt-6">© 2026 5K Realty. All rights reserved.</p>
     </div>
-  </div>
+  </footer>
 
   <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+
     const salePriceInput = document.getElementById('salePrice');
-    const traditionalEl = document.getElementById('traditional');
-    const ourFeeEl = document.getElementById('ourFee');
-    const savingsEl = document.getElementById('savings');
-
-    function formatCurrency(num) {
-      return '$' + Math.round(num).toLocaleString('en-US');
-    }
-
+    function formatCurrency(num) { return '$' + Math.round(num).toLocaleString('en-US'); }
     function calculate() {
       const price = parseFloat(salePriceInput.value) || 0;
-
       if (price <= 0) {
-        traditionalEl.textContent = '—';
-        ourFeeEl.textContent = '—';
-        savingsEl.textContent = '—';
+        document.getElementById('traditional').textContent = '—';
+        document.getElementById('ourFee').textContent = '—';
+        document.getElementById('savings').textContent = '—';
         return;
       }
-
       const traditional = price * 0.055;
       const ourFee = Math.max(5000, price * 0.01);
-      const savings = traditional - ourFee;
-
-      traditionalEl.textContent = formatCurrency(traditional);
-      ourFeeEl.textContent = formatCurrency(ourFee);
-      savingsEl.textContent = formatCurrency(savings);
+      document.getElementById('traditional').textContent = formatCurrency(traditional);
+      document.getElementById('ourFee').textContent = formatCurrency(ourFee);
+      document.getElementById('savings').textContent = formatCurrency(traditional - ourFee);
     }
-
     salePriceInput.addEventListener('input', calculate);
   </script>
 </body>
