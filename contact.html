@@ -4,208 +4,149 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact | 5K Realty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --navy: #0A2540;
+      --gold: #C9A227;
     }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      color: #1a1a1a;
-      background-color: #f8f9fa;
-    }
-
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    header a {
-      color: #1a1a1a;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.25rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 12px;
-      color: #111;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 30px;
-    }
-
-    .phone-box {
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 35px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .phone-box p {
-      margin-bottom: 8px;
-      color: #555;
-    }
-
-    .phone-box a {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #0b5fff;
-      text-decoration: none;
-    }
-
-    .phone-box a:hover {
-      text-decoration: underline;
-    }
-
-    form {
-      background: #ffffff;
-      padding: 30px 25px;
-      border-radius: 10px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      border: 1px solid #eaeaea;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      font-size: 0.95rem;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      transition: border-color 0.2s;
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: #0b5fff;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    button {
-      width: 100%;
-      background-color: #0b5fff;
-      color: white;
-      border: none;
-      padding: 14px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button:hover {
-      background-color: #094bcc;
-    }
-
-    .note {
-      margin-top: 18px;
-      font-size: 0.9rem;
-      color: #666;
-      text-align: center;
-    }
-
-    /* Mobile adjustments */
-    @media (max-width: 480px) {
-      .container {
-        padding: 25px 16px;
-      }
-
-      h1 {
-        font-size: 1.7rem;
-      }
-
-      .phone-box a {
-        font-size: 1.35rem;
-      }
-
-      form {
-        padding: 22px 18px;
-      }
-    }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .text-navy { color: var(--navy); }
+    .bg-navy { background-color: var(--navy); }
+    .text-gold { color: var(--gold); }
+    .bg-gold { background-color: var(--gold); }
   </style>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <a href="/">5K Realty</a>
-    </header>
+<body class="text-gray-800">
 
-    <h1>Contact Us</h1>
-    <p class="subtitle">Have a question about selling or buying? We’re here to help.</p>
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div>
+        <a href="index.html" class="text-xl sm:text-2xl font-bold">
+          <span class="text-navy">5K</span> <span class="text-gold">Realty</span>
+        </a>
+        <div class="text-xs text-gray-500 tracking-wide">Keep More of Your Equity</div>
+      </div>
 
-    <div class="phone-box">
-      <p>Prefer to talk now?</p>
-      <a href="tel:7046496781">704.649.6781</a>
+      <nav class="hidden md:flex space-x-8 text-sm font-medium">
+        <a href="index.html" class="hover:text-gold">Home</a>
+        <a href="sellers.html" class="hover:text-gold">Sellers</a>
+        <a href="buyers.html" class="hover:text-gold">Buyers</a>
+        <a href="about.html" class="hover:text-gold">About</a>
+        <a href="contact.html" class="hover:text-gold">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">
+          704.649.6781
+        </a>
+        <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
+          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <form action="#" method="POST">
-      <!-- Simple honeypot (hidden from users) -->
+    <div id="mobile-menu" class="hidden md:hidden border-t bg-white">
+      <nav class="flex flex-col px-4 py-3 space-y-3 text-sm font-medium">
+        <a href="index.html" class="py-2 hover:text-gold">Home</a>
+        <a href="sellers.html" class="py-2 hover:text-gold">Sellers</a>
+        <a href="buyers.html" class="py-2 hover:text-gold">Buyers</a>
+        <a href="about.html" class="py-2 hover:text-gold">About</a>
+        <a href="contact.html" class="py-2 hover:text-gold">Contact</a>
+        <a href="tel:7046496781" class="py-2 text-navy font-semibold">Call / Text 704.649.6781</a>
+        <a href="mailto:info@get5krealty.com" class="py-2 text-navy font-semibold">info@get5krealty.com</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-2xl mx-auto px-4 py-12">
+    <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-3">Contact Us</h1>
+    <p class="text-lg text-gray-600 mb-10">
+      Have a question about buying or selling? We’re here to help.
+    </p>
+
+    <!-- Quick Contact Options -->
+    <div class="bg-gray-50 border rounded-lg p-6 mb-10">
+      <p class="font-medium text-navy mb-3">Prefer to talk or email now?</p>
+      <p class="mb-2">
+        <a href="tel:7046496781" class="text-navy font-semibold text-lg hover:underline">704.649.6781</a>
+      </p>
+      <p>
+        <a href="mailto:info@get5krealty.com" class="text-navy font-semibold hover:underline">info@get5krealty.com</a>
+      </p>
+    </div>
+
+    <!-- Contact Form -->
+    <form action="#" method="POST" class="space-y-5">
+      <!-- Honeypot (hidden from users) -->
       <div style="display:none;">
         <label>Don’t fill this out</label>
         <input type="text" name="bot-field">
       </div>
 
-      <div class="form-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required>
+      <div>
+        <label for="name" class="block font-medium mb-1">Full Name</label>
+        <input type="text" id="name" name="name" required
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy">
       </div>
 
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone">
+      <div>
+        <label for="phone" class="block font-medium mb-1">Phone</label>
+        <input type="tel" id="phone" name="phone"
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy">
       </div>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+      <div>
+        <label for="email" class="block font-medium mb-1">Email</label>
+        <input type="email" id="email" name="email" required
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy">
       </div>
 
-      <div class="form-group">
-        <label for="address">Property Address <span style="font-weight:400; color:#777;">(optional)</span></label>
-        <input type="text" id="address" name="address">
+      <div>
+        <label for="message" class="block font-medium mb-1">Message</label>
+        <textarea id="message" name="message" rows="5" required
+          class="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-navy"></textarea>
       </div>
 
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" required></textarea>
-      </div>
-
-      <button type="submit">Send Message</button>
-
-      <p class="note">We typically respond within a few hours during business days.</p>
+      <button type="submit"
+        class="w-full bg-navy text-white font-semibold py-3 rounded hover:bg-opacity-90 transition">
+        Send Message
+      </button>
     </form>
-  </div>
+
+    <p class="text-sm text-gray-500 text-center mt-6">
+      We typically respond within a few hours during business days.
+    </p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-navy text-white py-10 mt-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="text-xl font-bold mb-1">
+        <span class="text-white">5K</span> <span class="text-gold">Realty</span>
+      </div>
+      <div class="text-sm text-gray-300 mb-4">Keep More of Your Equity</div>
+      <a href="tel:7046496781" class="text-gold font-medium block">704.649.6781</a>
+      <a href="mailto:info@get5krealty.com" class="text-gold font-medium">info@get5krealty.com</a>
+      <p class="text-gray-400 text-xs mt-6">© 2026 5K Realty. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (btn && menu) {
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    }
+  </script>
 </body>
 </html>
