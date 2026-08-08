@@ -31,7 +31,6 @@
         </a>
         <div class="text-xs text-gray-500 tracking-wide">Keep More of Your Equity</div>
       </div>
-
       <nav class="hidden md:flex space-x-8 text-sm font-medium">
         <a href="index.html" class="hover:text-gold">Home</a>
         <a href="sellers.html" class="hover:text-gold">Sellers</a>
@@ -39,19 +38,13 @@
         <a href="about.html" class="hover:text-gold">About</a>
         <a href="contact.html" class="hover:text-gold">Contact</a>
       </nav>
-
       <div class="flex items-center gap-3">
-        <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">
-          704.649.6781
-        </a>
+        <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">704.649.6781</a>
         <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
-          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
     </div>
-
     <div id="mobile-menu" class="hidden md:hidden border-t bg-white">
       <nav class="flex flex-col px-4 py-3 space-y-3 text-sm font-medium">
         <a href="index.html" class="py-2 hover:text-gold">Home</a>
@@ -68,23 +61,24 @@
   <!-- Main Content -->
   <main class="max-w-3xl mx-auto px-4 py-12">
     <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-4">About 5K Realty</h1>
-    <p class="text-lg text-gray-600 mb-10">
-      Professional representation. Clear pricing. Better results.
-    </p>
+    <p class="text-lg text-gray-600 mb-10">Professional representation. Clear pricing. Better results.</p>
 
-    <h2 class="text-2xl font-bold text-navy mb-4">Michael Ingold</h2>
-    <p class="text-gray-700 mb-4">
-      Founder | 5K Realty
-    </p>
-    <p class="text-gray-700 mb-4">
-      With over 20 years of experience in real estate, Michael has built a career helping families buy and sell homes across the Greater Charlotte area. His background includes extensive work with major home builders, giving him deep insight into both new construction and the resale market.
-    </p>
-    <p class="text-gray-700 mb-10">
-      After years working in traditional high-commission environments, Michael founded 5K Realty to offer something better: full-service professional representation that allows clients to keep more of their equity.
-    </p>
+    <!-- Photo + Bio -->
+    <div class="flex flex-col sm:flex-row gap-6 sm:gap-8 mb-12 items-start">
+      <img src="images/michael-ingold.jpg" alt="Michael Ingold - 5K Realty" class="w-32 h-32 sm:w-36 sm:h-36 object-cover rounded-lg shadow flex-shrink-0">
+      <div>
+        <h2 class="text-2xl font-bold text-navy mb-1">Michael Ingold</h2>
+        <p class="text-gold font-medium mb-4">Founder | 5K Realty</p>
+        <p class="text-gray-700 mb-4">
+          With over 20 years of experience in real estate, Michael has built a career helping families buy and sell homes across the Greater Charlotte area. His background includes extensive work with major home builders, giving him deep insight into both new construction and the resale market.
+        </p>
+        <p class="text-gray-700">
+          After years working in traditional high-commission environments, Michael founded 5K Realty to offer something better: full-service professional representation that allows clients to keep more of their equity.
+        </p>
+      </div>
+    </div>
 
     <h2 class="text-2xl font-bold text-navy mb-6">Why Work With 5K Realty</h2>
-
     <div class="space-y-6 mb-12">
       <div>
         <h3 class="text-lg font-semibold text-navy mb-1">20+ Years Experience</h3>
@@ -107,21 +101,23 @@
     <div class="bg-navy text-white rounded-lg p-8 text-center">
       <h2 class="text-2xl font-bold mb-3">Ready to Work Together?</h2>
       <p class="mb-6 text-gray-200">Call or text for a free consultation.</p>
-      <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">
-        704.649.6781
-      </a>
+      <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">704.649.6781</a>
     </div>
   </main>
 
   <!-- Footer -->
   <footer class="bg-navy text-white py-10 mt-16">
     <div class="max-w-6xl mx-auto px-4 text-center">
-      <div class="text-xl font-bold mb-1">
-        <span class="text-white">5K</span> <span class="text-gold">Realty</span>
-      </div>
+      <div class="text-xl font-bold mb-1"><span class="text-white">5K</span> <span class="text-gold">Realty</span></div>
       <div class="text-sm text-gray-300 mb-4">Keep More of Your Equity</div>
       <a href="tel:7046496781" class="text-gold font-medium block">704.649.6781</a>
       <a href="mailto:info@get5krealty.com" class="text-gold font-medium">info@get5krealty.com</a>
+      
+      <div class="mt-6 flex justify-center items-center gap-3">
+        <img src="images/equal-housing-opportunity.png" alt="Equal Housing Opportunity" class="h-8">
+        <span class="text-xs text-gray-400">Equal Housing Opportunity</span>
+      </div>
+      
       <p class="text-gray-400 text-xs mt-6">© 2026 5K Realty. All rights reserved.</p>
     </div>
   </footer>
@@ -129,11 +125,7 @@
   <script>
     const btn = document.getElementById('menu-btn');
     const menu = document.getElementById('mobile-menu');
-    if (btn && menu) {
-      btn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-      });
-    }
+    if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
   </script>
 </body>
 </html>
