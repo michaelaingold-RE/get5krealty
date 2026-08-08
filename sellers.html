@@ -9,7 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --navy: #0A2540; --gold: #C9A227; }
+    :root {
+      --navy: #0A2540;
+      --gold: #C9A227;
+    }
     body { font-family: 'Inter', system-ui, sans-serif; }
     .text-navy { color: var(--navy); }
     .bg-navy { background-color: var(--navy); }
@@ -38,7 +41,9 @@
       <div class="flex items-center gap-3">
         <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">704.649.6781</a>
         <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
-          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -55,7 +60,7 @@
     </div>
   </header>
 
-  <!-- Page Content -->
+  <!-- Main Content -->
   <main class="max-w-3xl mx-auto px-4 py-12">
     <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-4">Sell Your Home & Keep More of Your Equity</h1>
     <p class="text-lg text-gray-600 mb-8">Professional full-service representation with a simple, transparent fee.</p>
@@ -106,12 +111,21 @@
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="bg-navy text-white py-10 mt-16">
     <div class="max-w-6xl mx-auto px-4 text-center">
-      <div class="text-xl font-bold mb-1"><span class="text-white">5K</span> <span class="text-gold">Realty</span></div>
+      <div class="text-xl font-bold mb-1">
+        <span class="text-white">5K</span> <span class="text-gold">Realty</span>
+      </div>
       <div class="text-sm text-gray-300 mb-4">Keep More of Your Equity</div>
       <a href="tel:7046496781" class="text-gold font-medium block">704.649.6781</a>
       <a href="mailto:info@get5krealty.com" class="text-gold font-medium">info@get5krealty.com</a>
+      
+      <div class="mt-6 flex justify-center items-center gap-3">
+        <img src="images/equal-housing-opportunity.png" alt="Equal Housing Opportunity" class="h-8">
+        <span class="text-xs text-gray-400">Equal Housing Opportunity</span>
+      </div>
+      
       <p class="text-gray-400 text-xs mt-6">© 2026 5K Realty. All rights reserved.</p>
     </div>
   </footer>
