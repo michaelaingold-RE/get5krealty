@@ -18,26 +18,6 @@
     .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); }
     .bg-gold { background-color: var(--gold); }
-    
-    /* Make the IDX iframe usable */
-    .idx-container {
-      width: 100%;
-      height: 900px;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
-      overflow: hidden;
-      background: #fff;
-    }
-    .idx-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    @media (max-width: 768px) {
-      .idx-container {
-        height: 1100px;
-      }
-    }
   </style>
 </head>
 <body class="text-gray-800">
@@ -84,29 +64,24 @@
   <main>
     <!-- Hero -->
     <section class="bg-gray-50 border-b">
-      <div class="max-w-6xl mx-auto px-4 py-10 sm:py-14">
-        <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-3">Search Homes</h1>
-        <p class="text-lg text-gray-600 max-w-2xl">
+      <div class="max-w-6xl mx-auto px-4 py-12 sm:py-16 text-center">
+        <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-4">Search Homes</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
           Browse current listings across Fort Mill, Lake Wylie, Tega Cay, Rock Hill, and the greater Charlotte area with real-time Canopy MLS data.
         </p>
+        
+        <!-- Search Button -->
+        <a href="https://matrix.canopymls.com/Matrix/public/IDX.aspx?idx=eb673705" 
+           target="_blank" 
+           rel="noopener"
+           class="inline-block bg-navy text-white font-semibold px-8 py-4 rounded-lg text-lg hover:bg-opacity-90 transition">
+          Search Homes Now →
+        </a>
+        
+        <p class="text-sm text-gray-500 mt-4">
+          Opens the official Canopy MLS search in a new tab
+        </p>
       </div>
-    </section>
-
-    <!-- IDX Search -->
-    <section class="max-w-6xl mx-auto px-4 py-8">
-      <div class="idx-container">
-        <iframe src="https://matrix.canopymls.com/Matrix/public/IDX.aspx?idx=eb673705" 
-                width="100%" 
-                height="100%" 
-                frameborder="0" 
-                marginwidth="0" 
-                marginheight="0"
-                title="Home Search - Canopy MLS">
-        </iframe>
-      </div>
-      <p class="text-xs text-gray-500 mt-3 text-center">
-        Listings provided by Canopy MLS. Data is deemed reliable but not guaranteed.
-      </p>
     </section>
 
     <!-- Existing Content -->
