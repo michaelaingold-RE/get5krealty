@@ -1,1 +1,4 @@
+User-agent: *
+Allow: /
 
+Sitemap: https://get5krealty.com/sitemap.xml
