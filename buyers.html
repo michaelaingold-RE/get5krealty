@@ -18,6 +18,26 @@
     .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); }
     .bg-gold { background-color: var(--gold); }
+    
+    /* Make the IDX iframe usable */
+    .idx-container {
+      width: 100%;
+      height: 900px;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      background: #fff;
+    }
+    .idx-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    @media (max-width: 768px) {
+      .idx-container {
+        height: 1100px;
+      }
+    }
   </style>
 </head>
 <body class="text-gray-800">
@@ -61,55 +81,73 @@
   </header>
 
   <!-- Main Content -->
-  <main class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-4">Buyer Services</h1>
-    <p class="text-lg text-gray-600 mb-8">
-      Looking for a home in Fort Mill, Lake Wylie, Tega Cay, Rock Hill, or the greater Charlotte area? We help buyers navigate the process with clear guidance and strong local knowledge.
-    </p>
+  <main>
+    <!-- Hero -->
+    <section class="bg-gray-50 border-b">
+      <div class="max-w-6xl mx-auto px-4 py-10 sm:py-14">
+        <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-3">Search Homes</h1>
+        <p class="text-lg text-gray-600 max-w-2xl">
+          Browse current listings across Fort Mill, Lake Wylie, Tega Cay, Rock Hill, and the greater Charlotte area with real-time Canopy MLS data.
+        </p>
+      </div>
+    </section>
 
-    <!-- Photos -->
-    <img src="images/images/fort-mill-baxter-village.jpg" alt="Baxter Village in Fort Mill" class="w-full rounded-lg mb-6">
-    <img src="images/images/fort-mill-kingsley-street.jpg" alt="Kingsley area in Fort Mill" class="w-full rounded-lg mb-10">
-
-    <h2 class="text-2xl font-bold text-navy mb-4">How We Help Buyers</h2>
-    <ul class="list-disc pl-5 space-y-2 mb-10 text-gray-700">
-      <li>Local market knowledge across York County and southern Charlotte</li>
-      <li>Clear guidance from first showing through closing</li>
-      <li>Help evaluating neighborhoods, schools, and lifestyle fit</li>
-      <li>Strong negotiation support</li>
-      <li>Straightforward communication throughout the process</li>
-    </ul>
-
-    <img src="images/images/fort-mill-lake-scenic.jpg" alt="Scenic view near Lake Wylie" class="w-full rounded-lg mb-6">
-    <img src="images/images/fort-mill-peach-stand.jpg" alt="The Peach Stand in Fort Mill" class="w-full rounded-lg mb-10">
-
-    <h2 class="text-2xl font-bold text-navy mb-4">Buyer Agent Fees</h2>
-    <p class="mb-4 text-gray-700">
-      In the traditional real estate model, buyer representation is typically paid by the seller through a commission offered in the listing.
-    </p>
-    <p class="mb-4 text-gray-700">
-      When you work with 5K Realty as a buyer, we follow this same structure whenever possible. If the seller is offering compensation to the buyer’s agent, that is how we are paid.
-    </p>
-    <p class="mb-8 text-gray-700">
-      If the seller does not offer compensation, our fee for buyer services is <strong>$5,000 or 1% of the purchase price, whichever is greater</strong>.
-    </p>
-
-    <div class="bg-gray-50 border rounded-lg p-6 mb-10">
-      <p class="text-gray-700">
-        <strong>Our approach:</strong> We focus on helping you make a confident decision — whether you’re relocating, upsizing, or looking for a home near Lake Wylie and the outdoor lifestyle that comes with it.
+    <!-- IDX Search -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+      <div class="idx-container">
+        <iframe src="https://matrix.canopymls.com/Matrix/public/IDX.aspx?idx=eb673705" 
+                width="100%" 
+                height="100%" 
+                frameborder="0" 
+                marginwidth="0" 
+                marginheight="0"
+                title="Home Search - Canopy MLS">
+        </iframe>
+      </div>
+      <p class="text-xs text-gray-500 mt-3 text-center">
+        Listings provided by Canopy MLS. Data is deemed reliable but not guaranteed.
       </p>
-    </div>
+    </section>
 
-    <div class="bg-navy text-white rounded-lg p-8 text-center">
-      <p class="text-lg mb-4">Have questions or ready to start your search?</p>
-      <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">
-        Call for a Free Consultation
-      </a>
-    </div>
+    <!-- Existing Content -->
+    <section class="max-w-3xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold text-navy mb-4">How We Help Buyers</h2>
+      <ul class="list-disc pl-5 space-y-2 mb-10 text-gray-700">
+        <li>Local market knowledge across York County and southern Charlotte</li>
+        <li>Clear guidance from first showing through closing</li>
+        <li>Help evaluating neighborhoods, schools, and lifestyle fit</li>
+        <li>Strong negotiation support</li>
+        <li>Straightforward communication throughout the process</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold text-navy mb-4">Buyer Agent Fees</h2>
+      <p class="mb-4 text-gray-700">
+        In the traditional real estate model, buyer representation is typically paid by the seller through a commission offered in the listing.
+      </p>
+      <p class="mb-4 text-gray-700">
+        When you work with 5K Realty as a buyer, we follow this same structure whenever possible. If the seller is offering compensation to the buyer’s agent, that is how we are paid.
+      </p>
+      <p class="mb-8 text-gray-700">
+        If the seller does not offer compensation, our fee for buyer services is <strong>$5,000 or 1% of the purchase price, whichever is greater</strong>.
+      </p>
+
+      <div class="bg-gray-50 border rounded-lg p-6 mb-10">
+        <p class="text-gray-700">
+          <strong>Our approach:</strong> We focus on helping you make a confident decision — whether you’re relocating, upsizing, or looking for a home near Lake Wylie and the outdoor lifestyle that comes with it.
+        </p>
+      </div>
+
+      <div class="bg-navy text-white rounded-lg p-8 text-center">
+        <p class="text-lg mb-4">Have questions or ready to start your search?</p>
+        <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">
+          Call for a Free Consultation
+        </a>
+      </div>
+    </section>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-navy text-white py-10 mt-16">
+  <footer class="bg-navy text-white py-10 mt-8">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <div class="text-xl font-bold mb-1">
         <span class="text-white">5K</span> <span class="text-gold">Realty</span>
@@ -117,12 +155,12 @@
       <div class="text-sm text-gray-300 mb-4">Keep More of Your Equity</div>
       <a href="tel:7046496781" class="text-gold font-medium block">704.649.6781</a>
       <a href="mailto:info@get5krealty.com" class="text-gold font-medium">info@get5krealty.com</a>
-      
+     
       <div class="mt-6 flex justify-center items-center gap-3">
         <img src="images/equal-housing-opportunity.png" alt="Equal Housing Opportunity" class="h-8">
         <span class="text-xs text-gray-400">Equal Housing Opportunity</span>
       </div>
-      
+     
       <p class="text-gray-400 text-xs mt-6">© 2026 5K Realty. All rights reserved.</p>
     </div>
   </footer>
