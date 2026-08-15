@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sell Your Home for a Flat Fee | 5K Realty – Fort Mill & Lake Wylie</title>
-  <meta name="description" content="Sell your home and keep more of your equity with 5K Realty. Full-service flat-fee listings for $5,000 or 1% in Fort Mill, Lake Wylie, Tega Cay, Rock Hill and the greater Charlotte area.">
+  <meta name="description" content="List your home with full-service support for $5,000 or 1% (whichever is greater). Transparent pricing for sellers in Fort Mill, Lake Wylie, Tega Cay and York County.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,9 @@
       --navy: #0A2540;
       --gold: #C9A227;
     }
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
     body { font-family: 'Inter', system-ui, sans-serif; }
     .text-navy { color: var(--navy); }
     .bg-navy { background-color: var(--navy); }
@@ -43,7 +45,9 @@
       <div class="flex items-center gap-3">
         <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">704.649.6781</a>
         <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
-          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -55,113 +59,64 @@
         <a href="about.html" class="py-2 hover:text-gold">About</a>
         <a href="contact.html" class="py-2 hover:text-gold">Contact</a>
         <a href="tel:7046496781" class="py-2 text-navy font-semibold">Call / Text 704.649.6781</a>
+        <a href="mailto:michael@get5krealty.com" class="py-2 text-navy font-semibold">michael@get5krealty.com</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="bg-navy text-white">
-    <div class="max-w-6xl mx-auto px-4 py-16 sm:py-20 text-center">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
-        Sell Your Home.<br>Keep More of Your Equity.
-      </h1>
-      <p class="text-lg text-gray-200 mb-3 max-w-2xl mx-auto">
-        Full-service representation for a flat fee of <strong>$5,000 or 1%</strong> (whichever is greater).
-      </p>
-      <p class="text-gold font-semibold text-lg mb-8">
-        Serving Fort Mill, Lake Wylie, Tega Cay, Rock Hill & Greater Charlotte
-      </p>
-      <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="tel:7046496781" class="bg-gold text-navy px-6 py-3 rounded font-semibold hover:bg-opacity-90 text-center">
-          Call for a Free Consultation
-        </a>
-        <a href="https://5k-realty-seller-agent.streamlit.app" target="_blank" class="border-2 border-white text-white px-6 py-3 rounded font-semibold hover:bg-white hover:text-navy text-center">
-          Talk to Seller Assistant
-        </a>
+  <!-- Main Content -->
+  <main class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-4">Sell Your Home & Keep More of Your Equity</h1>
+    <p class="text-lg text-gray-600 mb-8">Professional full-service representation with a simple, transparent fee.</p>
+
+    <div class="bg-white border-2 border-navy rounded-lg p-6 text-center mb-10">
+      <p class="text-gray-600 mb-2">Our fee is straightforward:</p>
+      <p class="text-xl font-bold text-navy">$5,000 or 1% of the sale price,<br>whichever is greater</p>
+    </div>
+
+    <!-- Savings Calculator -->
+    <div class="bg-gray-50 border rounded-lg p-6 mb-10">
+      <h2 class="text-xl font-bold text-navy mb-4">Savings Calculator</h2>
+      <label class="block font-medium mb-2">Estimated Sale Price ($)</label>
+      <input type="number" id="salePrice" placeholder="e.g. 450000" class="w-full border rounded px-4 py-3 mb-6 text-lg" min="0" step="1000">
+      <div class="space-y-3">
+        <div class="flex justify-between border-b pb-2"><span>Traditional Commission (5.5%)</span><span id="traditional">—</span></div>
+        <div class="flex justify-between border-b pb-2"><span>5K Realty Fee</span><span id="ourFee">—</span></div>
+        <div class="flex justify-between font-bold text-navy text-lg pt-2"><span>Your Savings</span><span id="savings">—</span></div>
       </div>
     </div>
-  </section>
 
-  <!-- Savings Calculator -->
-  <section class="py-12 sm:py-16 bg-gray-50">
-    <div class="max-w-xl mx-auto px-4">
-      <h2 class="text-2xl sm:text-3xl font-bold text-navy text-center mb-2">See Your Potential Savings</h2>
-      <p class="text-center text-gray-600 mb-8">Compare traditional commissions to 5K Realty’s flat fee.</p>
-      
-      <div class="bg-white rounded-lg shadow-sm border p-6 sm:p-8">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Estimated Sale Price</label>
-        <input type="number" id="salePrice" placeholder="e.g. 450000" 
-               class="w-full border border-gray-300 rounded px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-navy mb-6">
-        
-        <div class="space-y-3 text-sm sm:text-base">
-          <div class="flex justify-between">
-            <span class="text-gray-600">Traditional 5.5% Commission</span>
-            <span id="traditional" class="font-semibold text-navy">—</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-gray-600">5K Realty Fee ($5,000 or 1%)</span>
-            <span id="ourFee" class="font-semibold text-navy">—</span>
-          </div>
-          <div class="flex justify-between border-t pt-3">
-            <span class="font-semibold text-navy">Your Estimated Savings</span>
-            <span id="savings" class="font-bold text-gold text-lg">—</span>
-          </div>
-        </div>
-      </div>
+    <h2 class="text-2xl font-bold text-navy mb-4">What’s Included in the Flat Fee</h2>
+    <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
+      <li>Professional market analysis & pricing guidance</li>
+      <li>Full MLS listing & online exposure</li>
+      <li>Standard marketing materials</li>
+      <li>Coordination of showings & feedback</li>
+      <li>Offer negotiation & contract management</li>
+      <li>Guidance through closing</li>
+    </ul>
+
+    <h2 class="text-2xl font-bold text-navy mb-4">Optional À La Carte Services</h2>
+    <p class="mb-4 text-gray-700">These are optional and priced separately so you only pay for what you want:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
+      <li>Co-brokerage compensation (offering a commission to the buyer’s agent)</li>
+      <li>Drone photography</li>
+      <li>Video options (property video / walkthrough video)</li>
+      <li>Virtual staging</li>
+      <li>Enhanced online advertising or social media promotion</li>
+      <li>Professional staging consultation</li>
+      <li>Additional marketing materials</li>
+      <li>Other custom services as needed</li>
+    </ul>
+
+    <div class="bg-navy text-white rounded-lg p-8 text-center mt-12">
+      <p class="text-lg mb-4">Ready to talk about selling your home?</p>
+      <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">Call for a Free Consultation</a>
     </div>
-  </section>
+  </main>
 
-  <!-- Why 5K Realty -->
-  <section class="py-12 sm:py-16">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl sm:text-3xl font-bold text-navy text-center mb-10">Why Sellers Choose 5K Realty</h2>
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 class="text-lg font-bold text-navy mb-2">Keep More Equity</h3>
-          <p class="text-gray-600 text-sm">Transparent pricing of $5,000 or 1% so you keep more of what you’ve built.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 class="text-lg font-bold text-navy mb-2">Full-Service Support</h3>
-          <p class="text-gray-600 text-sm">Professional marketing, pricing strategy, negotiation, and transaction management from start to finish.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 class="text-lg font-bold text-navy mb-2">20+ Years Experience</h3>
-          <p class="text-gray-600 text-sm">Deep local knowledge of the Fort Mill, Lake Wylie, and Greater Charlotte markets.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 class="text-lg font-bold text-navy mb-2">Builder Background</h3>
-          <p class="text-gray-600 text-sm">Extensive experience with new construction and major home builders in the area.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 class="text-lg font-bold text-navy mb-2">Clear Process</h3>
-          <p class="text-gray-600 text-sm">No surprises. You know exactly what you’re paying from day one.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 class="text-lg font-bold text-navy mb-2">Local & Responsive</h3>
-          <p class="text-gray-600 text-sm">Direct access to your agent — not a call center or rotating team.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-12 sm:py-16 bg-navy text-white">
-    <div class="max-w-2xl mx-auto px-4 text-center">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-4">Ready to Get Started?</h2>
-      <p class="text-gray-200 mb-8">Call or text for a free consultation, or chat with our Seller Assistant.</p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="tel:7046496781" class="bg-gold text-navy px-8 py-3 rounded font-semibold hover:bg-opacity-90">
-          704.649.6781
-        </a>
-        <a href="https://5k-realty-seller-agent.streamlit.app" target="_blank" class="border-2 border-white text-white px-8 py-3 rounded font-semibold hover:bg-white hover:text-navy">
-          Chat with Seller Assistant
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-navy text-white py-10">
+  <!-- Footer (Updated) -->
+  <footer class="bg-navy text-white py-10 mt-16">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <div class="text-xl font-bold mb-1">
         <span class="text-white">5K</span> <span class="text-gold">Realty</span>
@@ -238,8 +193,8 @@
 
     // Savings Calculator
     const salePriceInput = document.getElementById('salePrice');
-    function formatCurrency(num) { 
-      return '$' + Math.round(num).toLocaleString('en-US'); 
+    function formatCurrency(num) {
+      return '$' + Math.round(num).toLocaleString('en-US');
     }
     function calculate() {
       const price = parseFloat(salePriceInput.value) || 0;
