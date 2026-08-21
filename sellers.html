@@ -58,7 +58,7 @@
         <a href="sellers.html" class="py-2 hover:text-gold">Sellers</a>
         <a href="buyers.html" class="py-2 hover:text-gold">Buyers</a>
         <a href="about.html" class="py-2 hover:text-gold">About</a>
-        <a href="contact.html" class="py-2 hover:text_gold">Contact</a>
+        <a href="contact.html" class="py-2 hover:text-gold">Contact</a>
         <a href="tel:7046496781" class="py-2 text-navy font-semibold">Call / Text 704.649.6781</a>
         <a href="mailto:michael@get5krealty.com" class="py-2 text-navy font-semibold">michael@get5krealty.com</a>
       </nav>
@@ -100,12 +100,11 @@
 
     <h2 class="text-2xl font-bold text-navy mb-4">What’s Included in the Flat Fee</h2>
     <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
-      <li>Professional market analysis & pricing guidance</li>
-      <li>Full MLS listing & online exposure</li>
-      <li>Standard marketing materials</li>
-      <li>Coordination of showings & feedback</li>
-      <li>Offer negotiation & contract management</li>
-      <li>Guidance through closing</li>
+      <li>Flat fee listing: $5,000 or 1%, whichever is greater</li>
+      <li>Home valuation & equity review</li>
+      <li>Professional photography & listings</li>
+      <li>Full MLS listing with automatic distribution to the top real estate websites. Your home gets seen by agents and by the public where they already search.</li>
+      <li>Professional contract documents, negotiations and consultation</li>
     </ul>
 
     <h2 class="text-2xl font-bold text-navy mb-4">Optional add-ons</h2>
@@ -159,25 +158,34 @@
       btn.addEventListener('click', () => menu.classList.toggle('hidden'));
     }
 
-    // Savings Calculator
+    // Savings Calculator (optimized)
     const salePriceInput = document.getElementById('salePrice');
+    const traditionalEl = document.getElementById('traditional');
+    const ourFeeEl = document.getElementById('ourFee');
+    const savingsEl = document.getElementById('savings');
+
     function formatCurrency(num) {
       return '$' + Math.round(num).toLocaleString('en-US');
     }
+
     function calculate() {
       const price = parseFloat(salePriceInput.value) || 0;
+
       if (price <= 0) {
-        document.getElementById('traditional').textContent = '—';
-        document.getElementById('ourFee').textContent = '—';
-        document.getElementById('savings').textContent = '—';
+        traditionalEl.textContent = '—';
+        ourFeeEl.textContent = '—';
+        savingsEl.textContent = '—';
         return;
       }
+
       const traditional = price * 0.055;
       const ourFee = Math.max(5000, price * 0.01);
-      document.getElementById('traditional').textContent = formatCurrency(traditional);
-      document.getElementById('ourFee').textContent = formatCurrency(ourFee);
-      document.getElementById('savings').textContent = formatCurrency(traditional - ourFee);
+
+      traditionalEl.textContent = formatCurrency(traditional);
+      ourFeeEl.textContent = formatCurrency(ourFee);
+      savingsEl.textContent = formatCurrency(traditional - ourFee);
     }
+
     salePriceInput.addEventListener('input', calculate);
   </script>
 </body>
