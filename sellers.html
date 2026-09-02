@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>What It Costs to Sell Your Home | 5K Realty</title>
-  <meta name="description" content="Compare 5K Realty’s listing-side fee ($5,000 or 1%) with a 5.5% all-in example. Not a closing statement.">
+  <meta name="description" content="Compare 5K Realty’s listing-side fee ($5,000 or 1%) with a 5.5% all-in example. Print your numbers to review later.">
   <link rel="canonical" href="https://get5krealty.com/sellers" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,10 +18,15 @@
     .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); }
     .bg-gold { background-color: var(--gold); }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+      a { color: inherit; text-decoration: none; }
+    }
   </style>
 </head>
 <body class="text-gray-800">
-  <header class="bg-white shadow-sm sticky top-0 z-50">
+  <header class="no-print bg-white shadow-sm sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="min-w-0">
         <a href="/" class="inline-flex flex-col items-start" aria-label="5K Realty home, Ingold Group Properties, LLC">
@@ -55,26 +60,30 @@
       </nav>
     </div>
   </header>
-  <section class="bg-navy text-white">
+  <section class="no-print bg-navy text-white">
     <div class="max-w-4xl mx-auto px-4 py-14 sm:py-16 text-center">
       <p class="text-xl sm:text-2xl font-medium mb-2">Sell Your Home.</p>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">Keep More of Your Equity</h1>
     </div>
   </section>
   <main class="max-w-3xl mx-auto px-4 py-12">
-    <p class="text-lg text-gray-600 mb-8 text-center">Professional full-service representation with a simple, transparent fee.</p>
-    <div class="bg-white border-2 border-navy rounded-lg p-6 text-center mb-10">
+    <div id="printHeader" class="hidden mb-8">
+      <img src="images/5k-realty-logo.png" alt="5K Realty" class="h-10 w-auto mb-2">
+      <p class="text-sm text-gray-500">Keep More of Your Equity</p>
+    </div>
+    <p class="no-print text-lg text-gray-600 mb-8 text-center">Professional full-service representation with a simple, transparent fee.</p>
+    <div class="no-print bg-white border-2 border-navy rounded-lg p-6 text-center mb-10">
       <p class="text-gray-600 mb-2">Our listing-side fee is straightforward:</p>
       <p class="text-xl font-bold text-navy">$5,000 or 1% of the sale price,<br>whichever is greater</p>
     </div>
     <div class="bg-gray-50 border rounded-lg p-6 mb-10">
       <h2 class="text-xl font-bold text-navy mb-2">What it costs to sell your home</h2>
       <p class="text-sm text-gray-600 mb-6">Listing-side fee vs a 5.5% all-in example. This is not what you will pay at closing.</p>
-      <label class="block font-medium mb-2" for="address">Address</label>
-      <input type="text" id="address" placeholder="e.g. 123 Main St, Fort Mill, SC 29715" class="w-full border rounded px-4 py-3 mb-4 text-lg" autocomplete="street-address">
-      <p id="countyNote" class="text-sm text-gray-600 mb-4 min-h-[1.25rem]"></p>
-      <label class="block font-medium mb-2" for="salePrice">If your home sold for about ($)</label>
-      <input type="number" id="salePrice" placeholder="e.g. 422689" class="w-full border rounded px-4 py-3 mb-6 text-lg" min="0" step="1000">
+      <label class="no-print block font-medium mb-2" for="address">Your address</label>
+      <input type="text" id="address" placeholder="e.g. 123 Main St, Fort Mill, SC" class="no-print w-full border rounded px-4 py-3 mb-4 text-lg" autocomplete="street-address">
+      <p id="printAddress" class="hidden font-medium text-navy mb-4"></p>
+      <label class="no-print block font-medium mb-2" for="salePrice">If your home sold for about ($)</label>
+      <input type="number" id="salePrice" placeholder="e.g. 450000" class="no-print w-full border rounded px-4 py-3 mb-6 text-lg" min="0" step="1000">
       <div class="space-y-3">
         <div class="flex justify-between border-b pb-2"><span>5.5% all-in example</span><span id="traditional">—</span></div>
         <div class="flex justify-between border-b pb-2"><span>5K listing-side fee</span><span id="ourFee">—</span></div>
@@ -83,36 +92,41 @@
       <p class="text-xs text-gray-500 mt-6 leading-relaxed">
         This compares our listing-side fee with a 5.5% all-in example. It is not what you will pay at closing.
         Taxes, title, payoff, repairs, and any buyer-agent compensation you choose to offer are separate.
-        August 2026 medians are Canopy MLS residential closings for the named county.
       </p>
-      <a href="tel:7046496781" class="mt-6 inline-block text-navy font-semibold">That’s the listing-side math. Call or text 704.649.6781 to discuss your numbers and options.</a>
+      <div class="no-print mt-6 flex flex-col gap-4">
+        <button type="button" id="printBtn" class="bg-navy text-white font-semibold px-5 py-3 rounded w-full sm:w-auto">Print your numbers</button>
+        <a href="tel:7046496781" class="text-navy font-semibold">That’s the listing-side math. Call or text 704.649.6781 to discuss your numbers and options.</a>
+      </div>
+      <p class="hidden print-phone mt-6 text-navy font-semibold">Call or text 704.649.6781 · michael@get5krealty.com</p>
     </div>
-    <h2 class="text-2xl font-bold text-navy mb-4">What’s Included in the Flat Fee</h2>
-    <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
-      <li>Flat fee listing: $5,000 or 1%, whichever is greater</li>
-      <li>Home valuation & equity review</li>
-      <li>Professional photography & listings</li>
-      <li>Full MLS listing with automatic distribution to the top real estate websites. Your home gets seen by agents and by the public where they already search.</li>
-      <li>Professional contract documents, negotiations and consultation</li>
-    </ul>
-    <h2 class="text-2xl font-bold text-navy mb-4">Optional add-ons</h2>
-    <p class="mb-4 text-gray-700">These are optional and priced separately so you only pay for what you want:</p>
-    <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
-      <li>Co-brokerage compensation (offering a commission to the buyer’s agent)</li>
-      <li>Drone photography</li>
-      <li>Video options (property video / walkthrough video)</li>
-      <li>Virtual staging</li>
-      <li>Enhanced online advertising or social media promotion</li>
-      <li>Professional staging consultation</li>
-      <li>Additional marketing materials</li>
-      <li>Other custom services as needed</li>
-    </ul>
-    <div class="bg-navy text-white rounded-lg p-8 text-center mt-12">
-      <p class="text-lg mb-4">Ready to talk about selling your home?</p>
-      <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">Call for a Free Consultation</a>
+    <div class="no-print">
+      <h2 class="text-2xl font-bold text-navy mb-4">What’s Included in the Flat Fee</h2>
+      <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
+        <li>Flat fee listing: $5,000 or 1%, whichever is greater</li>
+        <li>Home valuation & equity review</li>
+        <li>Professional photography & listings</li>
+        <li>Full MLS listing with automatic distribution to the top real estate websites. Your home gets seen by agents and by the public where they already search.</li>
+        <li>Professional contract documents, negotiations and consultation</li>
+      </ul>
+      <h2 class="text-2xl font-bold text-navy mb-4">Optional add-ons</h2>
+      <p class="mb-4 text-gray-700">These are optional and priced separately so you only pay for what you want:</p>
+      <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
+        <li>Co-brokerage compensation (offering a commission to the buyer’s agent)</li>
+        <li>Drone photography</li>
+        <li>Video options (property video / walkthrough video)</li>
+        <li>Virtual staging</li>
+        <li>Enhanced online advertising or social media promotion</li>
+        <li>Professional staging consultation</li>
+        <li>Additional marketing materials</li>
+        <li>Other custom services as needed</li>
+      </ul>
+      <div class="bg-navy text-white rounded-lg p-8 text-center mt-12">
+        <p class="text-lg mb-4">Ready to talk about selling your home?</p>
+        <a href="tel:7046496781" class="inline-block bg-gold text-navy font-semibold px-6 py-3 rounded hover:bg-opacity-90">Call for a Free Consultation</a>
+      </div>
     </div>
   </main>
-  <footer class="bg-navy text-white py-10 mt-16">
+  <footer class="no-print bg-navy text-white py-10 mt-16">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <a href="/" class="inline-block mb-2">
         <img src="images/5k-realty-logo.png" alt="5K Realty · Ingold Group Properties, LLC" width="168" height="48" class="h-12 w-auto mx-auto">
@@ -135,43 +149,14 @@
     const btn = document.getElementById('menu-btn');
     const menu = document.getElementById('mobile-menu');
     if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-    const MARKET = {
-      york: { name: 'York County', median: 422689, days: 31 },
-      lancaster: { name: 'Lancaster County', median: 478399, days: 53 },
-      chester: { name: 'Chester County', median: 305000, days: 16 }
-    };
-    const ZIPS = {
-      york: ['29708','29715','29716','29710','29730','29732','29733','29704','29745','29743','29742','29726','29712','29717'],
-      lancaster: ['29720','29721','29722','29707','29744'],
-      chester: ['29706','29729','29714','29724','29014','29031']
-    };
-    const CITIES = {
-      york: ['fort mill','fortmill','tega cay','tegacay','rock hill','rockhill','york','clover','lake wylie','lakewylie','newport','smyrna','sharon'],
-      lancaster: ['lancaster','indian land','indianland','van wyck','vanwyck','kershaw'],
-      chester: ['chester','great falls','richburg','edgemoor','lowrys','fort lawn']
-    };
     const addressInput = document.getElementById('address');
     const salePriceInput = document.getElementById('salePrice');
-    const countyNote = document.getElementById('countyNote');
     const traditionalEl = document.getElementById('traditional');
     const ourFeeEl = document.getElementById('ourFee');
     const savingsEl = document.getElementById('savings');
-    let userEditedPrice = false;
+    const printAddress = document.getElementById('printAddress');
+    const printHeader = document.getElementById('printHeader');
     function formatCurrency(num) { return '$' + Math.round(num).toLocaleString('en-US'); }
-    function detectCounty(raw) {
-      const text = (raw || '').toLowerCase();
-      const zipMatch = text.match(/\b(29\d{3}|28\d{3})\b/);
-      if (zipMatch) {
-        const zip = zipMatch[1];
-        for (const key of Object.keys(ZIPS)) {
-          if (ZIPS[key].includes(zip)) return key;
-        }
-      }
-      for (const key of Object.keys(CITIES)) {
-        if (CITIES[key].some((city) => text.includes(city))) return key;
-      }
-      return null;
-    }
     function calculate() {
       const price = parseFloat(salePriceInput.value) || 0;
       if (price <= 0) {
@@ -183,21 +168,18 @@
       ourFeeEl.textContent = formatCurrency(ourFee);
       savingsEl.textContent = formatCurrency(traditional - ourFee);
     }
-    function onAddress() {
-      const countyKey = detectCounty(addressInput.value);
-      if (countyKey) {
-        const c = MARKET[countyKey];
-        countyNote.textContent = 'Starting point only: last month\u2019s ' + c.name + ' median was ' + formatCurrency(c.median) + ', ' + c.days + ' days on market. Change the price to match your home.';
-        if (!userEditedPrice) salePriceInput.value = String(c.median);
-      } else if ((addressInput.value || '').trim().length > 6) {
-        countyNote.textContent = 'Add a city or ZIP (Fort Mill, Indian Land, Chester, etc.) to show last month\u2019s county median. The fee still works with any price.';
-      } else {
-        countyNote.textContent = '';
-      }
-      calculate();
-    }
-    addressInput.addEventListener('input', onAddress);
-    salePriceInput.addEventListener('input', () => { userEditedPrice = true; calculate(); });
+    salePriceInput.addEventListener('input', calculate);
+    document.getElementById('printBtn').addEventListener('click', () => {
+      const addr = (addressInput.value || '').trim();
+      printAddress.textContent = addr;
+      printAddress.classList.toggle('hidden', !addr);
+      printHeader.classList.remove('hidden');
+      document.querySelector('.print-phone').classList.remove('hidden');
+      window.print();
+      printHeader.classList.add('hidden');
+      printAddress.classList.add('hidden');
+      document.querySelector('.print-phone').classList.add('hidden');
+    });
   </script>
 </body>
 </html>
