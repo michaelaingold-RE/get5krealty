@@ -18,10 +18,13 @@
     .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); }
     .bg-gold { background-color: var(--gold); }
+    .print-only { display: none; }
     @media print {
       .no-print { display: none !important; }
+      .print-only { display: block !important; }
       body { background: white; }
       a { color: inherit; text-decoration: none; }
+      header, footer, nav { display: none !important; }
     }
   </style>
 </head>
@@ -67,9 +70,9 @@
     </div>
   </section>
   <main class="max-w-3xl mx-auto px-4 py-12">
-    <div id="printHeader" class="hidden mb-8">
-      <img src="images/5k-realty-logo.png" alt="5K Realty" class="h-10 w-auto mb-2">
-      <p class="text-sm text-gray-500">Keep More of Your Equity</p>
+    <div class="print-only mb-8 pb-6" style="border-bottom: 1px solid #e5e7eb;">
+      <img src="images/5k-realty-logo.png" alt="5K Realty" style="height: 40px; width: auto;">
+      <p class="text-sm text-gray-500 mt-2">Keep More of Your Equity</p>
     </div>
     <p class="no-print text-lg text-gray-600 mb-8 text-center">Professional full-service representation with a simple, transparent fee.</p>
     <div class="no-print bg-white border-2 border-navy rounded-lg p-6 text-center mb-10">
@@ -81,7 +84,8 @@
       <p class="text-sm text-gray-600 mb-6">Listing-side fee vs a 5.5% all-in example. This is not what you will pay at closing.</p>
       <label class="no-print block font-medium mb-2" for="address">Your address</label>
       <input type="text" id="address" placeholder="e.g. 123 Main St, Fort Mill, SC" class="no-print w-full border rounded px-4 py-3 mb-4 text-lg" autocomplete="street-address">
-      <p id="printAddress" class="hidden font-medium text-navy mb-4"></p>
+      <p id="printAddress" class="print-only font-medium text-navy mb-2"></p>
+      <p id="printPriceLine" class="print-only text-sm text-gray-600 mb-4"></p>
       <label class="no-print block font-medium mb-2" for="salePrice">If your home sold for about ($)</label>
       <input type="number" id="salePrice" placeholder="e.g. 450000" class="no-print w-full border rounded px-4 py-3 mb-6 text-lg" min="0" step="1000">
       <div class="space-y-3">
@@ -97,7 +101,11 @@
         <button type="button" id="printBtn" class="bg-navy text-white font-semibold px-5 py-3 rounded w-full sm:w-auto">Print a copy</button>
         <a href="tel:7046496781" class="text-navy font-semibold">That’s the listing-side math. Call or text 704.649.6781 to discuss your numbers and options.</a>
       </div>
-      <p class="hidden print-phone mt-6 text-navy font-semibold">Call or text 704.649.6781 · michael@get5krealty.com</p>
+      <div class="print-only mt-8 pt-6" style="border-top: 1px solid #e5e7eb;">
+        <p class="text-navy font-semibold">Call or text 704.649.6781</p>
+        <p class="text-sm text-gray-600 mt-1">michael@get5krealty.com · get5krealty.com</p>
+        <p class="text-sm text-gray-600 mt-3">If you want this run against your house, not a placeholder price, start there.</p>
+      </div>
     </div>
     <div class="no-print">
       <h2 class="text-2xl font-bold text-navy mb-4">What’s Included in the Flat Fee</h2>
@@ -155,7 +163,7 @@
     const ourFeeEl = document.getElementById('ourFee');
     const savingsEl = document.getElementById('savings');
     const printAddress = document.getElementById('printAddress');
-    const printHeader = document.getElementById('printHeader');
+    const printPriceLine = document.getElementById('printPriceLine');
     function formatCurrency(num) { return '$' + Math.round(num).toLocaleString('en-US'); }
     function calculate() {
       const price = parseFloat(salePriceInput.value) || 0;
@@ -168,17 +176,18 @@
       ourFeeEl.textContent = formatCurrency(ourFee);
       savingsEl.textContent = formatCurrency(traditional - ourFee);
     }
-    salePriceInput.addEventListener('input', calculate);
-    document.getElementById('printBtn').addEventListener('click', () => {
+    function fillPrintFields() {
       const addr = (addressInput.value || '').trim();
-      printAddress.textContent = addr;
-      printAddress.classList.toggle('hidden', !addr);
-      printHeader.classList.remove('hidden');
-      document.querySelector('.print-phone').classList.remove('hidden');
+      const price = parseFloat(salePriceInput.value) || 0;
+      printAddress.textContent = addr || '';
+      printPriceLine.textContent = price > 0 ? ('If your home sold for about ' + formatCurrency(price)) : 'Add a sale price on the website to fill in the comparison.';
+      calculate();
+    }
+    salePriceInput.addEventListener('input', calculate);
+    window.addEventListener('beforeprint', fillPrintFields);
+    document.getElementById('printBtn').addEventListener('click', () => {
+      fillPrintFields();
       window.print();
-      printHeader.classList.add('hidden');
-      printAddress.classList.add('hidden');
-      document.querySelector('.print-phone').classList.add('hidden');
     });
   </script>
 </body>
