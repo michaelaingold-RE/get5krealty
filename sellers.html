@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>What It Costs to Sell Your Home | 5K Realty</title>
-  <meta name="description" content="See 5K Realty listing-side fee of $5,000 or 1% next to a 5.5% all-in example of what sellers once commonly budgeted.">
+  <meta name="description" content="See what is left after commissions and fees. 5K Realty listing-side fee is $5,000 or 1%, next to a 5.5% all-in example.">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="canonical" href="https://get5krealty.com/sellers" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -39,7 +39,7 @@
     </div>
     <div id="calculator" class="bg-gray-50 border rounded-lg p-6 mb-10">
       <h2 class="text-xl font-bold text-navy mb-2">What it costs to sell your home</h2>
-      <p class="text-sm text-gray-600 mb-4">Listing-side fee vs what was once a common 5.5% all-in example. This is an illustration, not a standard rate and not what you will pay at closing.</p>
+      <p class="text-sm text-gray-600 mb-4">Listing-side fee vs a 5.5% all-in example. This is an illustration, not a standard rate and not what you will pay at closing.</p>
       <div class="no-print grid grid-cols-3 gap-2 mb-6">
         <button type="button" class="price-preset bg-navy text-white font-semibold py-2.5 rounded-lg text-sm" data-price="400000">$400k</button>
         <button type="button" class="price-preset bg-navy text-white font-semibold py-2.5 rounded-lg text-sm" data-price="550000">$550k</button>
@@ -48,24 +48,40 @@
       <label class="no-print block font-medium mb-2" for="salePrice">If your home sold for about ($)</label>
       <input type="number" id="salePrice" placeholder="e.g. 450000" class="no-print w-full border rounded px-4 py-3 mb-6 text-lg" min="0" step="1000">
       <div class="space-y-3">
-        <div class="flex justify-between border-b pb-2"><span>What was once a common 5.5% all-in example</span><span id="traditional">-</span></div>
+        <div class="flex justify-between border-b pb-2"><span>5.5% all-in example</span><span id="traditional">-</span></div>
         <div class="flex justify-between border-b pb-2"><span>5K listing-side fee</span><span id="ourFee">-</span></div>
         <div class="flex justify-between font-bold text-navy text-lg pt-2"><span>Additional equity you keep</span><span id="savings">-</span></div>
       </div>
-      <p class="text-xs text-gray-500 mt-6">The 5.5% column is an example of what sellers once commonly budgeted. Broker fees are negotiated now. They are not set by NAR, Canopy MLS, or any required rate.</p>
+      <p class="text-xs text-gray-500 mt-6">The 5.5% figure is an example of what sellers once commonly budgeted. Broker fees are negotiated now. They are not set by NAR, Canopy MLS, or any required rate.</p>
       <button type="button" id="printBtn" class="no-print mt-6 bg-navy text-white font-semibold px-5 py-3 rounded">Print a copy</button>
     </div>
     <div class="border rounded-lg p-6 mb-10 no-print">
-      <h2 class="text-xl font-bold text-navy mb-2">iBuyer vs listing</h2>
-      <p class="text-sm text-gray-500 mb-4">Example sale price: <span id="ibuyerPriceLabel" class="font-semibold text-navy">Enter a price above</span></p>
+      <h2 class="text-xl font-bold text-navy mb-1">What&rsquo;s left after commissions and fees</h2>
+      <p class="text-sm text-gray-600 mb-4">Same sale price. Three different ways of selling. The number is what is left of that price after these fees.</p>
+      <p class="text-sm text-gray-500 mb-4">If the home sold for <span id="ibuyerPriceLabel" class="font-semibold text-navy">Enter a price above</span></p>
       <div class="grid sm:grid-cols-3 gap-4">
-        <div class="border rounded-lg p-4"><p class="text-sm font-semibold mb-2">Cash iBuyer</p><p class="text-lg font-bold text-navy" id="ibuyerNet">-</p></div>
-        <div class="border rounded-lg p-4"><p class="text-sm font-semibold mb-2">What was once a common all-in example</p><p class="text-lg font-bold text-navy" id="tradNet">-</p></div>
-        <div class="border rounded-lg p-4"><p class="text-sm font-semibold mb-2">5K Realty</p><p class="text-lg font-bold text-navy" id="fivekNet">-</p></div>
+        <div class="border rounded-lg p-4">
+          <p class="text-sm font-semibold text-navy mb-1">Cash iBuyer</p>
+          <p class="text-xs text-gray-500 mb-3">What&rsquo;s left</p>
+          <p class="text-2xl font-bold text-navy" id="ibuyerNet">-</p>
+        </div>
+        <div class="border rounded-lg p-4">
+          <p class="text-sm font-semibold text-navy mb-1">5.5% all-in example</p>
+          <p class="text-xs text-gray-500 mb-3">What&rsquo;s left</p>
+          <p class="text-2xl font-bold text-navy" id="tradNet">-</p>
+        </div>
+        <div class="border rounded-lg p-4 bg-emerald-50 border-emerald-200">
+          <p class="text-sm font-semibold text-navy mb-1">5K Realty</p>
+          <p class="text-xs text-gray-500 mb-3">What&rsquo;s left</p>
+          <p class="text-2xl font-bold text-navy" id="fivekNet">-</p>
+        </div>
       </div>
-      <div class="mt-4"><div class="flex justify-between"><span>vs iBuyer</span><span id="vsIbuyer" class="font-bold text-navy">-</span></div>
-      <div class="flex justify-between"><span>What was once a common 5.5% all-in example</span><span id="vsTrad" class="font-bold text-navy">-</span></div></div>
-      <p class="text-xs text-gray-500 mt-4">iBuyer mid case uses 10% under plus a 5% service fee. Figures are fee impact on sale price, not cash at closing.</p>
+      <div class="mt-6 pt-4 border-t">
+        <p class="text-sm font-semibold text-navy mb-3">You keep more with 5K</p>
+        <div class="flex justify-between gap-4 py-1"><span>vs cash iBuyer</span><span id="vsIbuyer" class="font-bold text-navy">-</span></div>
+        <div class="flex justify-between gap-4 py-1"><span>vs 5.5% all-in example</span><span id="vsTrad" class="font-bold text-navy">-</span></div>
+      </div>
+      <p class="text-xs text-gray-500 mt-4">iBuyer mid case uses 10% under the sale price plus a 5% service fee. The 5.5% column is an example, not a standard rate. These figures are fee impact on the sale price, not cash at closing.</p>
     </div>
     <div class="no-print space-y-6 mb-8">
       <h2 class="text-2xl font-bold text-navy">Seller questions</h2>
@@ -78,7 +94,7 @@
     <div class="max-w-6xl mx-auto px-4 text-center">
       <img src="images/5k-realty-logo.png" alt="5K Realty" class="h-12 mx-auto mb-2">
       <p class="text-gray-400 text-xs">Serving south Charlotte, York County, and Lancaster County</p>
-      <p class="text-gray-400 text-xs mt-4">REALTOR member · Canopy MLS</p>
+      <p class="text-gray-400 text-xs mt-4">REALTOR&reg; member &middot; Canopy MLS</p>
       <div class="mt-3 flex justify-center items-center gap-3">
         <img src="images/equal-housing-opportunity.png" alt="Equal Housing Opportunity" class="h-8">
         <span class="text-xs text-gray-400">Equal Housing Opportunity</span>
@@ -91,7 +107,7 @@
     function calculate(){
       const price = parseFloat(salePriceInput.value)||0;
       const ids=['traditional','ourFee','savings','ibuyerNet','tradNet','fivekNet','vsIbuyer','vsTrad'];
-      if(price<=0){ ids.forEach(id=>{document.getElementById(id).textContent='-';}); document.getElementById('ibuyerPriceLabel').textContent='Enter a price above'; return; }
+      if(price<=0){ ids.forEach(id=>{document.getElementById(id).textContent='-';}); document.getElementById('ibuyerPriceLabel').textContent='a price above'; return; }
       const trad=price*0.055, fee=Math.max(5000,price*0.01);
       document.getElementById('traditional').textContent=money(trad);
       document.getElementById('ourFee').textContent=money(fee);
