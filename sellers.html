@@ -15,7 +15,7 @@
     .text-navy { color: var(--navy); } .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); } .bg-gold { background-color: var(--gold); }
     .print-only { display: none; }
-    @media print { .no-print { display: none !important; } header, footer, nav { display: none !important; } }
+    @media print { .no-print { display: none !important; } .print-only { display: block !important; } header, footer, nav { display: none !important; } }
   </style>
 </head>
 <body class="text-gray-800">
@@ -52,6 +52,9 @@
   </header>
   <section class="no-print bg-navy text-white"><div class="max-w-4xl mx-auto px-4 py-14 text-center"><p class="text-xl mb-2">Sell Your Home.</p><h1 class="text-4xl font-bold">Keep More of Your Equity</h1></div></section>
   <main class="max-w-5xl mx-auto px-4 py-12">
+    <div class="print-only mb-8 pb-6" style="border-bottom:1px solid #e5e7eb">
+      <img src="images/5k-realty-logo.png" alt="5K Realty" style="height:40px;width:auto">
+    </div>
     <div class="no-print border-2 border-navy rounded-lg p-6 text-center mb-10">
       <p class="text-gray-600 mb-2">Our listing-side fee is straightforward:</p>
       <p class="text-xl font-bold text-navy">$5,000 or 1% of the sale price,<br>whichever is greater</p>
@@ -64,6 +67,10 @@
         <button type="button" class="price-preset bg-navy text-white font-semibold py-2.5 rounded-lg text-sm" data-price="550000">$550k</button>
         <button type="button" class="price-preset bg-navy text-white font-semibold py-2.5 rounded-lg text-sm" data-price="750000">$750k</button>
       </div>
+      <label class="no-print block font-medium mb-2" for="address">Your address</label>
+      <input type="text" id="address" placeholder="e.g. 123 Main St, Fort Mill, SC" class="no-print w-full border rounded px-4 py-3 mb-4 text-lg" autocomplete="street-address">
+      <p id="printAddress" class="print-only font-medium text-navy mb-2"></p>
+      <p id="printPriceLine" class="print-only text-sm text-gray-600 mb-4"></p>
       <label class="no-print block font-medium mb-2" for="salePrice">If your home sold for about ($)</label>
       <input type="number" id="salePrice" placeholder="e.g. 450000" class="no-print w-full border rounded px-4 py-3 mb-6 text-lg" min="0" step="1000">
       <div class="space-y-3">
@@ -122,6 +129,7 @@
   </footer>
   <script>
     const salePriceInput = document.getElementById('salePrice');
+    const addressInput = document.getElementById('address');
     function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
     function calculate(){
       const price = parseFloat(salePriceInput.value)||0;
@@ -139,9 +147,17 @@
       document.getElementById('vsIbuyer').textContent=money(fw-ib);
       document.getElementById('vsTrad').textContent=money(fw-tw);
     }
+    function fillPrintFields(){
+      const addr = (addressInput.value || '').trim();
+      const price = parseFloat(salePriceInput.value)||0;
+      document.getElementById('printAddress').textContent = addr;
+      document.getElementById('printPriceLine').textContent = price > 0 ? ('If your home sold for about ' + money(price)) : '';
+      calculate();
+    }
     document.querySelectorAll('.price-preset').forEach(btn=>btn.addEventListener('click',()=>{salePriceInput.value=btn.getAttribute('data-price');calculate();}));
     salePriceInput.addEventListener('input', calculate);
-    document.getElementById('printBtn').addEventListener('click',()=>window.print());
+    document.getElementById('printBtn').addEventListener('click',()=>{fillPrintFields();window.print();});
+    window.addEventListener('beforeprint', fillPrintFields);
   </script>
 </body>
 </html>
