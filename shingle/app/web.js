@@ -92,7 +92,17 @@ function buyerSummary(b){const ok=b.docs.pre&&b.docs.id&&!b.docs.agent;return `B
 function offersSummary(){return 'Offers on '+addr()+'\n\n'+S.offers.map(o=>`${o.n}: ${money(o.price)}, ${o.fin}, seller pays ${money(o.conc||0)}`).join('\n')+'\n\nEstimate only. Closing costs, payoff, and taxes not included.'}
 function showingsSummary(){return 'Booked showings at '+addr()+'\n\n'+S.booked.map(b=>{const d=showingDate(b.k);return `${d?whenLabel(d):b.k}: ${b.n}`}).join('\n')}
 const smallBtn=(attr,label,aria)=>`<button class="btn ghost" type="button" ${attr} style="margin:0;width:auto;padding:6px 10px;font-size:13px"${aria?` aria-label="${ea(aria)}"`:''}>${label}</button>`;
+// ---------- Disclaimer acceptance record (made on the device with jsPDF) ----------
+function acceptanceRecord(){const L=S.legal;if(!L)return;const {jsPDF}=window.jspdf;const d=new jsPDF({unit:'pt',format:'letter'});let y=60;const W=492;
+ const line=(t,o={})=>{d.setFont('helvetica',o.b?'bold':'normal');d.setFontSize(o.s||11);d.splitTextToSize(t,W).forEach(r=>{if(y>740){d.addPage();y=60}d.text(r,60,y);y+=(o.s||11)*1.45});y+=o.gap||4};
+ line('Shingle: The Seller Assist App',{b:1,s:16});line('Disclaimer acceptance record',{b:1,s:13,gap:10});
+ line('Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')');
+ line('Accepted by: '+(L.names||[]).join(', '));line('Date: '+(L.date||new Date(L.acceptedAt).toLocaleDateString()));line('Time: '+(L.time||new Date(L.acceptedAt).toLocaleTimeString()));line('Recorded (UTC): '+L.acceptedAt,{gap:12});
+ line('Disclaimer text',{b:1});LG.disc.forEach(t=>line(t));line(LG.broker);line(LG.accept,{gap:12});
+ line('This record was made on your device from what you entered in Shingle. It is not legal advice. Shingle by 5K Realty, Ingold Group Properties, LLC.',{s:9});
+ d.save('shingle-disclaimer-acceptance-'+L.acceptedAt.slice(0,10)+'.pdf')}
 const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
+ if(v==='settings'){const r=$('#lg-record');if(r)r.onclick=acceptanceRecord}
  if(v==='showings'&&S.booked.length){const list=[...document.querySelectorAll('.card.list .item')];
   list.forEach((it,i)=>{const b=S.booked[i];if(!b)return;it.insertAdjacentHTML('beforeend',`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${smallBtn(`data-shcal="${i}"`,'Add to calendar','Add showing with '+b.n+' to calendar')}</span>`)});
   const card=document.querySelector('.card.list');card.insertAdjacentHTML('beforeend','<button class="btn ghost" type="button" id="sh-mail">Email this to me</button>');

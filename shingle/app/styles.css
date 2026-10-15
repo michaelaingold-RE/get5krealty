@@ -9,7 +9,7 @@ p{line-height:1.5;margin:0 0 12px}.muted{color:var(--muted);font-size:14px}
 .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:20px}.logo img{width:28px;height:28px;display:block}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:16px 0}.card.want{background:var(--clay2);border-color:#efd2c2}.card.want .muted{color:var(--muted-on-clay)}.card.want a.go{color:var(--clay-text);font-weight:700;font-size:14px;display:inline-block;margin-top:8px}
 button,input,select,textarea{font:inherit}
-.btn{display:block;width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:600;background:var(--green);color:#fff;cursor:pointer;text-align:center;text-decoration:none;margin-top:8px}.btn:disabled{opacity:1;background:#e3ece6;color:#24493a;border:2px dashed #2f5d4a;cursor:not-allowed}#lg-go:disabled::after{content:" (check the box above first)";font-weight:500}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:600;background:var(--green);color:#fff;cursor:pointer;text-align:center;text-decoration:none;margin-top:8px}.btn:disabled{opacity:1;background:#e3ece6;color:#24493a;border:2px dashed #2f5d4a;cursor:not-allowed}#lg-go:disabled::after{content:" (type each owner's name first)";font-weight:500}
 .btn.alt{background:var(--clay-ink)}.btn.ghost{background:transparent;color:var(--green);border:1.5px solid var(--green)}
 label{display:block;font-size:12px;font-weight:600;margin:16px 0 8px}
 input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:#fff;color:var(--ink)}
@@ -58,3 +58,4 @@ a{color:var(--green)}
 .install-card .steps{margin:8px 0 0;padding-left:20px}.fh-warn{background:var(--clay2);color:#7a3416;border-radius:12px;padding:10px;margin-top:8px;font-size:14px}
 
 .install-card{max-width:none;margin:16px 0}.install-card .ic-x{margin-top:12px}
+.forms-note{font-size:14px;background:var(--note);border-left:3px solid var(--green);padding:8px 10px;border-radius:8px}.firm .eho{display:inline-block;margin-bottom:4px}.owner-row{margin-bottom:8px}

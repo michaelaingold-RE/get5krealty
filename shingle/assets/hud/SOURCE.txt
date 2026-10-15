@@ -1,0 +1,5 @@
+equal-housing-opportunity-hud.png
+Source: HUD, "Equal Housing Opportunity Graphics for Printing", https://www.hud.gov/contactus/hudgraphics
+File: https://www.hud.gov/sites/dfiles/FHEO/images/fheo100.bmp (1.00 inch, 288x305), downloaded Oct 15, 2026.
+Original sha256: 7267b248680fdfbc20bec1230bd13ff76e2ab96d7b14fc0a70fa6d23be8646a2
+Only change: lossless format conversion BMP to PNG for the web. Artwork not edited.

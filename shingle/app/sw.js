@@ -1,7 +1,7 @@
 // Shingle service worker: caches the app's own files so it works offline.
 // It never caches or sends user data. Your data lives in localStorage on the device.
 // Bump VERSION on every release so phones pick up the new files.
-const VERSION='shingle-web-1.0.3-2026-10-15';
+const VERSION='shingle-web-1.1.0-2026-10-15';
 const FILES=[
   './',
   '../assets/icons/favicon.ico',
@@ -10,6 +10,7 @@ const FILES=[
   '../assets/icons/pwa-192.png',
   '../assets/install-card.css',
   '../assets/img/shingle-icon.svg',
+  '../assets/hud/equal-housing-opportunity-hud.png',
   'app.js',
   'assets/apple-touch-icon-180.png',
   'assets/empty/no-buyers.svg',
