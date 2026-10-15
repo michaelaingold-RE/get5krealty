@@ -1,0 +1,12 @@
+.lead-form-wrap{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:24px;margin:36px 0;font-family:inherit}
+.lead-form-wrap h2{font-size:1.35rem;margin:0 0 8px;color:#0A2540;font-weight:700}
+.lead-form-wrap p{margin:0 0 14px;color:#444}
+.lead-form label{display:block;font-weight:600;font-size:.95rem;margin:12px 0 4px;color:#1a1a1a}
+.lead-form input,.lead-form select{width:100%;border:1px solid #cbd5e1;border-radius:6px;padding:10px 12px;font-size:1rem;font-family:inherit;background:#fff}
+.lead-form button{margin-top:18px;background:#0A2540;color:#fff;border:0;border-radius:6px;padding:12px 24px;font-weight:600;font-size:1rem;cursor:pointer}
+.lead-form button:hover{opacity:.9}
+.lead-form .fine{font-size:.8rem;color:#6b7280;margin-top:12px}
+.lead-form .fine a,.lead-form-wrap .alt a{color:#0A2540}
+.lead-form .hp{position:absolute;left:-9999px}
+.lead-form .err{color:#b91c1c;font-size:.9rem;margin-top:10px;display:none}
+.qa h3{font-size:1.05rem;margin:22px 0 6px;color:#111}

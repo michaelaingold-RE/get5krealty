@@ -7,7 +7,7 @@
   <meta name="description" content="See what is left after commissions and fees. 5K Realty listing-side fee is $5,000 or 1%, next to a 5.5% all-in example.">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="canonical" href="https://get5krealty.com/sellers" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/site.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --navy: #0A2540; --gold: #C9A227; }
@@ -17,6 +17,133 @@
     .print-only { display: none; }
     @media print { .no-print { display: none !important; } .print-only { display: block !important; } header, footer, nav { display: none !important; } }
   </style>
+  <link rel="stylesheet" href="/assets/lead-form.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": [
+    "RealEstateAgent",
+    "Organization"
+  ],
+  "@id": "https://get5krealty.com/#business",
+  "name": "5K Realty",
+  "legalName": "Ingold Group Properties, LLC",
+  "url": "https://get5krealty.com/",
+  "logo": "https://get5krealty.com/images/5k-realty-logo.png",
+  "image": "https://get5krealty.com/images/og-share.png",
+  "telephone": "+1-704-649-6781",
+  "email": "michael@get5krealty.com",
+  "address": {
+    "@type": "PostalAddress",
+    "postOfficeBoxNumber": "633",
+    "addressLocality": "Fort Mill",
+    "addressRegion": "SC",
+    "postalCode": "29716",
+    "addressCountry": "US"
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Michael Ingold",
+    "jobTitle": "Broker/Owner"
+  },
+  "areaServed": [
+    {
+      "@type": "Place",
+      "name": "Fort Mill, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Tega Cay, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Lake Wylie, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Rock Hill, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Clover, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Indian Land, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Charlotte, NC"
+    },
+    {
+      "@type": "Place",
+      "name": "Ballantyne, Charlotte, NC"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "York County, SC"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Lancaster County, SC"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Chester County, SC"
+    }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61593697977199"
+  ]
+}
+  </script>
+  <!-- Analytics (free): Cloudflare Web Analytics. Michael: in Cloudflare dashboard > Analytics & Logs > Web Analytics, add get5krealty.com
+       (or Workers & Pages > this project > Metrics > enable Web Analytics, which needs no code). If you use the JS snippet instead,
+       paste your token below and remove the comment markers.
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "PASTE_TOKEN_HERE"}'></script>
+  -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this just an MLS dump?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Canopy MLS, photos, contracts, negotiation, and closing support are included."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does buyer-agent pay work after the NAR settlement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fees are negotiated. NAR and the MLS do not set a standard commission. Offering pay to a buyer agent is your decision and sits on top of the 5K listing-side fee."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the 5.5% number?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An example of what sellers once commonly budgeted all-in. Not a going rate and not a closing quote."
+      }
+    }
+  ]
+}
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="5K Realty">
+  <meta property="og:title" content="What It Costs to Sell Your Home | 5K Realty">
+  <meta property="og:description" content="See what is left after commissions and fees. 5K Realty listing-side fee is $5,000 or 1%, next to a 5.5% all-in example.">
+  <meta property="og:url" content="https://get5krealty.com/sellers">
+  <meta property="og:image" content="https://get5krealty.com/images/og-share.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What It Costs to Sell Your Home | 5K Realty">
+  <meta name="twitter:description" content="See what is left after commissions and fees. 5K Realty listing-side fee is $5,000 or 1%, next to a 5.5% all-in example.">
+  <meta name="twitter:image" content="https://get5krealty.com/images/og-share.png">
 </head>
 <body class="text-gray-800">
   <header class="no-print bg-white shadow-sm sticky top-0 z-50">
@@ -79,7 +206,10 @@
         <div class="flex justify-between font-bold text-navy text-lg pt-2"><span>Additional equity you keep</span><span id="savings">-</span></div>
       </div>
       <p class="text-xs text-gray-500 mt-6">The 5.5% figure is an example of what sellers once commonly budgeted. Broker fees are negotiated now. They are not set by NAR, Canopy MLS, or any required rate.</p>
-      <button type="button" id="printBtn" class="no-print mt-6 bg-navy text-white font-semibold px-5 py-3 rounded">Print a copy</button>
+      <div class="no-print mt-6 flex flex-wrap gap-3">
+        <button type="button" id="emailMeThis" class="bg-gold text-navy font-semibold px-5 py-3 rounded">Email me this plus a pricing read</button>
+        <button type="button" id="printBtn" class="bg-navy text-white font-semibold px-5 py-3 rounded">Print a copy</button>
+      </div>
     </div>
     <div class="border rounded-lg p-6 mb-10 no-print">
       <h2 class="text-xl font-bold text-navy mb-1">What&rsquo;s left after commissions and fees</h2>
@@ -115,12 +245,46 @@
       <div><h3 class="font-semibold text-navy">How does buyer-agent pay work after the NAR settlement?</h3><p>Fees are negotiated. NAR and the MLS do not set a standard commission. Offering pay to a buyer agent is your decision and sits on top of the 5K listing-side fee.</p></div>
       <div><h3 class="font-semibold text-navy">What is the 5.5% number?</h3><p>An example of what sellers once commonly budgeted all-in. Not a going rate and not a closing quote.</p></div>
     </div>
+    <section class="lead-form-wrap no-print" id="seller-form" aria-labelledby="seller-form-h">
+    <h2 id="seller-form-h">Email me this plus a pricing read</h2>
+    <p>Send your numbers and I will reply with this breakdown and a read on pricing for your home. No obligation. Prefer to do it yourself? Print a copy above.</p>
+    <form class="lead-form" action="https://formspree.io/f/mvkpgapo" method="POST">
+      <input type="hidden" name="_subject" value="New seller lead from get5krealty.com">
+      <input type="hidden" name="form_name" value="seller-lead">
+      <input type="hidden" name="source_page" value="">
+      <input type="hidden" name="calculator_price" value="">
+      <input type="hidden" name="calculator_fee" value="">
+      <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <label for="lf-name">Name</label>
+      <input id="lf-name" type="text" name="name" required autocomplete="name">
+      <label for="lf-email">Email</label>
+      <input id="lf-email" type="email" name="email" required autocomplete="email">
+      <label for="lf-phone">Phone</label>
+      <input id="lf-phone" type="tel" name="phone" autocomplete="tel">
+      <label for="lf-address">Property address</label>
+      <input id="lf-address" type="text" name="property_address" required autocomplete="street-address">
+      <label for="lf-timeline">When are you thinking about selling?</label>
+      <select id="lf-timeline" name="timeline" required>
+        <option value="">Choose one</option>
+        <option>In the next 3 months</option>
+        <option>3 to 6 months</option>
+        <option>6 to 12 months</option>
+        <option>Just running numbers for now</option>
+      </select>
+      <button type="submit">Send</button>
+      <p class="err" role="alert">That did not go through. Please call or text <a href="tel:7046496781">704.649.6781</a> or email <a href="mailto:michael@get5krealty.com">michael@get5krealty.com</a>.</p>
+      <p class="fine">Used only to reply to you. See the <a href="/privacy">Privacy Policy</a>.</p>
+    </form>
+    <p class="alt" style="margin-top:14px;font-size:.95rem">Rather talk? <a href="tel:7046496781">Call 704.649.6781</a> or <a href="sms:+17046496781">text 704.649.6781</a>.</p>
+  </section>
+    <p class="no-print text-sm text-gray-600 mt-6">Selling in a specific area? See <a class="underline" href="/charlotte">South Charlotte and Ballantyne</a> or <a class="underline" href="/sell-york-lancaster-county">York and Lancaster County</a>.</p>
   </main>
   <footer class="no-print bg-navy text-white py-10">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <img src="images/5k-realty-logo.png" alt="5K Realty" class="h-12 mx-auto mb-2">
       <p class="text-gray-400 text-xs mb-2">Serving south Charlotte, York County, and Lancaster County</p>
-      <a href="tel:7046496781" class="text-gold font-medium block">704.649.6781</a>
+      <a href="tel:7046496781" class="text-gold font-medium block">Call 704.649.6781</a>
+      <a href="sms:+17046496781" class="text-gold font-medium block">Text 704.649.6781</a>
       <a href="mailto:michael@get5krealty.com" class="text-gold font-medium">michael@get5krealty.com</a>
       <p class="text-gray-400 text-xs mt-4">REALTOR&reg; member &middot; Canopy MLS</p>
       <p class="text-gray-400 text-xs mt-3"><a href="https://www.facebook.com/profile.php?id=61593697977199" class="hover:text-white underline" target="_blank" rel="noopener noreferrer">Facebook</a></p>
@@ -164,5 +328,6 @@
     document.getElementById('printBtn').addEventListener('click',()=>{fillPrintFields();window.print();});
     window.addEventListener('beforeprint', fillPrintFields);
   </script>
+  <script src="/assets/lead-form.js" defer></script>
 </body>
 </html>
