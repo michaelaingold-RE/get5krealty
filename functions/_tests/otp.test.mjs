@@ -1,9 +1,9 @@
 // Unit tests for functions/api/otp with a mocked Twilio, Turnstile and KV. No network.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { onRequestPost as start } from '../functions/api/otp/start.js';
-import { onRequestPost as check } from '../functions/api/otp/check.js';
-import { usPhone } from '../functions/api/otp/_lib.js';
+import { onRequestPost as start } from '../api/otp/start.js';
+import { onRequestPost as check } from '../api/otp/check.js';
+import { usPhone } from '../api/otp/_lib.js';
 
 function kv() { const m = new Map(); return { m, get: async k => m.get(k) ?? null, put: async (k, v) => { m.set(k, v) } }; }
 function env(over = {}) {
