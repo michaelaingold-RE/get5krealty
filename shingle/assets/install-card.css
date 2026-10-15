@@ -1,0 +1,16 @@
+/* Shingle install card. Tokens match prototype/styles.css */
+.install-card{--bg:#f6f1e8;--card:#fffdf9;--ink:#1f2a24;--muted:#5f645c;--green:#2f5d4a;--green2:#e3ece6;--clay:#c8643b;--clay-text:#a8442a;--line:#e6dfd2;
+ background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 22px 18px;box-shadow:0 1px 0 rgba(31,42,36,.04),0 18px 40px -22px rgba(31,42,36,.35);color:var(--ink);font-family:"Inter",system-ui,-apple-system,sans-serif;max-width:420px}
+.ic-head{display:flex;gap:14px;align-items:center;margin-bottom:16px}.ic-logo{border-radius:10px;flex:none}
+.ic-kicker{margin:0 0 2px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--clay-text)}
+.install-card h3{margin:0;font-family:Georgia,"Gelasio",serif;font-weight:700;font-size:21px;line-height:1.2;letter-spacing:-.01em}
+.ic-steps{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.ic-step{display:grid;grid-template-columns:22px 44px 1fr;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.ic-num{font-family:Georgia,"Gelasio",serif;font-weight:700;font-size:18px;color:var(--clay-text);text-align:center}
+.ic-glyph{width:44px;height:44px;border-radius:12px;background:var(--green2);color:var(--green);display:grid;place-items:center}
+.ic-app{border-radius:6px}
+.ic-text{font-size:14px;line-height:1.4;color:var(--muted)}.ic-text b{display:block;font-size:16px;color:var(--ink);font-weight:650;margin-bottom:1px}
+.ic-note{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:13px;line-height:1.4;color:var(--muted)}
+.ic-install{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:0 0 14px;padding:13px;border:0;border-radius:12px;background:var(--green);color:#fff;font:600 16px/1 "Inter",system-ui,sans-serif;cursor:pointer}
+.ic-install:focus-visible{outline:3px solid var(--clay);outline-offset:2px}
+.ic-install[hidden],.install-card[hidden]{display:none}

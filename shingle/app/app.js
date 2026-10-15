@@ -1,0 +1,123 @@
+const KEY='shingle-v3';
+const def={seller:'',zip:'',state:'',home:{addr:'',beds:3,baths:2,sqft:2000,year:2005,hoa:'yes',price:425000},
+ slots:{},booked:[],
+ buyers:[],offers:[],signPhone:''};
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||structuredClone(def);
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+const $=s=>document.querySelector(s);const money=n=>'$'+Math.round(n).toLocaleString();
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
+const SC=['29707','29720','29710','29745','29708','29730','29732','29715','29716','29733'];
+// Known Greater Charlotte ZIPs only. Anything else is treated as unknown and the seller must pick.
+function stateFor(z){if(SC.includes(z))return'SC';if(/^282\d\d$/.test(z))return'NC';return''}
+const SN={NC:'North Carolina',SC:'South Carolina'};
+const badge=()=>S.state?`<span class="badge" role="status" aria-label="${SN[S.state]} sale"><small>${S.state}</small>${S.state} sale</span>`:`<span class="badge none" role="status">State not set</span>`;
+function toggle(id){return `<fieldset class="seg" aria-describedby="${id}-hint"><legend>Which state is the home in?</legend><div class="seg-row">${['NC','SC'].map(k=>`<input type="radio" name="${id}" id="${id}-${k}" value="${k}" ${S.state===k?'checked':''}><label for="${id}-${k}"><b>${k}</b><span>${SN[k]}</span></label>`).join('')}</div><p class="muted" id="${id}-hint" aria-live="polite" style="margin:6px 0 0">${hint()}</p></fieldset>`}
+function hint(){const auto=stateFor(S.zip||'');if(!S.state)return 'We could not tell from your ZIP. Please pick one.';if(auto&&auto===S.state)return `Filled in from ZIP ${S.zip}. Tap to change.`;return `Set by you${S.zip?` (ZIP ${S.zip})`:''}.`}
+function bindToggle(id){document.querySelectorAll(`input[name="${id}"]`).forEach(r=>r.onchange=()=>{S.state=r.value;save();const f=document.activeElement&&document.activeElement.id;render();const e=f&&document.getElementById(f);if(e)e.focus();toast(`Switched to ${SN[S.state]}`)})}
+const NC='https://www.ncrec.gov/Resources/Forms',SCL='https://www.llr.sc.gov/re/resources.aspx',EPA='https://www.epa.gov/lead/protect-your-family-lead-your-home-real-estate-disclosure';
+function forms(){const f=S.state==='SC'?[['Residential Property Condition Disclosure Statement. Due before the purchase contract.',SCL,'SC LLR resources page']]:[['Residential Property and Owners\' Association Disclosure Statement (REC 4.22). Due before the purchase contract.',NC,'NCREC forms page, Consumer Forms'],['Mineral and Oil and Gas Rights Mandatory Disclosure Statement (REC 4.25). Due before the purchase contract.',NC,'NCREC forms page, Consumer Forms']];if(S.home.year&&S.home.year<1978)f.push(['Lead-based paint disclosure and EPA pamphlet (home built before 1978)',EPA,'EPA lead disclosure page']);if(S.home.hoa==='yes')f.push(['HOA documents, dues, and transfer fees','#','Ask your HOA']);return f}
+const help=`<a class="fab" href="#help">Get help from 5K Realty</a>`;
+// Fee wording matches get5krealty.com/flat-fee exactly.
+const FEE_LINE='The 5K Realty listing-side fee is $5,000 or 1% of the sale price, whichever is greater, paid at closing.';
+const fee=()=>money(Math.max(5000,(S.home.price||0)*.01));
+function want(ctx){return `<div class="card want"><h3>Want us to handle it?</h3><p class="muted" style="margin:0">${ctx} 5K Realty can put your home on the MLS and have a licensed agent negotiate for you. ${FEE_LINE}${S.home.price?` At your asking price that's ${fee()}.`:''} No pressure, and Shingle stays free either way.</p><a href="#help" class="go">Talk to 5K Realty</a><p class="broker" style="margin-top:8px">${LG.broker}</p></div>`}
+const contact=`<p style="margin:0"><b>Michael Ingold</b>, Broker/Owner, 5K Realty</p><p class="muted"><a href="tel:7046496781">704.649.6781</a> · <a href="mailto:michael@get5krealty.com">michael@get5krealty.com</a> · <a href="https://get5krealty.com" target="_blank" rel="noopener">get5krealty.com</a></p>`;
+const V={
+disclaimer:()=>`<div class="logo"><img src="assets/favicon.svg" alt="" width="28" height="28">Shingle: The Seller Assist App</div><h1>Before you start</h1>${S.legal&&S.legal.version&&S.legal.version!==LG_VERSION?'<div class="note" role="status"><b>We updated the disclaimer.</b> Please read it and accept it again to keep using Shingle.</div>':''}<p class="muted">Please read this and accept it to use Shingle. Version ${LG_VERSION}, effective ${lgDate(LG_DATE)}.</p>
+<div class="card">${discBlock()}${brokerLine()}<label class="check" style="border:0"><input type="checkbox" id="lg-ok"><span>${LG.accept}</span></label><button class="btn" id="lg-go" disabled>Accept and continue</button></div>`,
+
+welcome:()=>`<div class="logo"><img src="assets/favicon.svg" alt="" width="28" height="28">Shingle: The Seller Assist App</div>
+<div class="hero"><h1>Sell it yourself. We'll handle the annoying parts.</h1><p>Calls, showings, flaky buyers, and that one offer with nine contingencies. Built for Greater Charlotte, NC and SC.</p></div>
+<div class="card"><label>Your first name</label><input id="n" value="${S.seller}" placeholder="First name">
+<label>Home ZIP code</label><input id="z" inputmode="numeric" maxlength="5" value="${S.zip}" placeholder="28277">
+<p class="muted" id="st" style="margin-top:8px"></p>
+<button class="btn" id="go">Let's go</button></div>
+<div class="onb" aria-label="How it works">
+<figure><img src="assets/onboarding/list-your-home.svg" alt="" width="96" height="64"><figcaption><b>1. List your home.</b> Details, price, yard sign, and a link to share.</figcaption></figure>
+<figure><img src="assets/onboarding/screen-buyers.svg" alt="" width="96" height="64"><figcaption><b>2. Screen buyers.</b> Pre-approval or proof of funds before a showing.</figcaption></figure>
+<figure><img src="assets/onboarding/compare-offers.svg" alt="" width="96" height="64"><figcaption><b>3. Compare offers.</b> Every term side by side, not just the price.</figcaption></figure></div>
+<p class="muted">Free. No commission. Every feature, no catch.</p>`,
+setup:()=>`<div class="logo"><img src="assets/favicon.svg" alt="" width="28" height="28">Shingle: The Seller Assist App</div><div class="steps"><b class="on"></b><b class="on"></b><b></b><b></b></div>
+<h2>Tell us about the house</h2><p class="muted">The stuff buyers ask about in the first ten seconds.</p>
+<div class="card">${toggle('st-setup')}<label>Street address</label><input id="a" value="${S.home.addr}" placeholder="123 Oak Hollow Ln">
+<div class="row"><div><label>Beds</label><input id="b" type="number" value="${S.home.beds}"></div><div><label>Baths</label><input id="ba" type="number" step=".5" value="${S.home.baths}"></div></div>
+<div class="row"><div><label>Sq ft</label><input id="sq" type="number" value="${S.home.sqft}"></div><div><label>Year built</label><input id="y" type="number" value="${S.home.year}"></div></div>
+<label>HOA?</label><select id="h"><option value="yes">Yes</option><option value="no">No</option></select>
+<label>Phone for the yard sign <span class="muted">(optional)</span></label><input id="ph" type="tel" value="${S.signPhone||''}" placeholder="Leave blank for a QR-only sign">
+<label>Asking price</label><input id="p" type="number" value="${S.home.price}">
+<p class="muted" id="ppsf" style="margin-top:6px"></p>
+<button class="btn" id="save">Save and see my checklist</button></div>${want('Pricing feels like guessing?')}`,
+home:()=>{const h=S.home,pre=h.year<1978;const ready=S.buyers.filter(b=>b.docs.pre&&b.docs.id&&!b.docs.agent).length;
+return `<div class="logo"><img src="assets/favicon.svg" alt="" width="28" height="28">Shingle: The Seller Assist App</div><h1>Hi ${S.seller||'there'}.</h1>
+<p>${badge()}</p><p class="muted">${h.addr||'Your home'} · ${money(h.price)}</p>
+<div class="row"><div class="card"><div class="big">${S.booked.length}</div><div class="muted">showings booked</div></div><div class="card"><div class="big">${ready}</div><div class="muted">buyers ready</div></div><div class="card"><div class="big">${S.offers.length}</div><div class="muted">offers</div></div></div>
+<h2 class="section">Paperwork</h2><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3 style="margin:0">${S.state?SN[S.state]:'State'} forms checklist</h3>${badge()}</div><p class="muted" style="margin-top:6px">Wrong state? <a href="#settings">Change it in Settings</a>.</p><p class="muted">We link to the official pages so you always get the current version. This is a to-do list, not legal advice.</p>
+${forms().map(f=>`<label class="check"><input type="checkbox"><span>${f[0]}<br>${f[1]==='#'?`<span class="muted" style="font-size:14px">${f[2]}</span>`:`<a href="${f[1]}" target="_blank" rel="noopener" style="color:var(--green);font-size:14px">${f[2]}</a>`}</span></label>`).join('')}
+<label class="check" style="background:var(--green2);border-radius:12px;padding:10px;border:0;margin-top:8px"><input type="checkbox"><span><b>Give these to the buyer before you sign a contract.</b> ${S.state==='SC'?'The disclosure statement':'Both NC disclosure forms'} must reach the buyer before the purchase contract is signed.</span></label>
+${leadNotice()}${attyPrompt('Disclosure forms')}<div class="note">Forms get revised and some sales are exempt. If you're not sure, ask your attorney.</div></div>
+<h2 class="section">Before you list</h2><div class="card"><h3>Before you list</h3>
+<label class="check"><input type="checkbox"><span>Shingle recommends having a real estate attorney handle all legal matters, including your contract and closing.</span></label>
+<label class="check"><input type="checkbox"><span>Ask your closing attorney about an owner's title insurance policy</span></label>
+<label class="check"><input type="checkbox"><span>Get a pre-listing inspection so your disclosure is accurate</span></label></div>${want('Closing paperwork piling up?')}
+<h2 class="section">Tools</h2><div class="card"><h3>Tools</h3><div class="list">
+<a class="item" href="#replies" style="text-decoration:none;color:inherit"><span>Reply templates</span><span class="pill">Copy or send yourself</span></a>
+<a class="item" href="#post" style="text-decoration:none;color:inherit"><span>Post it elsewhere</span><span class="pill">Copy and paste</span></a>
+<a class="item" href="#timeline" style="text-decoration:none;color:inherit"><span>Under-contract timeline</span><span class="pill">.ics calendar</span></a></div></div>
+<div class="card"><h3>Yard sign</h3><p class="muted">Phone, QR code, or both. Print-ready PDF in a minute.</p><a class="btn ghost" href="#sign">Make my yard sign</a></div>
+<div class="card"><h3>Your listing link <span class="pill">Coming soon</span></h3><p class="muted">Hosted listing pages with a booking link and auto-reply are coming soon. For now, put your own listing link (for example a listing you posted yourself) or get5krealty.com/shingle on your yard sign QR.</p><a class="btn ghost" href="#sign">Make my yard sign</a></div>${help}`},
+showings:()=>{const days=['Thu 15','Fri 16','Sat 17','Sun 18','Mon 19','Tue 20'];const times=['10:00','11:00','12:00','1:00','2:00','3:00','4:00','5:00','6:00'];const lab={'10:00':'10 am','11:00':'11 am','12:00':'12 pm','1:00':'1 pm','2:00':'2 pm','3:00':'3 pm','4:00':'4 pm','5:00':'5 pm','6:00':'6 pm'};const d=S.day||days[0];
+return `<h2>Showings</h2><p class="muted">Tap the times you're open. Buyers can only book open slots, and only after they pass screening.</p>
+<div class="days">${days.map(x=>`<div class="day ${x===d?'on':''}" data-d="${x}">${x.replace(' ','<br>')}</div>`).join('')}</div>
+<div class="slots">${times.map(t=>{const k=d+' '+t,b=S.booked.find(x=>x.k===k);return `<div class="slot ${S.slots[k]?'on':''}" data-k="${k}" role="button" tabindex="0" aria-pressed="${!!S.slots[k]}">${lab[t]}${b?'<br><small>'+b.n+'</small>':''}</div>`}).join('')}</div>
+<label>Max showings per day</label><select><option>3</option><option>5</option><option>No limit (brave)</option></select>
+${demoBtn('<button class="btn ghost" id="sim">Demo: simulate a buyer booking</button>')}
+<div class="card list"><h3>Booked</h3>${S.booked.length?S.booked.map(b=>`<div class="item"><span>${b.n}</span><span class="pill">${b.k}</span></div>`).join(''):'<div class="empty"><img src="assets/empty/no-showings.svg" alt="" width="160" height="120"><h3>Nothing booked yet</h3><p class="muted">Open a few times above. Enjoy the quiet.</p></div>'}</div>${want('Tired of being on call for showings?')}${help}`},
+buyers:()=>`<h2>Buyer screening</h2><p class="muted">Nobody gets a showing until the basics are in. You don't have to be the bad guy. The app is.</p>
+${S.buyers.length?'':'<div class="card empty"><img src="assets/empty/no-buyers.svg" alt="" width="160" height="120"><h3>No buyers yet</h3><p class="muted">When someone asks about the house, they show up here with their checklist.</p></div>'}${S.buyers.map((b,i)=>{const ok=b.docs.pre&&b.docs.id&&!b.docs.agent;return `<div class="card"><div class="item" style="display:flex;justify-content:space-between"><h3>${b.n}</h3><span class="pill ${ok?'':'warn'}">${b.docs.agent?'Agent pitch':ok?'Ready':'Not yet'}</span></div>
+<p class="muted">${b.type} · ${b.note}</p>
+<label class="check"><input type="checkbox" data-i="${i}" data-f="pre" ${b.docs.pre?'checked':''}> Pre-approval letter or proof of funds received</label>
+<label class="check"><input type="checkbox" data-i="${i}" data-f="id" ${b.docs.id?'checked':''}> Name and phone confirmed</label>
+<label class="check"><input type="checkbox" data-i="${i}" data-f="agent" ${b.docs.agent?'checked':''}> This is an agent asking for my listing</label></div>`}).join('')}
+<div class="note">Buyers send their documents to you directly. Shingle only keeps these checkmarks, on this device. It never uploads buyer documents or proof of funds anywhere. It also doesn't verify finances, so call the lender on the letter if anything looks off.</div>${help}`,
+offers:()=>{const net=o=>S.home.price?o.price-o.conc:0;const best=Math.max(...S.offers.map(net));
+const rows=[['Price',o=>money(o.price)],['Financing',o=>o.fin],['Down',o=>o.down+'%'],['Due diligence fee',o=>money(o.dd)],['Earnest money',o=>money(o.em)],['Close',o=>o.close],['Seller pays',o=>money(o.conc)],['Contingency',o=>o.cont],['Price minus concessions',o=>money(net(o))]];
+return `<h2>Compare offers</h2><p class="muted">The biggest number isn't always the best offer. Here's everything side by side.</p>
+${S.offers.length?'':'<div class="card empty"><img src="assets/empty/no-offers.svg" alt="" width="160" height="120"><h3>No offers yet</h3><p class="muted">Add one below when it comes in.</p></div>'}<div class="card ${S.offers.length?'':'hidden'}" style="overflow:auto"><table><tr><th></th>${S.offers.map(o=>`<th>${o.n}</th>`).join('')}</tr>
+${rows.map(([l,f],ri)=>`<tr><th>${l}</th>${S.offers.map(o=>`<td class="${ri===8&&net(o)===best?'best':''}">${f(o)}</td>`).join('')}</tr>`).join('')}</table>
+<div class="note">Estimate only. Closing costs, payoff, and taxes not included. "Due diligence fee" is an NC contract term; SC contracts may differ. </div></div>
+${attyPrompt('Offers and the contract')}${earnestNote()}<div class="note" style="margin:0 0 12px">Shingle doesn't provide contract forms.</div>
+<div class="card"><h3>Add an offer</h3><div class="row"><input id="on" placeholder="Buyer name"><input id="op" type="number" placeholder="Price"></div>
+<div class="row" style="margin-top:8px"><select id="of"><option>Conventional</option><option>FHA</option><option>VA</option><option>Cash</option></select><input id="oc" type="number" placeholder="Seller pays $"></div>
+<button class="btn" id="add">Add to comparison</button></div>${want('Got an offer and not sure what to counter?')}${help}`},
+help:()=>{const fee=Math.max(5000,S.home.price*.01);return `<h2>Get help from 5K Realty</h2>
+<div class="hero" style="background:var(--clay-ink)"><h1 style="font-size:24px">Tapping out is allowed.</h1><p style="color:#fff">Want the MLS and someone to negotiate for you? Send this form and Michael Ingold with 5K Realty will call you.</p></div>
+<div class="card"><div class="muted" style="font-size:12px;font-weight:600">Fee at ${money(S.home.price)}</div><div class="big">${money(fee)}</div><p class="muted" style="margin-top:8px">${FEE_LINE}</p><p class="muted">Your listing details, photos, showings, and offers come with you. You choose what to share.</p>
+${contact}<a class="btn alt" href="tel:7046496781">Call 5K Realty · 704.649.6781</a>
+<a class="btn ghost" href="mailto:michael@get5krealty.com?subject=${encodeURIComponent('[Shingle Lead] Help selling '+(S.home.addr||'my home'))}">Email michael@get5krealty.com</a></div>
+${typeof leadForm==='function'?leadForm('shingle-app'):''}
+${brokerLine()}<p class="muted">${LG.disc[1]}</p><a class="btn ghost" href="#settings">Settings</a>`},
+settings:()=>`<h2>Settings</h2>
+<div class="card"><h3>Your home</h3><p>${badge()}</p><p class="muted">${S.home.addr||'No address yet'}</p>${toggle('st-set')}<a class="btn ghost" href="#setup">Edit property details</a></div>
+<div class="card"><h3>Yard sign</h3><p class="muted">Phone on sign: ${S.signPhone?S.signPhone:'none (QR only)'}. The phone is optional.</p><a class="btn ghost" href="#sign">Make my yard sign</a></div>
+<div class="card"><h3>What Shingle costs</h3><p class="muted" style="margin:0">Nothing. No paid tiers, no add-ons, no ads.</p></div>
+<div class="card want"><h3>Want us to handle it?</h3><p class="muted">Hand the whole sale to 5K Realty: MLS exposure and a licensed agent negotiating for you. ${FEE_LINE} For your home that's ${fee()}.</p><a href="#help" class="go">Talk to 5K Realty</a>${contact}</div>
+<div class="card"><h3>Privacy and support</h3><p class="muted">What you enter stays on this device. There's no account and no tracking in the app. The only thing Shingle sends is the "Talk to 5K Realty" form, and only when you tap Send.</p><div class="list"><a class="item" href="/shingle/privacy/"><span>Privacy policy</span><span aria-hidden="true">›</span></a><a class="item" href="/shingle/support/"><span>Support</span><span aria-hidden="true">›</span></a></div></div>
+<div class="card" id="about"><h3>About and legal</h3><p><b>Shingle: The Seller Assist App</b>, made by 5K Realty (Ingold Group Properties, LLC).</p>${discBlock()}${brokerLine()}<p class="muted" id="lg-accepted">You accepted disclaimer version ${S.legal?S.legal.version:''} (effective ${lgDate(LG_DATE)}) on ${S.legal?new Date(S.legal.acceptedAt).toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}):''}.</p></div>
+${typeof backupCard==='function'?backupCard():''}
+<div class="card"><button class="btn ghost" onclick="if(confirm('Clear everything on this phone?')){localStorage.clear();location.hash='welcome';location.reload()}">Start over</button></div>`};
+function render(){const r=(location.hash||'#welcome').slice(1);let v=V[r]?r:'welcome';if(!legalOk())v='disclaimer';$('#app').innerHTML=V[v]();const A=$('#app');if(A.querySelector('.want')||v==='help'){A.querySelectorAll('.fab').forEach(f=>f.remove())}A.classList.toggle('has-fab',!!A.querySelector('.fab'));A.insertAdjacentHTML('beforeend','<p class="firm">Shingle is made by 5K Realty, Ingold Group Properties, LLC.</p>');
+$('#tabs').classList.toggle('hidden',v==='welcome'||v==='setup'||v==='disclaimer');document.querySelectorAll('.tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===v));bind(v);if(window.webBind)webBind(v);window.scrollTo(0,0)}
+function bind(v){
+if(v==='settings')bindToggle('st-set');
+if(v==='disclaimer'){const c=$('#lg-ok'),g=$('#lg-go');c.onchange=()=>{g.disabled=!c.checked};g.onclick=()=>{if(!c.checked)return;S.legal={acceptedAt:new Date().toISOString(),version:LG_VERSION,effective:LG_DATE};save();if(!location.hash||location.hash==='#disclaimer')location.hash='welcome';render()}}
+if(v==='welcome'){const z=$('#z'),st=$('#st');const u=()=>{const s=stateFor(z.value);st.textContent=z.value.length===5?(s?`Looks like ${SN[s]}. You can change it on the next screen.`:'We could not tell the state from that ZIP. You will pick it next.'):''};z.oninput=u;u();
+$('#go').onclick=()=>{S.seller=$('#n').value.trim();S.zip=z.value;if(!/^\d{5}$/.test(z.value)){toast('Enter a 5 digit ZIP');return}S.state=stateFor(z.value);save();location.hash='setup'}}
+if(v==='setup'){$('#h').value=S.home.hoa;const p=()=>{$('#ppsf').textContent=`About ${money($('#p').value/$('#sq').value)} per sq ft. Check it against recent nearby sales before you commit.`};$('#p').oninput=p;$('#sq').oninput=p;p();
+bindToggle('st-setup');$('#save').onclick=()=>{if(!S.state){toast('Pick NC or SC first');document.getElementById('st-setup-NC').focus();return}Object.assign(S.home,{addr:$('#a').value,beds:+$('#b').value,baths:+$('#ba').value,sqft:+$('#sq').value,year:+$('#y').value,hoa:$('#h').value,price:+$('#p').value});S.signPhone=$('#ph').value.trim();save();location.hash='home'}}
+if(v==='showings'){document.querySelectorAll('.day').forEach(e=>e.onclick=()=>{S.day=e.dataset.d;save();render()});
+document.querySelectorAll('.slot').forEach(e=>{e.onclick=()=>{S.slots[e.dataset.k]=!S.slots[e.dataset.k];save();render();const n=document.querySelector('.slot[data-k="'+e.dataset.k+'"]');if(n)n.focus()};e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();e.onclick()}}});
+if($('#sim'))$('#sim').onclick=()=>{const open=Object.keys(S.slots).filter(k=>S.slots[k]&&!S.booked.find(b=>b.k===k));const ok=S.buyers.find(b=>b.docs.pre&&b.docs.id&&!b.docs.agent);
+if(!open.length)return toast('Open a time slot first');if(!ok)return toast('No screened buyers yet');S.booked.push({k:open[0],n:ok.n});save();render();toast(ok.n+' booked '+open[0])}}
+if(v==='buyers')document.querySelectorAll('input[data-i]').forEach(e=>e.onchange=()=>{S.buyers[e.dataset.i].docs[e.dataset.f]=e.checked;save();render()});
+if(v==='offers')$('#add').onclick=()=>{const p=+$('#op').value;if(!p)return toast('Add a price');S.offers.push({n:$('#on').value||'New buyer',price:p,fin:$('#of').value,down:$('#of').value==='Cash'?100:'?',dd:0,em:0,close:'TBD',conc:+$('#oc').value||0,cont:'TBD'});save();render()}}
+window.onhashchange=render;render();

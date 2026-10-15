@@ -2,3 +2,8 @@
   X-Robots-Tag: noindex
 /thank-you
   X-Robots-Tag: noindex
+/shingle/app/*
+  X-Robots-Tag: noindex, nofollow
+/shingle/app/sw.js
+  Cache-Control: no-cache
+  Service-Worker-Allowed: /shingle/app/

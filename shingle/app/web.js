@@ -1,0 +1,77 @@
+// Web launch additions: Talk to 5K Realty form, backup export and import, backup reminder,
+// install card, storage persistence, fair housing word check, QR default.
+// The only network call in the app is the lead form, and only when the user taps Send.
+const FORM_URL='https://formspree.io/f/mvkpgapo';
+const NEEDS=['Pricing','An offer just came in','A buyer agent showed up','Paperwork','Just list it for me'];
+let PREV_SCREEN='help';
+addEventListener('hashchange',e=>{const o=(e.oldURL.split('#')[1]||'welcome');if(o!=='help')PREV_SCREEN=o});
+const ea=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function leadForm(source){return `<div class="card" id="lead"><h3>Talk to 5K Realty</h3><p class="muted">Send this and Michael Ingold will call you. Fields marked * are required.</p>
+<form class="lead-form" id="lead-form" action="${FORM_URL}" method="POST" novalidate>
+<input type="hidden" name="source" value="${source}"><input type="hidden" name="screen" value=""><input type="hidden" name="_subject" value=""><input type="hidden" name="_replyto" value=""><input type="hidden" name="needs" value="">
+<div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+<label for="lf-name">Name <span class="req">*</span></label><input id="lf-name" name="name" required autocomplete="name" value="${ea(S.seller)}">
+<label for="lf-phone">Phone <span class="req">*</span></label><input id="lf-phone" name="phone" type="tel" required autocomplete="tel">
+<label for="lf-email">Email <span class="req">*</span></label><input id="lf-email" name="email" type="email" required autocomplete="email">
+<label for="lf-address">Property address</label><input id="lf-address" name="address" autocomplete="street-address" value="${ea(S.home.addr)}">
+<label for="lf-cz">City or ZIP</label><input id="lf-cz" name="city_zip" value="${ea(S.zip)}">
+<label for="lf-state">State</label><select id="lf-state" name="state"><option value="">Choose one</option><option${S.state==='NC'?' selected':''}>NC</option><option${S.state==='SC'?' selected':''}>SC</option></select>
+<fieldset><legend>What I need help with</legend>${NEEDS.map((t,i)=>`<label class="check"><input type="checkbox" class="lf-need" id="lf-n${i}" value="${t}"> ${t}</label>`).join('')}</fieldset>
+<label for="lf-time">Best time to reach you</label><input id="lf-time" name="best_time" placeholder="For example, weekday evenings">
+<label for="lf-msg">Message</label><textarea id="lf-msg" name="message" rows="4"></textarea>
+<!-- Consent placeholder: a call or text consent checkbox is intentionally NOT included yet (Chief of Staff, Oct 15, 2026). Add it here only after Michael approves the wording. -->
+<p class="muted" style="margin-top:12px">When you tap Send, these details go to 5K Realty through Formspree, our form service. Nothing else in Shingle is sent. <a href="/shingle/privacy/">Privacy policy</a></p>
+<button class="btn" type="submit" id="lf-send">Send to 5K Realty</button><div id="lf-status" role="status" aria-live="polite" style="margin-top:8px"></div>
+</form></div>`}
+function bindLeadForm(screen){const f=document.getElementById('lead-form');if(!f)return;
+ f.onsubmit=async e=>{e.preventDefault();const st=document.getElementById('lf-status');
+  if(!f.checkValidity()){f.reportValidity();return}
+  f.needs.value=[...f.querySelectorAll('.lf-need:checked')].map(x=>x.value).join(', ');
+  f.screen.value=screen;f._replyto.value=f.email.value.trim();
+  f._subject.value='[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();
+  const b=document.getElementById('lf-send');b.disabled=true;b.textContent='Sending...';st.innerHTML='';
+  try{const r=await fetch(FORM_URL,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});if(!r.ok)throw new Error(r.status);
+   f.querySelectorAll('input,select,textarea,button').forEach(x=>x.disabled=true);b.textContent='Sent';
+   st.innerHTML='<p class="form-ok">Thanks for reaching out. Michael Ingold with 5K Realty will call you shortly. If it\'s urgent, call <a href="tel:7046496781">704.649.6781</a>.</p>'}
+  catch(err){b.disabled=false;b.textContent='Send to 5K Realty';st.innerHTML='<p class="form-err">That didn\'t go through. Please call <a href="tel:7046496781">704.649.6781</a> or email <a href="mailto:michael@get5krealty.com">michael@get5krealty.com</a>.</p>'}}}
+// ---------- Backup ----------
+const daysSince=d=>d?(Date.now()-new Date(d).getTime())/864e5:Infinity;
+function backupCard(){return `<div class="card" id="backup"><h3>Back up your data</h3><p class="muted">Shingle keeps everything on this device. Your browser can clear it, for example if you clear site data, switch phones, or on iPhone, don't open Shingle in Safari for a while. Save a backup file to your own Files or Drive.</p>
+<p class="muted" id="bk-last">${S.lastBackup?'Last backup: '+new Date(S.lastBackup).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'No backup yet.'}</p>
+<button class="btn" id="bk-export">Export backup</button><label class="btn ghost" for="bk-file" style="margin-top:8px">Import backup</label><input type="file" id="bk-file" accept="application/json,.json" class="hp"></div>`}
+function exportBackup(){S.lastBackup=new Date().toISOString();save();const blob=new Blob([JSON.stringify({app:'shingle',key:KEY,exportedAt:S.lastBackup,data:S},null,2)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='shingle-backup-'+S.lastBackup.slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast('Backup saved');render()}
+function importBackup(file){const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);const d=j&&j.app==='shingle'?j.data:null;if(!d||typeof d!=='object'||!d.home)throw 0;
+  if(!confirm('Replace what is on this device with this backup from '+(j.exportedAt?new Date(j.exportedAt).toLocaleDateString():'an earlier date')+'?'))return;
+  localStorage.setItem(KEY,JSON.stringify(d));location.reload()}catch(e){toast('That file is not a Shingle backup')}};r.readAsText(file)}
+// ---------- Install card ----------
+let deferredPrompt=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(location.hash==='#home')render()});
+const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+function installCard(){if(standalone()||S.installDismissed)return '';
+ const android=/android/i.test(navigator.userAgent);
+ if(isIOS())return `<section class="install-card" data-platform="ios" aria-labelledby="ic-ios-h">
+<header class="ic-head"><img src="/shingle/assets/img/shingle-icon.svg" width="44" height="44" alt="" class="ic-logo"><div><p class="ic-kicker">iPhone and iPad, in Safari</p><h3 id="ic-ios-h">Add Shingle to your Home Screen</h3></div></header>
+<ol class="ic-steps"><li class="ic-step"><span class="ic-num" aria-hidden="true">1</span><span class="ic-glyph"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M8 10H6.5A1.5 1.5 0 0 0 5 11.5v8A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-8a1.5 1.5 0 0 0-1.5-1.5H16"/></svg></span><span class="ic-text"><b>Tap Share</b>The square with the arrow, in the Safari toolbar.</span></li><li class="ic-step"><span class="ic-num" aria-hidden="true">2</span><span class="ic-glyph"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span><span class="ic-text"><b>Tap Add to Home Screen</b>Scroll down the share sheet if you don’t see it. Then tap Add.</span></li><li class="ic-step"><span class="ic-num" aria-hidden="true">3</span><span class="ic-glyph"><img src="/shingle/assets/img/shingle-icon.svg" width="24" height="24" alt="" class="ic-app"></span><span class="ic-text"><b>Open Shingle</b>Start it from the new icon on your Home Screen.</span></li></ol>
+<p class="ic-note">Timeline reminders come from your own calendar after you add the .ics file. You don't need to install Shingle for that.</p><button class="btn ghost ic-x" id="in-x" type="button">Not now</button></section>`;
+ if(android||deferredPrompt)return `<section class="install-card" data-platform="android" aria-labelledby="ic-and-h">
+<header class="ic-head"><img src="/shingle/assets/img/shingle-icon.svg" width="44" height="44" alt="" class="ic-logo"><div><p class="ic-kicker">Android, in Chrome</p><h3 id="ic-and-h">Install the Shingle app</h3></div></header>
+<button class="ic-install" type="button" id="in-go" ${deferredPrompt?'':'hidden'} data-install><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 7.5v7"/><path d="M9 11.5l3 3 3-3"/><path d="M10.5 18.5h3"/></svg><span>Install app</span></button>
+<ol class="ic-steps"><li class="ic-step"><span class="ic-num" aria-hidden="true">1</span><span class="ic-glyph"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></svg></span><span class="ic-text"><b>Tap the menu</b>The three dots at the top right of Chrome.</span></li><li class="ic-step"><span class="ic-num" aria-hidden="true">2</span><span class="ic-glyph"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 7.5v7"/><path d="M9 11.5l3 3 3-3"/><path d="M10.5 18.5h3"/></svg></span><span class="ic-text"><b>Tap Install app</b>Some phones say Add to Home screen. Then tap Install.</span></li><li class="ic-step"><span class="ic-num" aria-hidden="true">3</span><span class="ic-glyph"><img src="/shingle/assets/img/shingle-icon.svg" width="24" height="24" alt="" class="ic-app"></span><span class="ic-text"><b>Open Shingle</b>It opens from your app drawer like any other app.</span></li></ol><button class="btn ghost ic-x" id="in-x" type="button">Not now</button></section>`;
+ return ''}
+function backupNudge(){if(daysSince(S.lastBackup)<7)return '';return `<div class="card" id="bk-nudge"><h3>${S.lastBackup?"It's been a week since your last backup":'Back up your data'}</h3><p class="muted" style="margin:0">Your Shingle data lives only on this device. Save a backup file so you don't lose it.</p><button class="btn" id="bk-now">Back up now</button></div>`}
+// ---------- Fair housing word check ----------
+const FH_WORDS=['family-friendly','family friendly','perfect for families','great for families','perfect for young','young couple','ideal for','perfect for','safe neighborhood','exclusive neighborhood','adults only','no children','no kids','singles','bachelor','mature','empty nester','christian','church nearby','walking distance to church','integrated','ethnic','handicapped','able-bodied','english only'];
+function fhCheck(t){const l=t.toLowerCase();return FH_WORDS.filter(w=>l.includes(w))}
+function webBind(v){
+ if(v==='help')bindLeadForm(PREV_SCREEN);
+ if(v==='settings'){const x=$('#bk-export');if(x)x.onclick=exportBackup;const fi=$('#bk-file');if(fi)fi.onchange=()=>fi.files[0]&&importBackup(fi.files[0])}
+ if(v==='home'){const A=$('#app'),h=A.querySelector('h1,h2');const extra=installCard()+backupNudge();if(extra){const w=document.createElement('div');w.innerHTML=extra;(h&&h.parentNode===A?h:A.firstChild).after(...w.childNodes)}
+  const ig=$('#in-go');if(ig)ig.onclick=async()=>{deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;render()};
+  const ix=$('#in-x');if(ix)ix.onclick=()=>{S.installDismissed=true;save();render()};const bn=$('#bk-now');if(bn)bn.onclick=exportBackup}
+ if(v==='post'){const t=$('#ps-text'),o=$('#ps-fh');const u=()=>{const hits=fhCheck(t.value);o.innerHTML=hits.length?`<p class="fh-warn"><b>Fair housing check:</b> consider removing ${hits.map(h=>'"'+h+'"').join(', ')}. Describe the home, not who should live there.</p>`:''};t.addEventListener('input',u);u()}
+ if(v==='sign'){const u=$('#sg-url');if(u&&!$('#sg-land')){u.insertAdjacentHTML('afterend','<button class="btn ghost" type="button" id="sg-land" style="margin-top:8px">No listing link? Use the Shingle page</button><p class="muted" style="margin:4px 0 0">Point the QR at your own listing link (for example a listing you posted yourself), or at get5krealty.com/shingle. Hosted listing pages are coming soon.</p>');
+  $('#sg-land').onclick=()=>{u.value='https://get5krealty.com/shingle/';u.dispatchEvent(new Event('input'))}}}
+}
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persisted().then(p=>p||navigator.storage.persist()).catch(()=>{});
+render();
