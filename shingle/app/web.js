@@ -86,10 +86,10 @@ function showingDate(k){const m=k.match(/^(\w{3}) (\d+) (\d+):(\d\d)$/);if(!m)re
   if(d.getDate()===day&&d.toLocaleDateString('en-US',{weekday:'short'})===m[1]){d.setHours(h,+m[4],0,0);return d}}return null}
 const whenLabel=d=>d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
 function showingIcs(b){const d=showingDate(b.k);if(!d){toast("Couldn't work out that date");return}
- dlIcs(icsEvents([{uid:'shingle-showing-'+b.k.replace(/\W/g,'')+'-'+b.n.replace(/\W/g,''),start:d,mins:60,summary:`Showing: ${b.n} at ${addr().replace(/[,;]/g,' ')}`,desc:'Added from Shingle. Check that the buyer sent a pre-approval letter or proof of funds.',alarm:'-PT1H'}]),'shingle-showing.ics')}
+ dlIcs(icsEvents([{uid:'shingle-showing-'+b.k.replace(/\W/g,'')+'-'+b.n.replace(/\W/g,''),start:d,mins:60,summary:`Showing: ${b.n} at ${addr().replace(/[,;]/g,' ')}`,desc:'Planned in Shingle. Check that the buyer sent a pre-approval letter or proof of funds.',alarm:'-PT1H'}]),'shingle-showing.ics')}
 function buyerSummary(b){const ok=b.docs.pre&&b.docs.id&&!b.docs.agent;return `Buyer: ${b.n}\nStatus: ${b.docs.agent?'Agent pitch':ok?'Ready':'Not yet'}\n${b.type||''}${b.note?' · '+b.note:''}\nPre-approval or proof of funds received: ${b.docs.pre?'Yes':'No'}\nName and phone confirmed: ${b.docs.id?'Yes':'No'}\nProperty: ${addr()}`}
 function offersSummary(){return 'Offers on '+addr()+'\n\n'+S.offers.map(o=>`${o.n}: ${money(o.price)}, ${o.fin}, seller pays ${money(o.conc||0)}`).join('\n')+'\n\nEstimate only. Closing costs, payoff, and taxes not included.'}
-function showingsSummary(){return 'Booked showings at '+addr()+'\n\n'+S.booked.map(b=>{const d=showingDate(b.k);return `${d?whenLabel(d):b.k}: ${b.n}`}).join('\n')}
+function showingsSummary(){return 'Planned showings at '+addr()+'\n\n'+S.booked.map(b=>{const d=showingDate(b.k);return `${d?whenLabel(d):b.k}: ${b.n}`}).join('\n')}
 const smallBtn=(attr,label,aria)=>`<button class="btn ghost" type="button" ${attr} style="margin:0;width:auto;padding:6px 10px;font-size:13px"${aria?` aria-label="${ea(aria)}"`:''}>${label}</button>`;
 // ---------- Disclaimer acceptance record (made on the device with jsPDF) ----------
 function acceptanceRecord(){const L=S.legal;if(!L)return;const {jsPDF}=window.jspdf;const d=new jsPDF({unit:'pt',format:'letter'});let y=60;const W=492;
@@ -105,7 +105,7 @@ const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
  if(v==='showings'&&S.booked.length){const list=[...document.querySelectorAll('.card.list .item')];
   list.forEach((it,i)=>{const b=S.booked[i];if(!b)return;it.insertAdjacentHTML('beforeend',`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${smallBtn(`data-shcal="${i}"`,'Add to calendar','Add showing with '+b.n+' to calendar')}</span>`)});
   const card=document.querySelector('.card.list');card.insertAdjacentHTML('beforeend','<button class="btn ghost" type="button" id="sh-mail">Email this to me</button>');
-  document.querySelectorAll('[data-shcal]').forEach(x=>x.onclick=()=>showingIcs(S.booked[x.dataset.shcal]));$('#sh-mail').onclick=()=>mailMe('Shingle: booked showings at '+addr(),showingsSummary())}
+  document.querySelectorAll('[data-shcal]').forEach(x=>x.onclick=()=>showingIcs(S.booked[x.dataset.shcal]));$('#sh-mail').onclick=()=>mailMe('Shingle: planned showings at '+addr(),showingsSummary())}
  if(v==='buyers'){document.querySelectorAll('#app > .card').forEach(c=>{const cb=c.querySelector('input[data-i]');if(!cb)return;const i=+cb.dataset.i;c.insertAdjacentHTML('beforeend',`<button class="btn ghost" type="button" data-bmail="${i}">Email this to me</button>`)});
   document.querySelectorAll('[data-bmail]').forEach(x=>x.onclick=()=>{const b=S.buyers[x.dataset.bmail];mailMe('Shingle: buyer '+b.n+' for '+addr(),buyerSummary(b))})}
  if(v==='offers'&&S.offers.length){const t=document.querySelector('#app table');if(t){t.closest('.card').insertAdjacentHTML('beforeend','<button class="btn ghost" type="button" id="of-mail">Email this to me</button>');$('#of-mail').onclick=()=>mailMe('Shingle: offers on '+addr(),offersSummary())}}

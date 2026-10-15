@@ -6,7 +6,7 @@ function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.r
 // ---------- Reply templates ----------
 const TPL=[
  ['Showing request',`Hi! Thanks for asking about ${'{addr}'}. Reply with two or three times that work for you. Before the showing, please send a pre-approval letter or proof of funds. Thanks!`],
- ['Prequal reminder',`Thanks for booking a showing at {addr}. Just a reminder that I need a pre-approval letter or proof of funds before we confirm. You can send it to me by replying to this message.`],
+ ['Prequal reminder',`Thanks for setting up a showing at {addr}. Just a reminder that I need a pre-approval letter or proof of funds before we confirm. You can send it to me by replying to this message.`],
  ['Agent pitch, no thanks',`Thanks for reaching out. I'm selling on my own for now and not looking to list. If you have a buyer for {addr}, I'm happy to hear from you.`],
  ['Offer received',`Thanks for your offer on {addr}. I've received it and will get back to you by {date}.`],
  ['Home is under contract',`Thanks for your interest in {addr}. The home is now under contract, so I'm not scheduling more showings right now.`]];
