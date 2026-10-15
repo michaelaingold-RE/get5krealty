@@ -75,3 +75,30 @@ function webBind(v){
 }
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persisted().then(p=>p||navigator.storage.persist()).catch(()=>{});
 render();
+// ---------- Email this to me (mailto only, nothing is sent by Shingle) ----------
+const MAIL_MAX=1800; // max length of the encoded body, keeps the whole mailto link well under common URL limits
+function mailMe(subject,body){let b=String(body).trim();const end='\n\n(Shortened to fit. Open Shingle for the rest.)';
+ if(encodeURIComponent(b).length>MAIL_MAX){while(b.length&&encodeURIComponent(b+end).length>MAIL_MAX)b=b.slice(0,-20);b=b.trimEnd()+end}
+ const to=S.myEmail?encodeURIComponent(S.myEmail):'';location.href=`mailto:${to}?subject=${encodeURIComponent(String(subject).slice(0,120))}&body=${encodeURIComponent(b)}`}
+// ---------- Showings: real dates from the day labels ("Thu 15") ----------
+function showingDate(k){const m=k.match(/^(\w{3}) (\d+) (\d+):(\d\d)$/);if(!m)return null;const day=+m[2];let h=+m[3];if(h<9)h+=12; // slots run 10 am to 6 pm
+ const t=new Date();t.setHours(0,0,0,0);for(let i=-7;i<120;i++){const d=new Date(t);d.setDate(t.getDate()+i);
+  if(d.getDate()===day&&d.toLocaleDateString('en-US',{weekday:'short'})===m[1]){d.setHours(h,+m[4],0,0);return d}}return null}
+const whenLabel=d=>d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+function showingIcs(b){const d=showingDate(b.k);if(!d){toast("Couldn't work out that date");return}
+ dlIcs(icsEvents([{uid:'shingle-showing-'+b.k.replace(/\W/g,'')+'-'+b.n.replace(/\W/g,''),start:d,mins:60,summary:`Showing: ${b.n} at ${addr().replace(/[,;]/g,' ')}`,desc:'Booked in Shingle. Confirm the buyer is screened before the showing.',alarm:'-PT1H'}]),'shingle-showing.ics')}
+function buyerSummary(b){const ok=b.docs.pre&&b.docs.id&&!b.docs.agent;return `Buyer: ${b.n}\nStatus: ${b.docs.agent?'Agent pitch':ok?'Ready':'Not yet'}\n${b.type||''}${b.note?' · '+b.note:''}\nPre-approval or proof of funds received: ${b.docs.pre?'Yes':'No'}\nName and phone confirmed: ${b.docs.id?'Yes':'No'}\nProperty: ${addr()}`}
+function offersSummary(){return 'Offers on '+addr()+'\n\n'+S.offers.map(o=>`${o.n}: ${money(o.price)}, ${o.fin}, seller pays ${money(o.conc||0)}`).join('\n')+'\n\nEstimate only. Closing costs, payoff, and taxes not included.'}
+function showingsSummary(){return 'Booked showings at '+addr()+'\n\n'+S.booked.map(b=>{const d=showingDate(b.k);return `${d?whenLabel(d):b.k}: ${b.n}`}).join('\n')}
+const smallBtn=(attr,label,aria)=>`<button class="btn ghost" type="button" ${attr} style="margin:0;width:auto;padding:6px 10px;font-size:13px"${aria?` aria-label="${ea(aria)}"`:''}>${label}</button>`;
+const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
+ if(v==='showings'&&S.booked.length){const list=[...document.querySelectorAll('.card.list .item')];
+  list.forEach((it,i)=>{const b=S.booked[i];if(!b)return;it.insertAdjacentHTML('beforeend',`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${smallBtn(`data-shcal="${i}"`,'Add to calendar','Add showing with '+b.n+' to calendar')}</span>`)});
+  const card=document.querySelector('.card.list');card.insertAdjacentHTML('beforeend','<button class="btn ghost" type="button" id="sh-mail">Email this to me</button>');
+  document.querySelectorAll('[data-shcal]').forEach(x=>x.onclick=()=>showingIcs(S.booked[x.dataset.shcal]));$('#sh-mail').onclick=()=>mailMe('Shingle: booked showings at '+addr(),showingsSummary())}
+ if(v==='buyers'){document.querySelectorAll('#app > .card').forEach(c=>{const cb=c.querySelector('input[data-i]');if(!cb)return;const i=+cb.dataset.i;c.insertAdjacentHTML('beforeend',`<button class="btn ghost" type="button" data-bmail="${i}">Email this to me</button>`)});
+  document.querySelectorAll('[data-bmail]').forEach(x=>x.onclick=()=>{const b=S.buyers[x.dataset.bmail];mailMe('Shingle: buyer '+b.n+' for '+addr(),buyerSummary(b))})}
+ if(v==='offers'&&S.offers.length){const t=document.querySelector('#app table');if(t){t.closest('.card').insertAdjacentHTML('beforeend','<button class="btn ghost" type="button" id="of-mail">Email this to me</button>');$('#of-mail').onclick=()=>mailMe('Shingle: offers on '+addr(),offersSummary())}}
+ if(v==='settings'){const bk=$('#backup');if(bk&&!$('#my-email')){bk.insertAdjacentHTML('beforebegin',`<div class="card"><h3>Your email</h3><label for="my-email">Used to fill in "Email this to me." Optional, and it stays on this device.</label><input id="my-email" type="email" autocomplete="email" value="${ea(S.myEmail||'')}"></div>`);$('#my-email').onchange=e=>{S.myEmail=e.target.value.trim();save();toast('Saved on this device')}}}
+};
+render();
