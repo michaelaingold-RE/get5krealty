@@ -7,7 +7,7 @@
   <meta name="description" content="Michael Ingold, broker and owner of 5K Realty. Licensed since 2004. More than 20 years in new home sales with builders and developers across Greater Charlotte.">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="canonical" href="https://get5krealty.com/about" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/site.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --navy: #0A2540; --gold: #C9A227; }
@@ -15,6 +15,100 @@
     .text-navy { color: var(--navy); } .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); } .bg-gold { background-color: var(--gold); }
   </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": [
+    "RealEstateAgent",
+    "Organization"
+  ],
+  "@id": "https://get5krealty.com/#business",
+  "name": "5K Realty",
+  "legalName": "Ingold Group Properties, LLC",
+  "url": "https://get5krealty.com/",
+  "logo": "https://get5krealty.com/images/5k-realty-logo.png",
+  "image": "https://get5krealty.com/images/og-share.png",
+  "telephone": "+1-704-649-6781",
+  "email": "michael@get5krealty.com",
+  "address": {
+    "@type": "PostalAddress",
+    "postOfficeBoxNumber": "633",
+    "addressLocality": "Fort Mill",
+    "addressRegion": "SC",
+    "postalCode": "29716",
+    "addressCountry": "US"
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Michael Ingold",
+    "jobTitle": "Broker/Owner"
+  },
+  "areaServed": [
+    {
+      "@type": "Place",
+      "name": "Fort Mill, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Tega Cay, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Lake Wylie, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Rock Hill, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Clover, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Indian Land, SC"
+    },
+    {
+      "@type": "Place",
+      "name": "Charlotte, NC"
+    },
+    {
+      "@type": "Place",
+      "name": "Ballantyne, Charlotte, NC"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "York County, SC"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Lancaster County, SC"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Chester County, SC"
+    }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61593697977199"
+  ]
+}
+  </script>
+  <!-- Analytics (free): Cloudflare Web Analytics. Michael: in Cloudflare dashboard > Analytics & Logs > Web Analytics, add get5krealty.com
+       (or Workers & Pages > this project > Metrics > enable Web Analytics, which needs no code). If you use the JS snippet instead,
+       paste your token below and remove the comment markers.
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "PASTE_TOKEN_HERE"}'></script>
+  -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="5K Realty">
+  <meta property="og:title" content="About Michael Ingold &amp; 5K Realty | Fort Mill Real Estate">
+  <meta property="og:description" content="Michael Ingold, broker and owner of 5K Realty. Licensed since 2004. Listing-side fee: $5,000 or 1%, whichever is greater.">
+  <meta property="og:url" content="https://get5krealty.com/about">
+  <meta property="og:image" content="https://get5krealty.com/images/og-share.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Michael Ingold &amp; 5K Realty | Fort Mill Real Estate">
+  <meta name="twitter:description" content="Michael Ingold, broker and owner of 5K Realty. Licensed since 2004. Listing-side fee: $5,000 or 1%, whichever is greater.">
+  <meta name="twitter:image" content="https://get5krealty.com/images/og-share.png">
 </head>
 <body class="text-gray-800">
   <header class="bg-white shadow-sm sticky top-0 z-50">
@@ -50,14 +144,15 @@
   </header>
   <main class="max-w-3xl mx-auto px-4 py-12">
     <div class="flex flex-col sm:flex-row gap-8 items-start mb-10">
-      <img src="images/michael-about.jpg.png" alt="Michael Ingold on Lake Wylie" class="w-full max-w-xs sm:w-56 md:w-64 h-auto rounded-lg shadow flex-shrink-0">
+      <img src="images/michael-about.jpg" alt="Michael Ingold on Lake Wylie" class="w-full max-w-xs sm:w-56 md:w-64 h-auto rounded-lg shadow flex-shrink-0">
       <div>
         <h1 class="text-3xl font-bold text-navy mb-1">Michael Ingold</h1>
         <p class="text-gold font-medium mb-4">Broker and owner, 5K Realty &middot; Fort Mill, Lake Wylie, and South Charlotte</p>
         <p class="text-gray-700 mb-4">Licensed since 2004. More than 20 years in new home sales with builders and developers across the Greater Charlotte market. NC/SC Broker in Charge since 2017.</p>
         <p class="text-gray-700 mb-4">I opened 5K Realty to do the work without the usual percentage commissions. Listing-side fee is $5,000 or 1%, whichever is greater. Full service. Same work. More equity left for the seller.</p>
         <p class="text-gray-700 mb-4">The builder years are the useful part. In that world, pricing a home so it sells is the job. I know how new construction is priced and how resale has to compete with it. I live here, so the advice is local: Fort Mill, Lake Wylie, Tega Cay, Ballantyne, Rock Hill, York, Lancaster, and Chester County.</p>
-        <a href="tel:7046496781" class="inline-block bg-navy text-white font-semibold px-5 py-3 rounded">Call or text 704.649.6781</a>
+        <a href="tel:7046496781" class="inline-block bg-navy text-white font-semibold px-5 py-3 rounded">Call 704.649.6781</a>
+        <a href="sms:+17046496781" class="inline-block bg-navy text-white font-semibold px-5 py-3 rounded">Text 704.649.6781</a>
         <p class="mt-3"><a href="mailto:michael@get5krealty.com" class="text-navy font-semibold">michael@get5krealty.com</a></p>
       </div>
     </div>
@@ -70,7 +165,8 @@
     <div class="max-w-6xl mx-auto px-4 text-center">
       <img src="images/5k-realty-logo.png" alt="5K Realty" class="h-12 w-auto mx-auto mb-2">
       <p class="text-gray-400 text-xs mb-2">Serving south Charlotte, York County, and Lancaster County</p>
-      <a href="tel:7046496781" class="text-gold font-medium block">704.649.6781</a>
+      <a href="tel:7046496781" class="text-gold font-medium block">Call 704.649.6781</a>
+      <a href="sms:+17046496781" class="text-gold font-medium block">Text 704.649.6781</a>
       <a href="mailto:michael@get5krealty.com" class="text-gold font-medium">michael@get5krealty.com</a>
       <p class="text-gray-400 text-xs mt-3"><a href="https://www.facebook.com/profile.php?id=61593697977199" class="hover:text-white underline" target="_blank" rel="noopener noreferrer">Facebook</a></p>
       <p class="text-gray-400 text-xs mt-3">Mailing: PO Box 633, Fort Mill, SC 29716</p>
