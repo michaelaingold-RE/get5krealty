@@ -3,6 +3,8 @@ const def={seller:'',zip:'',state:'',home:{addr:'',beds:3,baths:2,sqft:2000,year
  slots:{},booked:[],
  buyers:[],offers:[],signPhone:''};
 let S=JSON.parse(localStorage.getItem(KEY)||'null')||structuredClone(def);
+// HTML-escape user-entered text
+const ea=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
 const $=s=>document.querySelector(s);const money=n=>'$'+Math.round(n).toLocaleString();
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
@@ -36,7 +38,7 @@ welcome:()=>`<div class="logo"><img src="assets/favicon.svg" alt="" width="28" h
 <button class="btn" id="go">Let's go</button></div>
 <div class="onb" aria-label="How it works">
 <figure><img src="assets/onboarding/list-your-home.svg" alt="" width="96" height="64"><figcaption><b>1. List your home.</b> Details, price, yard sign, and a link to share.</figcaption></figure>
-<figure><img src="assets/onboarding/screen-buyers.svg" alt="" width="96" height="64"><figcaption><b>2. Screen buyers.</b> Pre-approval or proof of funds before a showing.</figcaption></figure>
+<figure><img src="assets/onboarding/screen-buyers.svg" alt="" width="96" height="64"><figcaption><b>2. Track buyers.</b> Check off a pre-approval or proof of funds before you confirm a showing.</figcaption></figure>
 <figure><img src="assets/onboarding/compare-offers.svg" alt="" width="96" height="64"><figcaption><b>3. Compare offers.</b> Every term side by side, not just the price.</figcaption></figure></div>
 <p class="muted">Free. No commission. Every feature, no catch.</p>`,
 setup:()=>`<div class="logo"><img src="assets/favicon.svg" alt="" width="28" height="28">Shingle: The Seller Assist App</div><div class="steps"><b class="on"></b><b class="on"></b><b></b><b></b></div>
@@ -68,18 +70,20 @@ ${leadNotice()}${attyPrompt('Disclosure forms')}<div class="note">Forms get revi
 <div class="card"><h3>Yard sign</h3><p class="muted">Phone, QR code, or both. Print-ready PDF in a minute.</p><a class="btn ghost" href="#sign">Make my yard sign</a></div>
 <div class="card"><h3>Your listing link <span class="pill">Coming soon</span></h3><p class="muted">Hosted listing pages with a booking link and auto-reply are coming soon. For now, put your own listing link (for example a listing you posted yourself) or get5krealty.com/shingle on your yard sign QR.</p><a class="btn ghost" href="#sign">Make my yard sign</a></div>${help}`},
 showings:()=>{const days=['Thu 15','Fri 16','Sat 17','Sun 18','Mon 19','Tue 20'];const times=['10:00','11:00','12:00','1:00','2:00','3:00','4:00','5:00','6:00'];const lab={'10:00':'10 am','11:00':'11 am','12:00':'12 pm','1:00':'1 pm','2:00':'2 pm','3:00':'3 pm','4:00':'4 pm','5:00':'5 pm','6:00':'6 pm'};const d=S.day||days[0];
-return `<h2>Showings</h2><p class="muted">Tap the times you're open. Buyers can only book open slots, and only after they pass screening.</p>
+return `<h2>Showings</h2><p class="muted">Set the times you're open for showings, then add each showing to your calendar.</p>
 <div class="days">${days.map(x=>`<div class="day ${x===d?'on':''}" data-d="${x}">${x.replace(' ','<br>')}</div>`).join('')}</div>
-<div class="slots">${times.map(t=>{const k=d+' '+t,b=S.booked.find(x=>x.k===k);return `<div class="slot ${S.slots[k]?'on':''}" data-k="${k}" role="button" tabindex="0" aria-pressed="${!!S.slots[k]}">${lab[t]}${b?'<br><small>'+b.n+'</small>':''}</div>`}).join('')}</div>
+<div class="slots">${times.map(t=>{const k=d+' '+t,b=S.booked.find(x=>x.k===k);return `<div class="slot ${S.slots[k]?'on':''}" data-k="${k}" role="button" tabindex="0" aria-pressed="${!!S.slots[k]}">${lab[t]}${b?'<br><small>'+ea(b.n)+'</small>':''}</div>`}).join('')}</div>
 <label>Max showings per day</label><select><option>3</option><option>5</option><option>No limit (brave)</option></select>
 ${demoBtn('<button class="btn ghost" id="sim">Demo: simulate a buyer booking</button>')}
-<div class="card list"><h3>Booked</h3>${S.booked.length?S.booked.map(b=>`<div class="item"><span>${b.n}</span><span class="pill">${b.k}</span></div>`).join(''):'<div class="empty"><img src="assets/empty/no-showings.svg" alt="" width="160" height="120"><h3>Nothing booked yet</h3><p class="muted">Open a few times above. Enjoy the quiet.</p></div>'}</div>${want('Tired of being on call for showings?')}${help}`},
-buyers:()=>`<h2>Buyer screening</h2><p class="muted">Nobody gets a showing until the basics are in. You don't have to be the bad guy. The app is.</p>
-${S.buyers.length?'':'<div class="card empty"><img src="assets/empty/no-buyers.svg" alt="" width="160" height="120"><h3>No buyers yet</h3><p class="muted">When someone asks about the house, they show up here with their checklist.</p></div>'}${S.buyers.map((b,i)=>{const ok=b.docs.pre&&b.docs.id&&!b.docs.agent;return `<div class="card"><div class="item" style="display:flex;justify-content:space-between"><h3>${b.n}</h3><span class="pill ${ok?'':'warn'}">${b.docs.agent?'Agent pitch':ok?'Ready':'Not yet'}</span></div>
-<p class="muted">${b.type} · ${b.note}</p>
+<div class="card list"><h3>Booked</h3>${S.booked.length?S.booked.map(b=>`<div class="item"><span>${ea(b.n)}</span><span class="pill">${b.k}</span></div>`).join(''):'<div class="empty"><img src="assets/empty/no-showings.svg" alt="" width="160" height="120"><h3>Nothing booked yet</h3><p class="muted">Open a few times above. Enjoy the quiet.</p></div>'}</div>
+<div class="card"><h3>Add a showing</h3><label for="bk-who">Buyer name</label><input id="bk-who" autocomplete="off"><label for="bk-when">Open time</label><select id="bk-when">${Object.keys(S.slots).filter(k=>S.slots[k]&&!S.booked.find(b=>b.k===k)).map(k=>`<option>${k}</option>`).join('')||'<option value="">Open a time above first</option>'}</select><button class="btn" type="button" id="bk-add">Add showing</button></div>${want('Tired of being on call for showings?')}${help}`},
+buyers:()=>`<h2>Buyer checklist</h2><p class="muted">A checklist you fill in for each buyer. Ask for a pre-approval letter or proof of funds before you confirm a showing. Shingle doesn't contact or verify buyers.</p>
+${S.buyers.length?'':'<div class="card empty"><img src="assets/empty/no-buyers.svg" alt="" width="160" height="120"><h3>No buyers yet</h3><p class="muted">Add each buyer you\'re talking with below. Their checklist shows up here.</p></div>'}${S.buyers.map((b,i)=>{const ok=b.docs.pre&&b.docs.id&&!b.docs.agent;return `<div class="card"><div class="item" style="display:flex;justify-content:space-between"><h3>${ea(b.n)}</h3><span class="pill ${ok?'':'warn'}">${b.docs.agent?'Agent pitch':ok?'Ready':'Not yet'}</span></div>
+<p class="muted">${ea(b.type)}${b.note?' · '+ea(b.note):''}</p>
 <label class="check"><input type="checkbox" data-i="${i}" data-f="pre" ${b.docs.pre?'checked':''}> Pre-approval letter or proof of funds received</label>
 <label class="check"><input type="checkbox" data-i="${i}" data-f="id" ${b.docs.id?'checked':''}> Name and phone confirmed</label>
 <label class="check"><input type="checkbox" data-i="${i}" data-f="agent" ${b.docs.agent?'checked':''}> This is an agent asking for my listing</label></div>`}).join('')}
+<div class="card"><h3>Add a buyer</h3><label for="by-n">Buyer name</label><input id="by-n" autocomplete="off"><label for="by-t">Financing</label><select id="by-t"><option>Conventional</option><option>FHA</option><option>VA</option><option>Cash</option><option>Not sure yet</option></select><label for="by-note">Note (optional)</label><input id="by-note" autocomplete="off"><button class="btn" type="button" id="by-add">Add buyer</button></div>
 <div class="note">Buyers send their documents to you directly. Shingle only keeps these checkmarks, on this device. It never uploads buyer documents or proof of funds anywhere. It also doesn't verify finances, so call the lender on the letter if anything looks off.</div>${help}`,
 offers:()=>{const net=o=>S.home.price?o.price-o.conc:0;const best=Math.max(...S.offers.map(net));
 const rows=[['Price',o=>money(o.price)],['Financing',o=>o.fin],['Down',o=>o.down+'%'],['Due diligence fee',o=>money(o.dd)],['Earnest money',o=>money(o.em)],['Close',o=>o.close],['Seller pays',o=>money(o.conc)],['Contingency',o=>o.cont],['Price minus concessions',o=>money(net(o))]];
@@ -122,7 +126,9 @@ bindToggle('st-setup');$('#save').onclick=()=>{if(!S.state){toast('Pick NC or SC
 if(v==='showings'){document.querySelectorAll('.day').forEach(e=>e.onclick=()=>{S.day=e.dataset.d;save();render()});
 document.querySelectorAll('.slot').forEach(e=>{e.onclick=()=>{S.slots[e.dataset.k]=!S.slots[e.dataset.k];save();render();const n=document.querySelector('.slot[data-k="'+e.dataset.k+'"]');if(n)n.focus()};e.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();e.onclick()}}});
 if($('#sim'))$('#sim').onclick=()=>{const open=Object.keys(S.slots).filter(k=>S.slots[k]&&!S.booked.find(b=>b.k===k));const ok=S.buyers.find(b=>b.docs.pre&&b.docs.id&&!b.docs.agent);
-if(!open.length)return toast('Open a time slot first');if(!ok)return toast('No screened buyers yet');S.booked.push({k:open[0],n:ok.n});save();render();toast(ok.n+' booked '+open[0])}}
+if(!open.length)return toast('Open a time slot first');if(!ok)return toast('No buyers marked ready yet');S.booked.push({k:open[0],n:ok.n});save();render();toast(ok.n+' booked '+open[0])}}
+if(v==='buyers'&&$('#by-add'))$('#by-add').onclick=()=>{const n=$('#by-n').value.trim();if(!n)return toast('Add a name');S.buyers.push({n,type:$('#by-t').value,note:$('#by-note').value.trim(),docs:{pre:false,id:false,agent:false}});save();render()};
+if(v==='showings'&&$('#bk-add'))$('#bk-add').onclick=()=>{const n=$('#bk-who').value.trim(),k=$('#bk-when').value;if(!k)return toast('Open a time above first');if(!n)return toast('Add the buyer name');S.booked.push({k,n});save();render();toast('Showing added')};
 if(v==='buyers')document.querySelectorAll('input[data-i]').forEach(e=>e.onchange=()=>{S.buyers[e.dataset.i].docs[e.dataset.f]=e.checked;save();render()});
 if(v==='offers')$('#add').onclick=()=>{const p=+$('#op').value;if(!p)return toast('Add a price');S.offers.push({n:$('#on').value||'New buyer',price:p,fin:$('#of').value,down:$('#of').value==='Cash'?100:'?',dd:0,em:0,close:'TBD',conc:+$('#oc').value||0,cont:'TBD'});save();render()}}
 window.onhashchange=render;render();

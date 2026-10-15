@@ -5,7 +5,6 @@ const FORM_URL='https://formspree.io/f/mvkpgapo';
 const NEEDS=['Pricing','An offer just came in','A buyer agent showed up','Paperwork','Just list it for me'];
 let PREV_SCREEN='help';
 addEventListener('hashchange',e=>{const o=(e.oldURL.split('#')[1]||'welcome');if(o!=='help')PREV_SCREEN=o});
-const ea=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function leadForm(source){return `<div class="card" id="lead"><h3>Talk to 5K Realty</h3><p class="muted">Send this and Michael Ingold will call you. Fields marked * are required.</p>
 <form class="lead-form" id="lead-form" action="${FORM_URL}" method="POST" novalidate>
 <input type="hidden" name="source" value="${source}"><input type="hidden" name="screen" value=""><input type="hidden" name="_subject" value=""><input type="hidden" name="_replyto" value=""><input type="hidden" name="needs" value="">
@@ -87,7 +86,7 @@ function showingDate(k){const m=k.match(/^(\w{3}) (\d+) (\d+):(\d\d)$/);if(!m)re
   if(d.getDate()===day&&d.toLocaleDateString('en-US',{weekday:'short'})===m[1]){d.setHours(h,+m[4],0,0);return d}}return null}
 const whenLabel=d=>d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
 function showingIcs(b){const d=showingDate(b.k);if(!d){toast("Couldn't work out that date");return}
- dlIcs(icsEvents([{uid:'shingle-showing-'+b.k.replace(/\W/g,'')+'-'+b.n.replace(/\W/g,''),start:d,mins:60,summary:`Showing: ${b.n} at ${addr().replace(/[,;]/g,' ')}`,desc:'Booked in Shingle. Confirm the buyer is screened before the showing.',alarm:'-PT1H'}]),'shingle-showing.ics')}
+ dlIcs(icsEvents([{uid:'shingle-showing-'+b.k.replace(/\W/g,'')+'-'+b.n.replace(/\W/g,''),start:d,mins:60,summary:`Showing: ${b.n} at ${addr().replace(/[,;]/g,' ')}`,desc:'Added from Shingle. Check that the buyer sent a pre-approval letter or proof of funds.',alarm:'-PT1H'}]),'shingle-showing.ics')}
 function buyerSummary(b){const ok=b.docs.pre&&b.docs.id&&!b.docs.agent;return `Buyer: ${b.n}\nStatus: ${b.docs.agent?'Agent pitch':ok?'Ready':'Not yet'}\n${b.type||''}${b.note?' · '+b.note:''}\nPre-approval or proof of funds received: ${b.docs.pre?'Yes':'No'}\nName and phone confirmed: ${b.docs.id?'Yes':'No'}\nProperty: ${addr()}`}
 function offersSummary(){return 'Offers on '+addr()+'\n\n'+S.offers.map(o=>`${o.n}: ${money(o.price)}, ${o.fin}, seller pays ${money(o.conc||0)}`).join('\n')+'\n\nEstimate only. Closing costs, payoff, and taxes not included.'}
 function showingsSummary(){return 'Booked showings at '+addr()+'\n\n'+S.booked.map(b=>{const d=showingDate(b.k);return `${d?whenLabel(d):b.k}: ${b.n}`}).join('\n')}
