@@ -1,7 +1,7 @@
 // Shingle service worker: caches the app's own files so it works offline.
 // It never caches or sends user data. Your data lives in localStorage on the device.
 // Bump VERSION on every release so phones pick up the new files.
-const VERSION='shingle-web-1.0-2026-10-15';
+const VERSION='shingle-web-1.0.1-2026-10-15';
 const FILES=[
   './',
   '../assets/icons/favicon.ico',
@@ -28,7 +28,6 @@ const FILES=[
   'assets/pwa-icon-192.png',
   'assets/pwa-icon-512-maskable.png',
   'assets/pwa-icon-512.png',
-  'index.html',
   'legal.js',
   'manifest.webmanifest',
   'sign.js',
@@ -43,6 +42,6 @@ self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.
 self.addEventListener('fetch',e=>{
   const r=e.request;
   if(r.method!=='GET'||new URL(r.url).origin!==location.origin)return; // outside links go straight to the network
-  if(r.mode==='navigate'){e.respondWith(fetch(r).catch(()=>caches.match('./index.html',{ignoreSearch:true})));return}
+  if(r.mode==='navigate'){e.respondWith(fetch(r).catch(()=>caches.match('./',{ignoreSearch:true})));return}
   e.respondWith(caches.match(r,{ignoreSearch:true}).then(hit=>hit||fetch(r)));
 });
