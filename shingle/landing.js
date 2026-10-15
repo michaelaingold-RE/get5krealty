@@ -2,7 +2,7 @@
 f.addEventListener('submit',function(e){e.preventDefault();var st=document.getElementById('lf-status'),b=document.getElementById('lf-send');
  if(!f.checkValidity()){f.reportValidity();return}
  f.needs.value=Array.prototype.map.call(f.querySelectorAll('.lf-need:checked'),function(x){return x.value}).join(', ');
- f._replyto.value=f.email.value.trim();f._subject.value='[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();
+ f._replyto.value=f.email.value.trim();f._subject.value='[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();if(f.subject)f.subject.value=f._subject.value;
  b.disabled=true;b.textContent='Sending...';st.innerHTML='';
  fetch(f.action,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw r.status;
   Array.prototype.forEach.call(f.querySelectorAll('input,select,textarea,button'),function(x){x.disabled=true});b.textContent='Sent';

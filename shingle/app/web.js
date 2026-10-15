@@ -7,7 +7,7 @@ let PREV_SCREEN='help';
 addEventListener('hashchange',e=>{const o=(e.oldURL.split('#')[1]||'welcome');if(o!=='help')PREV_SCREEN=o});
 function leadForm(source){return `<div class="card" id="lead"><h3>Talk to 5K Realty</h3><p class="muted">Send this and Michael Ingold will call you. Fields marked * are required.</p>
 <form class="lead-form" id="lead-form" action="${FORM_URL}" method="POST" novalidate>
-<input type="hidden" name="source" value="${source}"><input type="hidden" name="screen" value=""><input type="hidden" name="_subject" value=""><input type="hidden" name="_replyto" value=""><input type="hidden" name="needs" value="">
+<input type="hidden" name="source" value="${source}"><input type="hidden" name="screen" value=""><input type="hidden" name="_subject" value=""><input type="hidden" name="subject" value=""><input type="hidden" name="_replyto" value=""><input type="hidden" name="needs" value="">
 <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
 <label for="lf-name">Name <span class="req">*</span></label><input id="lf-name" name="name" required autocomplete="name" value="${ea(S.seller)}">
 <label for="lf-phone">Phone <span class="req">*</span></label><input id="lf-phone" name="phone" type="tel" required autocomplete="tel">
@@ -27,7 +27,7 @@ function bindLeadForm(screen){const f=document.getElementById('lead-form');if(!f
   if(!f.checkValidity()){f.reportValidity();return}
   f.needs.value=[...f.querySelectorAll('.lf-need:checked')].map(x=>x.value).join(', ');
   f.screen.value=screen;f._replyto.value=f.email.value.trim();
-  f._subject.value='[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();
+  f._subject.value='[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();if(f.subject)f.subject.value=f._subject.value;
   const b=document.getElementById('lf-send');b.disabled=true;b.textContent='Sending...';st.innerHTML='';
   try{const r=await fetch(FORM_URL,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});if(!r.ok)throw new Error(r.status);
    f.querySelectorAll('input,select,textarea,button').forEach(x=>x.disabled=true);b.textContent='Sent';
@@ -96,12 +96,21 @@ function acceptanceRecord(){const L=S.legal;if(!L)return;const {jsPDF}=window.js
  const line=(t,o={})=>{d.setFont('helvetica',o.b?'bold':'normal');d.setFontSize(o.s||11);d.splitTextToSize(t,W).forEach(r=>{if(y>740){d.addPage();y=60}d.text(r,60,y);y+=(o.s||11)*1.45});y+=o.gap||4};
  line('Shingle: The Seller Assist App',{b:1,s:16});line('Disclaimer acceptance record',{b:1,s:13,gap:10});
  line('Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')');
- line('Accepted by: '+(L.names||[]).join(', '));line('Date: '+(L.date||new Date(L.acceptedAt).toLocaleDateString()));line('Time: '+(L.time||new Date(L.acceptedAt).toLocaleTimeString()));line('Recorded (UTC): '+L.acceptedAt,{gap:12});
+ line('Accepted by: '+(L.names||[]).join(', '));if(L.addr)line('Property: '+L.addr);if(L.phone)line('Phone: '+L.phone);if(L.email)line('Email: '+L.email);line('Date: '+(L.date||new Date(L.acceptedAt).toLocaleDateString()));line('Time: '+(L.time||new Date(L.acceptedAt).toLocaleTimeString()));line('Recorded (UTC): '+L.acceptedAt,{gap:12});
  line('Disclaimer text',{b:1});LG.disc.forEach(t=>line(t));line(LG.broker);line(LG.accept,{gap:12});
  line('This record was made on your device from what you entered in Shingle. It is not legal advice. Shingle by 5K Realty, Ingold Group Properties, LLC.',{s:9});
  d.save('shingle-disclaimer-acceptance-'+L.acceptedAt.slice(0,10)+'.pdf')}
+const ACK_URL='https://formspree.io/f/mvkpgapo';
+function ackText(){const L=S.legal;return ['Shingle: The Seller Assist App, disclaimer acknowledgement','Owners: '+(L.names||[]).join(', '),'Property: '+(L.addr||''),'Phone: '+(L.phone||''),'Email: '+(L.email||''),'Date: '+L.date,'Time: '+L.time,'Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')','','I accepted this disclaimer:',...LG.disc,LG.accept].join('\n')}
+function mailAck(){S.myEmail=S.legal.email||S.myEmail;mailMe('My Shingle disclaimer acknowledgement, '+(S.legal.addr||''),ackText())}
+window.sendAck=function(manual){const L=S.legal;if(!L)return;const fd=new FormData();const sub='[Shingle Acknowledgement] '+(L.addr||'');
+ fd.append('subject',sub);fd.append('_subject',sub);fd.append('_replyto',L.email||'');fd.append('email',L.email||'');fd.append('form','acknowledgement');fd.append('source','shingle-app');
+ fd.append('owner_names',(L.names||[]).join(', '));(L.names||[]).forEach((n,i)=>fd.append('owner_'+(i+1),n));
+ fd.append('phone',L.phone||'');fd.append('property_address',L.addr||'');fd.append('date',L.date);fd.append('time',L.time);fd.append('accepted_at_utc',L.acceptedAt);fd.append('disclaimer_version',L.version);fd.append('disclaimer_effective',L.effective||LG_DATE);fd.append('_gotcha','');
+ fetch(ACK_URL,{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw 0;S.legal.receipt='sent';save();if(manual){toast('Receipt sent');render()}}).catch(()=>{S.legal.receipt='failed';save();if(manual)toast('Could not send. Check your connection and try again.')})};
+window.addEventListener('online',()=>{if(S.legal&&S.legal.receipt&&S.legal.receipt!=='sent')sendAck()});
 const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
- if(v==='settings'){const r=$('#lg-record');if(r)r.onclick=acceptanceRecord}
+ if(v==='settings'){const r=$('#lg-record');if(r)r.onclick=acceptanceRecord;const m=$('#lg-mail');if(m)m.onclick=mailAck;const rs=$('#lg-resend');if(rs)rs.onclick=()=>sendAck(true)}
  if(v==='showings'&&S.booked.length){const list=[...document.querySelectorAll('.card.list .item')];
   list.forEach((it,i)=>{const b=S.booked[i];if(!b)return;it.insertAdjacentHTML('beforeend',`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${smallBtn(`data-shcal="${i}"`,'Add to calendar','Add showing with '+b.n+' to calendar')}</span>`)});
   const card=document.querySelector('.card.list');card.insertAdjacentHTML('beforeend','<button class="btn ghost" type="button" id="sh-mail">Email this to me</button>');
