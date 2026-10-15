@@ -10,3 +10,15 @@
 .lead-form .hp{position:absolute;left:-9999px}
 .lead-form .err{color:#b91c1c;font-size:.9rem;margin-top:10px;display:none}
 .qa h3{font-size:1.05rem;margin:22px 0 6px;color:#111}
+.consult-btn{display:inline-block;background:#C9A227;color:#0A2540 !important;font-weight:600;text-decoration:none !important;padding:10px 18px;border-radius:6px;font-size:.9rem;white-space:nowrap}
+.consult-btn:hover{opacity:.9}
+.consult-top{text-align:center;margin:-8px 0 24px}
+.mobile-cta-bar{display:none}
+@media (max-width:1023px){
+  .consult-top,.consult-desktop{display:none !important}
+  .mobile-cta-bar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#0A2540;padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -2px 8px rgba(0,0,0,.15)}
+  .mobile-cta-bar a{flex:1;text-align:center;text-decoration:none;font-weight:600;font-size:.95rem;padding:11px 8px;border-radius:6px;color:#fff;border:1px solid rgba(255,255,255,.5)}
+  .mobile-cta-bar a.primary{flex:2;background:#C9A227;color:#0A2540;border-color:#C9A227}
+  body{padding-bottom:76px}
+}
+@media print{.mobile-cta-bar,.consult-top,.consult-desktop{display:none !important}}

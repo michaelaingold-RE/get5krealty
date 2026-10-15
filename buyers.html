@@ -121,6 +121,7 @@
        paste your token below and remove the comment markers.
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "PASTE_TOKEN_HERE"}'></script>
   -->
+  <link rel="stylesheet" href="/assets/lead-form.css">
 </head>
 <body class="text-gray-800">
   <!-- Header -->
@@ -163,9 +164,13 @@
         </div>
         <a href="/about" class="hover:text-gold">About</a>
         <a href="/contact" class="hover:text-gold">Contact</a>
+        <a href="/flat-fee" class="hover:text-gold">FAQ</a>
       </nav>
       <div class="flex items-center gap-3">
-        <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">704.649.6781</a>
+        <div class="flex items-center gap-2">
+          <a href="/consultation" class="consult-btn consult-desktop">Schedule a Free Consultation</a>
+          <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">704.649.6781</a>
+        </div>
         <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Open menu">
           <svg class="w-6 h-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -187,6 +192,7 @@
         <a href="/indian-land" class="py-2 pl-4 hover:text-gold">Indian Land</a>
         <a href="/about" class="py-2 hover:text-gold">About</a>
         <a href="/contact" class="py-2 hover:text-gold">Contact</a>
+        <a href="/flat-fee" class="py-2">FAQ</a>
         <a href="tel:7046496781" class="py-2 text-navy font-semibold">Call / Text 704.649.6781</a>
         <a href="mailto:michael@get5krealty.com" class="py-2 text-navy font-semibold">michael@get5krealty.com</a>
       </nav>
@@ -450,5 +456,6 @@
       }
     });
   </script>
+  <nav class="mobile-cta-bar" aria-label="Quick actions"><a href="/flat-fee">FAQ</a><a href="/consultation" class="primary">Schedule a Free Consultation</a></nav>
 </body>
 </html>
