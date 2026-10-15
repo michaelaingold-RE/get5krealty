@@ -1,0 +1,12 @@
+# Copy to .dev.vars for local `wrangler pages dev` only. Never commit .dev.vars.
+# In production/preview these go in Cloudflare Pages > Settings > Variables and Secrets (type: Secret).
+TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# Preferred: an API key (Twilio Console > Account > API keys & tokens, Standard key)
+TWILIO_API_KEY_SID=SKxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_API_KEY_SECRET=
+# Or, instead of the API key pair:
+# TWILIO_AUTH_TOKEN=
+TWILIO_VERIFY_SERVICE_SID=VAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TURNSTILE_SECRET_KEY=
+# TURNSTILE_SITE_KEY is public. It goes in shingle/app/config.js, not here.
+# KV binding name: OTP_KV (set in Pages > Settings > Bindings, or wrangler.toml for local dev)

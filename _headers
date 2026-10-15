@@ -2,3 +2,14 @@
   X-Robots-Tag: noindex
 /thank-you
   X-Robots-Tag: noindex
+/shingle/app/*
+  X-Robots-Tag: noindex, nofollow
+/shingle/app/sw.js
+  Cache-Control: no-cache
+  Service-Worker-Allowed: /shingle/app/
+/shingle/app/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://formspree.io; worker-src 'self'; manifest-src 'self'; form-action https://formspree.io mailto:; frame-ancestors 'none'; base-uri 'self'
+/shingle/privacy/*
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'
+/shingle/support/*
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'
