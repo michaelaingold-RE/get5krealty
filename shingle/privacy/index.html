@@ -59,7 +59,7 @@
 <h2>The short version</h2>
 <ul>
 <li>What you enter in the app stays on your device.</li>
-<li>Shingle sends information in two cases only: when you accept the disclaimer (a receipt of your acknowledgement), and when you send the "Talk to 5K Realty" form. Both go to 5K Realty through Formspree, our form service.</li>
+<li>Shingle sends information in three cases only: when you confirm your phone number with a code, when you accept the disclaimer (a receipt of your acknowledgement), and when you send the "Talk to 5K Realty" form. Both go to 5K Realty through Formspree, our form service.</li>
 <li>The Shingle page (not the app) uses Cloudflare Web Analytics, which doesn't use cookies.</li>
 <li>We don't sell your information, and there are no ads.</li>
 </ul>
@@ -74,8 +74,17 @@
 </ul>
 <h2>Buyer documents and proof of funds</h2>
 <p>Shingle doesn't upload, receive, or store buyer documents, pre-approval letters, or proof of funds. Buyers send those to you directly. Shingle only keeps the checkmarks you set, on your device.</p>
+<h2>Confirming your phone number</h2>
+<p>Before you sign, Shingle asks you to confirm your phone number with a one-time code.</p>
+<ul>
+<li><strong>What is sent.</strong> Your phone number goes from your device to our server on Cloudflare, and from there to Twilio, which texts you the code (or calls you if you ask). The code you type goes the same way so Twilio can check it.</li>
+<li><strong>Twilio.</strong> Twilio Inc. sends and checks the code for us through its Verify service. Twilio processes your phone number and delivery details under its own <a href="https://www.twilio.com/en-us/legal/privacy" target="_blank" rel="noopener">privacy notice</a>. We don't use Twilio to send you anything else.</li>
+<li><strong>Cloudflare Turnstile.</strong> To stop automated abuse, the code step uses Cloudflare Turnstile, a check that runs in your browser instead of a puzzle. Turnstile collects technical signals from your browser and device to tell people from bots, and does not use them for advertising. See Cloudflare's <a href="https://www.cloudflare.com/turnstile-privacy-policy/" target="_blank" rel="noopener">Turnstile privacy addendum</a>.</li>
+<li><strong>What we keep.</strong> Our server keeps short-lived counters (by phone number and by internet address) to limit how many codes can be sent. They expire within 24 hours. We don't store the code. Whether your phone was confirmed, and when, is added to your acknowledgement receipt.</li>
+<li><strong>Message and data rates may apply.</strong> You get one text, one resend, and then one call. We only contact the number you enter, and only when you ask for a code.</li>
+</ul>
 <h2>Your disclaimer acknowledgement receipt</h2>
-<p>Before you use the app, each owner types their full name to accept the disclaimer, and you enter the property address, a phone number and an email. When you tap Accept and continue, Shingle sends a receipt to 5K Realty through Formspree with: the owner names, phone, email, property address, the date and time you accepted, and the disclaimer version. Nothing else you enter in the app is sent.</p>
+<p>Before you use the app, each owner types their full name to accept the disclaimer, and you enter the property address, a phone number and an email. When you tap Accept and continue, Shingle sends a receipt to 5K Realty through Formspree with: the owner names, phone, email, property address, the date and time you accepted, the disclaimer version, and whether your phone number was confirmed and when. Nothing else you enter in the app is sent.</p>
 <p>We keep the receipt as a record that the disclaimer was accepted. Formspree emails it to 5K Realty and keeps a copy in its system. If you are offline, the app tries again when you reconnect, and you can send it from Settings.</p>
 <p>Your own copy stays on your device. In Settings you can download it as a PDF or use Email me my copy, which opens your own email app with the details filled in. Shingle does not send that email for you.</p>
 <p>To ask us to delete your receipt, email michael@get5krealty.com.</p>
