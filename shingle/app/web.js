@@ -106,10 +106,33 @@ function mailAck(){S.myEmail=S.legal.email||S.myEmail;mailMe('My Shingle disclai
 window.sendAck=function(manual){const L=S.legal;if(!L)return;const fd=new FormData();const sub='[Shingle Acknowledgement] '+(L.addr||'');
  fd.append('subject',sub);fd.append('_subject',sub);fd.append('_replyto',L.email||'');fd.append('email',L.email||'');fd.append('form','acknowledgement');fd.append('source','shingle-app');
  fd.append('owner_names',(L.names||[]).join(', '));(L.names||[]).forEach((n,i)=>fd.append('owner_'+(i+1),n));
- fd.append('phone',L.phone||'');fd.append('property_address',L.addr||'');fd.append('date',L.date);fd.append('time',L.time);fd.append('accepted_at_utc',L.acceptedAt);fd.append('disclaimer_version',L.version);fd.append('disclaimer_effective',L.effective||LG_DATE);fd.append('_gotcha','');
+ fd.append('phone',L.phone||'');fd.append('property_address',L.addr||'');fd.append('date',L.date);fd.append('time',L.time);fd.append('accepted_at_utc',L.acceptedAt);fd.append('disclaimer_version',L.version);fd.append('phone_verified',L.phoneVerified?'yes, by Twilio Verify '+L.phoneVerifiedAt:'not checked');fd.append('disclaimer_effective',L.effective||LG_DATE);fd.append('_gotcha','');
  fetch(ACK_URL,{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw 0;S.legal.receipt='sent';save();if(manual){toast('Receipt sent');render()}}).catch(()=>{S.legal.receipt='failed';save();if(manual)toast('Could not send. Check your connection and try again.')})};
 window.addEventListener('online',()=>{if(S.legal&&S.legal.receipt&&S.legal.receipt!=='sent')sendAck()});
+// Phone verification (Twilio Verify through /api/otp/*). Off unless SHINGLE_CFG.otpGate is true.
+const otpDigits=p=>{let d=String(p||'').replace(/\D/g,'');if(d.length===11&&d[0]==='1')d=d.slice(1);return d.length===10&&/^[2-9]\d{2}[2-9]/.test(d)?d:''};
+window.otpOn=()=>!!(window.SHINGLE_CFG&&SHINGLE_CFG.otpGate&&SHINGLE_CFG.turnstileSiteKey);
+window.otpVerifiedFor=p=>!!(S.otp&&S.otp.ok&&S.otp.phone&&S.otp.phone===otpDigits(p));
+window.otpBox=()=>`<div class="card" id="otp" style="margin:8px 0"><p class="muted" style="margin:0 0 6px">We text a code to confirm this phone before you sign. US numbers only.</p><div id="otp-ts"></div><button class="btn ghost" type="button" id="otp-send">Send code</button><label for="otp-code">Code</label><input id="otp-code" inputmode="numeric" autocomplete="one-time-code" maxlength="10"><button class="btn ghost" type="button" id="otp-check">Check code</button><button class="btn ghost hidden" type="button" id="otp-resend">Resend code</button><button class="btn ghost hidden" type="button" id="otp-call">Call me instead</button><p class="muted" id="otp-msg" role="status" aria-live="polite"></p></div>`;
+let otpTs=null,otpSends=0;
+const OTP_MSG={us_only:'Enter a 10 digit US phone number.',turnstile:'Please finish the check above and try again.',rate_phone:'Too many tries for this number. Try again in an hour.',rate_ip:'Too many tries. Try again in an hour.',daily_cap:'Phone checks are paused for today. Try again tomorrow.',use_call:'Use Call me instead.',send_failed:'We could not send the code. Try again.',wrong_code:'That code didn\'t match.',expired:'That code expired. Send a new one.',rate_check:'Too many tries. Wait 10 minutes.',not_configured:'Phone check isn\'t set up yet.'};
+function otpBind(){const box=$('#otp');if(!box)return;const msg=t=>{$('#otp-msg').textContent=t};
+ const ensureTs=()=>new Promise(res=>{if(window.turnstile)return res();const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';s.onload=res;s.onerror=res;document.head.appendChild(s)});
+ ensureTs().then(()=>{if(window.turnstile&&$('#otp-ts'))otpTs=turnstile.render('#otp-ts',{sitekey:SHINGLE_CFG.turnstileSiteKey})});
+ const tok=()=>window.turnstile&&otpTs!=null?turnstile.getResponse(otpTs):'';
+ const send=async ch=>{const d=otpDigits($('#lg-phone').value);if(!d)return msg(OTP_MSG.us_only);msg(ch==='call'?'Calling you now...':'Sending...');
+  try{const r=await fetch('/api/otp/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({phone:d,channel:ch,turnstileToken:tok()})});const j=await r.json();
+   if(window.turnstile&&otpTs!=null)turnstile.reset(otpTs);
+   if(!j.ok)return msg(OTP_MSG[j.error]||'Something went wrong. Try again.');
+   if(ch==='sms'){otpSends++;$('#otp-send').classList.add('hidden');$('#otp-resend').classList.toggle('hidden',otpSends>=2);$('#otp-call').classList.toggle('hidden',otpSends<2)}else{$('#otp-call').classList.add('hidden')}
+   msg(ch==='call'?'We\'re calling with your code.':'Code sent. Check your texts.')}catch(_){msg('You look offline. Connect and try again.')}};
+ $('#otp-send').onclick=()=>send('sms');$('#otp-resend').onclick=()=>send('sms');$('#otp-call').onclick=()=>send('call');
+ $('#otp-check').onclick=async()=>{const d=otpDigits($('#lg-phone').value),c=$('#otp-code').value.trim();if(!d)return msg(OTP_MSG.us_only);if(!/^\d{4,10}$/.test(c))return msg('Enter the code you got.');
+  try{const r=await fetch('/api/otp/check',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({phone:d,code:c})});const j=await r.json();
+   if(!j.ok)return msg(OTP_MSG[j.error]||'Something went wrong. Try again.');S.otp={ok:true,phone:d,at:j.verifiedAt};save();msg('Phone confirmed.');if(window.lgSync)lgSync()}catch(_){msg('You look offline. Connect and try again.')}};
+ if(otpVerifiedFor($('#lg-phone').value))msg('Phone confirmed.')}
 const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
+ if(v==='disclaimer')otpBind();
  if(v==='settings'){const r=$('#lg-record');if(r)r.onclick=acceptanceRecord;const m=$('#lg-mail');if(m)m.onclick=mailAck;const rs=$('#lg-resend');if(rs)rs.onclick=()=>sendAck(true)}
  if(v==='showings'&&S.booked.length){const list=[...document.querySelectorAll('.card.list .item')];
   list.forEach((it,i)=>{const b=S.booked[i];if(!b)return;it.insertAdjacentHTML('beforeend',`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${smallBtn(`data-shcal="${i}"`,'Add to calendar','Add showing with '+b.n+' to calendar')}</span>`)});
