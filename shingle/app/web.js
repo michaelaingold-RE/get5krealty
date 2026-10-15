@@ -73,6 +73,7 @@ function webBind(v){
  if(v==='sign'){const u=$('#sg-url');if(u&&!$('#sg-land')){u.insertAdjacentHTML('afterend','<button class="btn ghost" type="button" id="sg-land" style="margin-top:8px">No listing link? Use the Shingle page</button><p class="muted" style="margin:4px 0 0">Point the QR at your own listing link (for example a listing you posted yourself), or at get5krealty.com/shingle. Hosted listing pages are coming soon.</p>');
   $('#sg-land').onclick=()=>{u.value='https://get5krealty.com/shingle/';u.dispatchEvent(new Event('input'))}}}
 }
+if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persisted().then(p=>p||navigator.storage.persist()).catch(()=>{});
 render();
 // ---------- Email this to me (mailto only, nothing is sent by Shingle) ----------
