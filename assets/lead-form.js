@@ -1,4 +1,13 @@
 (function(){
+  // Phones sent to Formspree go out as +1XXXXXXXXXX (same rule as Shingle); anything else is sent as typed.
+  function norm(raw){var t=String(raw||'').trim(),d=t.replace(/\D/g,'');if(d.length===11&&d[0]==='1')d=d.slice(1);return /^[2-9]\d{2}[2-9]\d{6}$/.test(d)?'+1'+d:t;}
+  window.siteE164=norm;
+  document.addEventListener('submit',function(e){
+    var f=e.target; if(!f||!/formspree\.io/.test(f.action||'')) return;
+    f.querySelectorAll('input[type="tel"]').forEach(function(i){i.value=norm(i.value);});
+  },true);
+})();
+(function(){
   document.querySelectorAll('form.lead-form').forEach(function(form){
     var src=form.querySelector('input[name="source_page"]'); if(src) src.value=location.pathname;
     form.addEventListener('submit',function(e){
