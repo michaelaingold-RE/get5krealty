@@ -1,9 +1,9 @@
 // © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // Web launch additions: Talk to 5K Realty form, backup export and import, backup reminder,
 // install card, storage persistence, fair housing word check, QR default.
-// Network calls: the Talk to 5K Realty form (when the user taps Send) and the disclaimer acknowledgement receipt
-// (when the user accepts), both to Formspree; and phone confirmation through /api/otp/start and /api/otp/check,
-// which use Twilio Verify (the code step also loads Cloudflare Turnstile).
+// Network calls: the Talk to 5K Realty form (when the user taps Send) to Formspree; the disclaimer acknowledgement
+// receipt (when the user accepts) to /api/receipt, stored by 5K Realty on Cloudflare; and phone confirmation through
+// /api/otp/start and /api/otp/check, which use Twilio Verify (the code step also loads Cloudflare Turnstile).
 const FORM_URL='https://formspree.io/f/mvkpgapo';
 const NEEDS=['Pricing','An offer just came in','A buyer agent showed up','Paperwork','Just list it for me'];
 let PREV_SCREEN='help';
@@ -103,14 +103,13 @@ function acceptanceRecord(){const L=S.legal;if(!L)return;const {jsPDF}=window.js
  line('Disclaimer text',{b:1});LG.disc.forEach(t=>line(t));line(LG.broker);line(LG.accept,{gap:12});
  line('This record was made on your device from what you entered in Shingle. It is not legal advice. Shingle by 5K Realty, Ingold Group Properties, LLC.',{s:9});
  shingleSave(d.output('blob'),'shingle-disclaimer-acceptance-'+L.acceptedAt.slice(0,10)+'.pdf','application/pdf').then(r=>shingleSaveToast(r,'Acceptance record'))}
-const ACK_URL='https://formspree.io/f/mvkpgapo';
 function ackText(){const L=S.legal;return ['Shingle: The Seller Assist App, disclaimer acknowledgement','Owners: '+(L.names||[]).join(', '),'Property: '+(L.addr||'')+(L.cityZip?', '+L.cityZip:'')+(L.state?' ('+L.state+')':''),'Phone: '+(L.phone||''),'Email: '+(L.email||''),'Date: '+L.date,'Time: '+L.time,'Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')','','I accepted this disclaimer:',...LG.disc,LG.accept].join('\n')}
 function mailAck(){S.myEmail=S.legal.email||S.myEmail;mailMe('My Shingle disclaimer acknowledgement, '+(S.legal.addr||''),ackText())}
-window.sendAck=function(manual){const L=S.legal;if(!L)return;const fd=new FormData();const sub='[Shingle Acknowledgement] '+(L.addr||'');
- fd.append('subject',sub);fd.append('_subject',sub);fd.append('_replyto',L.email||'');fd.append('email',L.email||'');fd.append('form','acknowledgement');fd.append('source','shingle-app');
- fd.append('owner_names',(L.names||[]).join(', '));(L.names||[]).forEach((n,i)=>fd.append('owner_'+(i+1),n));
- fd.append('phone',L.phone||'');fd.append('property_address',L.addr||'');fd.append('city_zip',L.cityZip||'');fd.append('state',L.state||'');fd.append('date',L.date);fd.append('time',L.time);fd.append('accepted_at_utc',L.acceptedAt);fd.append('disclaimer_version',L.version);fd.append('phone_verified',L.phoneVerified?'yes, by Twilio Verify '+L.phoneVerifiedAt:'not checked');fd.append('disclaimer_effective',L.effective||LG_DATE);fd.append('_gotcha','');
- fetch(ACK_URL,{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw 0;S.legal.receipt='sent';save();if(manual){toast('Receipt sent');render()}}).catch(()=>{S.legal.receipt='failed';save();if(manual)toast('Could not send. Check your connection and try again.')})};
+// Receipt goes to /api/receipt (Cloudflare D1). The token from the phone check proves the phone was confirmed.
+window.sendAck=function(manual){const L=S.legal;if(!L)return;
+ const body={token:(S.otp&&S.otp.token)||'',phone:L.phone,names:L.names||[],addr:L.addr,cityZip:L.cityZip,state:L.state,email:L.email,version:L.version,effective:L.effective||LG_DATE,acceptedAt:L.acceptedAt};
+ fetch('/api/receipt',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(j=>{if(!j.ok)throw j;S.legal.receipt='sent';if(S.otp)delete S.otp.token;save();if(manual){toast('Receipt sent');render()}})
+  .catch(e=>{S.legal.receipt='failed';save();if(manual)toast(e&&/token/.test(e.error)?'Your phone check timed out, so the receipt could not be sent. Call 5K Realty at 704.649.6781.':'Could not send. Check your connection and try again.')})};
 window.addEventListener('online',()=>{if(S.legal&&S.legal.receipt&&S.legal.receipt!=='sent')sendAck()});
 // Phone verification (Twilio Verify through /api/otp/*). Off unless SHINGLE_CFG.otpGate is true.
 const otpDigits=p=>{let d=String(p||'').replace(/\D/g,'');if(d.length===11&&d[0]==='1')d=d.slice(1);return d.length===10&&/^[2-9]\d{2}[2-9]/.test(d)?d:''};
@@ -141,7 +140,7 @@ function otpBind(){const box=$('#otp');if(!box)return;const msg=(t,err)=>{const 
  $('#otp-send').onclick=()=>send('sms');$('#otp-resend').onclick=()=>send('sms');$('#otp-call').onclick=()=>send('call');
  $('#otp-check').onclick=async()=>{const d=otpDigits($('#lg-phone').value),c=$('#otp-code').value.trim();if(!d)return bad(OTP_MSG.us_only);if(!/^\d{4,10}$/.test(c))return bad('Enter the code you got.');
   try{const r=await fetch('/api/otp/check',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({phone:d,code:c})});const j=await r.json();
-   if(!j.ok)return bad(OTP_MSG[j.error]||'Something went wrong. Try again.');S.otp={ok:true,phone:d,at:j.verifiedAt};save();good('Phone confirmed.');if(window.lgSync)lgSync()}catch(_){bad('You look offline. Connect and try again.')}};
+   if(!j.ok)return bad(OTP_MSG[j.error]||'Something went wrong. Try again.');S.otp={ok:true,phone:d,at:j.verifiedAt,token:j.receiptToken||''};save();good('Phone confirmed.');if(window.lgSync)lgSync()}catch(_){bad('You look offline. Connect and try again.')}};
  if(otpVerifiedFor($('#lg-phone').value)){const m=$('#otp-msg');m.textContent='Phone confirmed.';m.style.color='#1b7a35'}}
 const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
  if(v==='disclaimer')otpBind();
