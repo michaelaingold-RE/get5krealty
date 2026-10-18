@@ -1,7 +1,9 @@
 // © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // Web launch additions: Talk to 5K Realty form, backup export and import, backup reminder,
 // install card, storage persistence, fair housing word check, QR default.
-// The only network call in the app is the lead form, and only when the user taps Send.
+// Network calls: the Talk to 5K Realty form (when the user taps Send) and the disclaimer acknowledgement receipt
+// (when the user accepts), both to Formspree; and phone confirmation through /api/otp/start and /api/otp/check,
+// which use Twilio Verify (the code step also loads Cloudflare Turnstile).
 const FORM_URL='https://formspree.io/f/mvkpgapo';
 const NEEDS=['Pricing','An offer just came in','A buyer agent showed up','Paperwork','Just list it for me'];
 let PREV_SCREEN='help';
