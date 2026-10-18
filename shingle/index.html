@@ -68,6 +68,7 @@
     .hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}.ok{background:#e3ece6;color:#1f4a37;padding:12px;border-radius:6px;margin-top:12px}.err{background:#fde8e1;color:#7a3416;padding:12px;border-radius:6px;margin-top:12px}.ok a,.err a{color:inherit}
     .page-footer{text-align:center;margin-top:40px;font-size:.8rem;color:#5f6670}.page-footer a{color:#5f6670}.fine{font-size:.85rem;color:#4b5563}
     @media(max-width:480px){.container{padding:28px 16px 50px}h1{font-size:1.55rem}}
+    .peek{margin:22px auto 6px;max-width:260px;text-align:center}.peek video{display:block;width:100%;aspect-ratio:9/16;height:auto;border-radius:14px;background:#2f5d4a;box-shadow:0 6px 22px rgba(0,0,0,.14)}.peek figcaption{font-size:.85rem;color:#4b5563;margin-top:8px}
   </style>
   <script type="application/ld+json">
 {
@@ -180,6 +181,19 @@
     <p class="intro">Shingle is a free app for selling your home yourself in North Carolina and South Carolina. It helps you stay organized: showings, a buyer checklist, offers, the disclosure forms, and your yard sign. It runs in your phone's browser, with nothing to download from an app store.</p>
     <p><a class="start" href="/shingle/app/">Start free</a></p>
     <p class="fine">No account. To start, Shingle asks for the owner names, property address, phone and email, texts a code to confirm the phone, and sends a receipt of your disclaimer acknowledgement to 5K Realty. Everything else you enter stays on your device unless you choose to contact 5K Realty.</p>
+
+    <figure class="peek">
+      <video id="peek-video" muted loop playsinline preload="none" width="540" height="960" poster="/shingle/assets/video/shingle-preview-poster.jpg" data-src="/shingle/assets/video/shingle-preview.mp4" aria-label="Screen recording of the Shingle app: entering home details, a South Carolina forms checklist, building a For Sale By Owner yard sign with a QR code, and the under-contract timeline."></video>
+      <figcaption>A 15-second look inside Shingle. No sound.</figcaption>
+    </figure>
+    <script>
+    (function(){var v=document.getElementById('peek-video');if(!v)return;
+     var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+     function go(){if(v.src)return;v.src=v.getAttribute('data-src');if(still){v.controls=true;return}v.autoplay=true;var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true})}
+     if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){io.disconnect();go()}})},{rootMargin:'200px'});
+      if(document.readyState==='complete')io.observe(v);else addEventListener('load',function(){io.observe(v)})}
+     else addEventListener('load',go)})();
+    </script>
 
     <div class="highlight" id="before-you-start" role="note" style="border-left:4px solid #C9A227">
       <p style="margin:0"><b>Before you start:</b> Selling a home on your own comes with real legal and financial hurdles. Shingle can help you stay organized, but it is not the final stop for everything a sale involves. It is educational only and not legal, tax or real estate advice. Always consult a real estate attorney before you sign anything or close.</p>
