@@ -50,7 +50,7 @@ const oldBind=bind;bind=function(v){oldBind(v);if(v!=='sign')return;const o=st()
   const r=draw(pv,0.16,$('#sg-guides').checked);const ok=r.usePhone||r.useQR;$('#sg-pdf').disabled=$('#sg-png').disabled=!ok;
   $('#sg-info').textContent=!ok?'Add a listing link or a phone number to make a sign.':`Includes: ${[r.useQR&&`QR code (${r.qsIn.toFixed(1)} in square)`,r.usePhone&&'phone number'].filter(Boolean).join(' and ')}.${o.sample?' SAMPLE data.':''}`};
  ['sg-style','sg-url','sg-phone','sg-useqr','sg-usephone','sg-guides'].forEach(id=>{const e=document.getElementById(id);e.oninput=e.onchange=up});up();
- $('#sg-png').onclick=()=>{const c=document.createElement('canvas');draw(c,1,false);c.toBlob(b=>shingleSave(b,fname('png'),'image/png').then(r=>shingleSaveToast(r,'Sign image')),'image/png')};
+ $('#sg-png').onclick=()=>{const c=document.createElement('canvas');draw(c,1,false);shingleSave(shingleBlobFromDataURL(c.toDataURL('image/png')),fname('png'),'image/png').then(r=>shingleSaveToast(r,'Sign image'))};
  $('#sg-pdf').onclick=()=>{const c=document.createElement('canvas');draw(c,1,false);const {jsPDF}=window.jspdf;const W=IN.w+2*BLEED,H=IN.h+2*BLEED;
   const d=new jsPDF({orientation:'landscape',unit:'in',format:[W,H],compress:true});d.setProperties({title:'Shingle yard sign 24x18'+(o.sample?' SAMPLE':'')});d.addImage(c.toDataURL('image/png'),'PNG',0,0,W,H,undefined,'FAST');shingleSave(d.output('blob'),fname('pdf'),'application/pdf').then(r=>shingleSaveToast(r,'Sign PDF'))};
  if($('#sg-sample'))$('#sg-sample').onclick=()=>{if(o.sample){Object.assign(o,{sample:false,url:'',phone:''})}else Object.assign(o,{sample:true,url:'https://example.com/sample-listing',phone:'704-555-0100',useQR:true,usePhone:true});save();render()};

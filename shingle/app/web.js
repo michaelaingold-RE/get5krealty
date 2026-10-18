@@ -67,7 +67,7 @@ const FH_WORDS=['family-friendly','family friendly','perfect for families','grea
 function fhCheck(t){const l=t.toLowerCase();return FH_WORDS.filter(w=>l.includes(w))}
 function webBind(v){
  if(v==='help')bindLeadForm(PREV_SCREEN);
- if(v==='settings'){const x=$('#bk-export');if(x)x.onclick=exportBackup;const fi=$('#bk-file');if(fi)fi.onchange=()=>fi.files[0]&&importBackup(fi.files[0])}
+ if(v==='settings'){const bkc=$('#backup');if(bkc&&!$('#save-mode'))bkc.insertAdjacentHTML('afterend',shingleSaveCard());const sv=$('#sv-mode');if(sv)sv.onchange=()=>{shingleSaveMode(sv.value);toast('Saved')};const x=$('#bk-export');if(x)x.onclick=exportBackup;const fi=$('#bk-file');if(fi)fi.onchange=()=>fi.files[0]&&importBackup(fi.files[0])}
  if(v==='home'){const A=$('#app'),h=A.querySelector('h1,h2');const extra=installCard()+backupNudge();if(extra){const w=document.createElement('div');w.innerHTML=extra;(h&&h.parentNode===A?h:A.firstChild).after(...w.childNodes)}
   const ig=$('#in-go');if(ig)ig.onclick=async()=>{deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;render()};
   const ix=$('#in-x');if(ix)ix.onclick=()=>{S.installDismissed=true;save();render()};const bn=$('#bk-now');if(bn)bn.onclick=exportBackup}
