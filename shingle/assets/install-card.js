@@ -1,3 +1,4 @@
+// © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // Android/Chrome: show the one-tap Install button only when the browser offers it.
 (function(){let ev;addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;document.querySelectorAll('[data-install]').forEach(b=>b.hidden=false)});
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-install]');if(!b||!ev)return;ev.prompt();await ev.userChoice;ev=null;b.hidden=true});

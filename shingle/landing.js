@@ -1,3 +1,4 @@
+// © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 (function(){var f=document.getElementById('lead-form');if(!f||!window.fetch)return;
 f.addEventListener('submit',function(e){e.preventDefault();var st=document.getElementById('lf-status'),b=document.getElementById('lf-send');
  if(!f.checkValidity()){f.reportValidity();return}

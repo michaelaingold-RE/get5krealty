@@ -1,3 +1,4 @@
+// © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // Yard sign maker. Landscape 24 x 18 in, based on the Canvas "hanging shingle" design.
 // Everything runs in the browser. QR: vendor/qrcode.js. PDF: vendor/jspdf.umd.min.js. No network calls.
 (function(){

@@ -1,3 +1,4 @@
+// © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // Reply templates, Post it elsewhere, Under-contract timeline. No network calls, nothing sent automatically.
 (function(){
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

@@ -1,3 +1,4 @@
+// © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // POST /api/otp/start  { phone, channel: "sms" | "call", turnstileToken }
 // Sends a code with Twilio Verify. SMS twice at most (first send + one resend), then one voice call.
 import { LIMITS, json, usPhone, configured, twilio, turnstileOk, bump, peek, clientIp, today, readJson } from './_lib.js';

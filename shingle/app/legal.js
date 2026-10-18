@@ -1,3 +1,4 @@
+// © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // Legal disclaimers and notices. Draft, pending Michael's approval (tag not shown in the app). Exact text mirrored in ../legal-disclaimers.md
 const LG={
  disc:['Shingle gives you educational information. It is not legal, tax, or real estate advice.','Shingle is not representation or brokerage services from 5K Realty. Using Shingle does not create an agency relationship with 5K Realty.','You are responsible for following North Carolina, South Carolina, and federal law when you sell your home.'],

@@ -1,3 +1,4 @@
+/* © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved. */
 /* Shingle install card. Tokens match prototype/styles.css */
 .install-card{--bg:#f6f1e8;--card:#fffdf9;--ink:#1f2a24;--muted:#5f645c;--green:#2f5d4a;--green2:#e3ece6;--clay:#c8643b;--clay-text:#a8442a;--line:#e6dfd2;
  background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 22px 18px;box-shadow:0 1px 0 rgba(31,42,36,.04),0 18px 40px -22px rgba(31,42,36,.35);color:var(--ink);font-family:"Inter",system-ui,-apple-system,sans-serif;max-width:420px}

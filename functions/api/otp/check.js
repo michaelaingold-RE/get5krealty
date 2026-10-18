@@ -1,3 +1,4 @@
+// © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // POST /api/otp/check  { phone, code }  ->  { ok: true, verifiedAt } when Twilio approves the code.
 import { LIMITS, json, usPhone, configured, twilio, bump, peek, readJson } from './_lib.js';
 
