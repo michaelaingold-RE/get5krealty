@@ -2,7 +2,7 @@
 // Shingle service worker: caches the app's own files so it works offline.
 // It never caches or sends user data. Your data lives in localStorage on the device.
 // Bump VERSION on every release so phones pick up the new files.
-const VERSION='shingle-web-1.2.15-2026-10-18';
+const VERSION='shingle-web-1.2.16-2026-10-18';
 const FILES=[
   './',
   '../assets/icons/favicon.ico',
@@ -40,7 +40,8 @@ const FILES=[
   'vendor/qrcode.js',
   'web.js',
 ];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
+// cache:'reload' skips the browser's HTTP cache, so a new version never stores an older copy of a file.
+self.addEventListener('install',e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES.map(f=>new Request(f,{cache:'reload'})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{
   const r=e.request;
