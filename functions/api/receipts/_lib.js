@@ -2,14 +2,15 @@
 // Owner-only access for receipts. Cloudflare Access sits in front of /owner/* and /api/receipts/* and adds a signed
 // Cf-Access-Jwt-Assertion header for a signed-in person or a valid service token. We verify that JWT here too.
 // Fails closed: without ACCESS_TEAM_DOMAIN (e.g. 5krealty.cloudflareaccess.com) and ACCESS_AUD, every request gets 403.
+// /api/receipts/summary is its own Access app (Michael + the Lookout service token) and passes its own AUD (ACCESS_AUD_SUMMARY).
 export const COLS = ['id', 'accepted_at_utc', 'owner_names', 'property_address', 'city_zip', 'state', 'phone', 'email',
   'disclaimer_version', 'disclaimer_effective', 'phone_verified_at', 'created_at'];
 
 const dec = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)), c => c.charCodeAt(0));
 let certs = { at: 0, keys: [] };
 
-export async function accessOk(request, env, now = Date.now()) {
-  const team = env.ACCESS_TEAM_DOMAIN, aud = env.ACCESS_AUD;
+export async function accessOk(request, env, now = Date.now(), aud = env.ACCESS_AUD) {
+  const team = env.ACCESS_TEAM_DOMAIN;
   const jwt = request.headers.get('cf-access-jwt-assertion') || '';
   const parts = jwt.split('.');
   if (!team || !aud || parts.length !== 3) return false;
