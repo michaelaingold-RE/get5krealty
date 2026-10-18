@@ -50,7 +50,7 @@ function icsEvents(list){const now=new Date().toISOString().replace(/[-:]/g,'').
   L.push(`SUMMARY:${icsEsc(e.summary)}`,`DESCRIPTION:${icsEsc(e.desc||'')}`);
   if(e.alarm)L.push('BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${icsEsc(e.summary)}`,`TRIGGER:${e.alarm}`,'END:VALARM');L.push('END:VEVENT')});
  L.push('END:VCALENDAR');return L.join('\r\n')+'\r\n'}
-function dlIcs(text,name){const u=URL.createObjectURL(new Blob([text],{type:'text/calendar'}));const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Calendar file downloaded')}
+function dlIcs(text,name){shingleSave(new Blob([text],{type:'text/calendar'}),name,'text/calendar').then(r=>shingleSaveToast(r,'Calendar file'))}
 const tlEvent=(k,o)=>({uid:`shingle-${k[0]}-${o.dates[k[0]].replace(/-/g,'')}`,date:o.dates[k[0]],summary:`${k[1]} (${addr().replace(/[,;]/g,' ')})`,desc:'From your Shingle timeline. Check this date against your signed contract.',alarm:`-P${o.remind}D`});
 function ics(){const o=tl();return icsEvents(KEYS.filter(k=>o.dates[k[0]]).map(k=>tlEvent(k,o)))}
 const prev=bind;bind=function(v){prev(v);

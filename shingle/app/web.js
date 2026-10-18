@@ -42,7 +42,7 @@ function backupCard(){return `<div class="card" id="backup"><h3>Back up your dat
 <p class="muted" id="bk-last">${S.lastBackup?'Last backup: '+new Date(S.lastBackup).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'No backup yet.'}</p>
 <button class="btn" id="bk-export">Export backup</button><label class="btn ghost" for="bk-file" style="margin-top:8px">Import backup</label><input type="file" id="bk-file" accept="application/json,.json" class="hp"></div>`}
 function exportBackup(){S.lastBackup=new Date().toISOString();save();const blob=new Blob([JSON.stringify({app:'shingle',key:KEY,exportedAt:S.lastBackup,data:S},null,2)],{type:'application/json'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='shingle-backup-'+S.lastBackup.slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast('Backup saved');render()}
+ shingleSave(blob,'shingle-backup-'+S.lastBackup.slice(0,10)+'.json','application/json').then(r=>{shingleSaveToast(r,'Backup');render()})}
 function importBackup(file){const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);const d=j&&j.app==='shingle'?j.data:null;if(!d||typeof d!=='object'||!d.home)throw 0;
   if(!confirm('Replace what is on this device with this backup from '+(j.exportedAt?new Date(j.exportedAt).toLocaleDateString():'an earlier date')+'?'))return;
   localStorage.setItem(KEY,JSON.stringify(d));location.reload()}catch(e){toast('That file is not a Shingle backup')}};r.readAsText(file)}
@@ -102,7 +102,7 @@ function acceptanceRecord(){const L=S.legal;if(!L)return;const {jsPDF}=window.js
  line('Accepted by: '+(L.names||[]).join(', '));if(L.addr)line('Property: '+L.addr+(L.cityZip?', '+L.cityZip:'')+(L.state?' ('+L.state+')':''));if(L.phone)line('Phone: '+L.phone);if(L.email)line('Email: '+L.email);line('Date: '+(L.date||new Date(L.acceptedAt).toLocaleDateString()));line('Time: '+(L.time||new Date(L.acceptedAt).toLocaleTimeString()));line('Recorded (UTC): '+L.acceptedAt,{gap:12});
  line('Disclaimer text',{b:1});LG.disc.forEach(t=>line(t));line(LG.broker);line(LG.accept,{gap:12});
  line('This record was made on your device from what you entered in Shingle. It is not legal advice. Shingle by 5K Realty, Ingold Group Properties, LLC.',{s:9});
- d.save('shingle-disclaimer-acceptance-'+L.acceptedAt.slice(0,10)+'.pdf')}
+ shingleSave(d.output('blob'),'shingle-disclaimer-acceptance-'+L.acceptedAt.slice(0,10)+'.pdf','application/pdf').then(r=>shingleSaveToast(r,'Acceptance record'))}
 const ACK_URL='https://formspree.io/f/mvkpgapo';
 function ackText(){const L=S.legal;return ['Shingle: The Seller Assist App, disclaimer acknowledgement','Owners: '+(L.names||[]).join(', '),'Property: '+(L.addr||'')+(L.cityZip?', '+L.cityZip:'')+(L.state?' ('+L.state+')':''),'Phone: '+(L.phone||''),'Email: '+(L.email||''),'Date: '+L.date,'Time: '+L.time,'Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')','','I accepted this disclaimer:',...LG.disc,LG.accept].join('\n')}
 function mailAck(){S.myEmail=S.legal.email||S.myEmail;mailMe('My Shingle disclaimer acknowledgement, '+(S.legal.addr||''),ackText())}
