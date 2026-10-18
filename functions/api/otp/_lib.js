@@ -60,3 +60,26 @@ export async function peek(kv, key) { return parseInt((await kv.get(key)) || '0'
 export const clientIp = (request) => request.headers.get('cf-connecting-ip') || '';
 export const today = () => new Date().toISOString().slice(0, 10);
 export async function readJson(request) { try { return await request.json(); } catch (_) { return null; } }
+
+// Receipt token: proves this phone passed a code check in the last 30 minutes. Format "<exp>.<sig>",
+// sig = base64url(HMAC-SHA256(RECEIPT_TOKEN_SECRET, "<phone>.<exp>")). exp is Unix seconds.
+export const TOKEN_TTL = 1800;
+const b64url = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+async function hmac(secret, msg) {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  return b64url(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(msg)));
+}
+export async function signToken(secret, phone, now = Date.now()) {
+  const exp = Math.floor(now / 1000) + TOKEN_TTL;
+  return `${exp}.${await hmac(secret, `${phone}.${exp}`)}`;
+}
+// Returns the time the code was approved (ISO) when the token is valid for this phone, else null.
+export async function verifyToken(secret, token, phone, now = Date.now()) {
+  const m = /^(\d{10})\.([\w-]{43})$/.exec(String(token || ''));
+  if (!secret || !m || !phone) return null;
+  const exp = parseInt(m[1], 10);
+  if (exp * 1000 < now) return null;
+  const want = await hmac(secret, `${phone}.${exp}`);
+  let diff = 0; for (let i = 0; i < want.length; i++) diff |= want.charCodeAt(i) ^ m[2].charCodeAt(i);
+  return diff === 0 ? new Date((exp - TOKEN_TTL) * 1000).toISOString() : null;
+}

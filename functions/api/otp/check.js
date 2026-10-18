@@ -1,6 +1,7 @@
 // © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
-// POST /api/otp/check  { phone, code }  ->  { ok: true, verifiedAt } when Twilio approves the code.
-import { LIMITS, json, usPhone, configured, twilio, bump, peek, readJson } from './_lib.js';
+// POST /api/otp/check  { phone, code }  ->  { ok: true, verifiedAt, receiptToken } when Twilio approves the code.
+// receiptToken (30 minutes) lets /api/receipt store the disclaimer receipt as phone-verified.
+import { LIMITS, json, usPhone, configured, twilio, bump, peek, readJson, signToken } from './_lib.js';
 
 export async function onRequestPost({ request, env }) {
   if (!configured(env)) return json({ ok: false, error: 'not_configured' }, 503);
@@ -16,7 +17,10 @@ export async function onRequestPost({ request, env }) {
   await bump(kv, `chk:${phone}`, 600);
 
   const r = await twilio(env, 'VerificationCheck', { To: phone, Code: code });
-  if (r.ok && r.data && r.data.status === 'approved') return json({ ok: true, verifiedAt: new Date().toISOString() });
+  if (r.ok && r.data && r.data.status === 'approved') {
+    const receiptToken = env.RECEIPT_TOKEN_SECRET ? await signToken(env.RECEIPT_TOKEN_SECRET, phone) : '';
+    return json({ ok: true, verifiedAt: new Date().toISOString(), receiptToken });
+  }
   if (r.status === 404) return json({ ok: false, error: 'expired' }, 400); // Twilio returns 404 when no pending verification
   if (r.ok) return json({ ok: false, error: 'wrong_code' }, 400);
   return json({ ok: false, error: 'check_failed' }, 502);
