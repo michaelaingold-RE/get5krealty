@@ -32,7 +32,8 @@ function bindLeadForm(screen){const f=document.getElementById('lead-form');if(!f
   f.screen.value=screen;f._replyto.value=f.email.value.trim();
   f._subject.value='[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();if(f.subject)f.subject.value=f._subject.value;
   const b=document.getElementById('lf-send');b.disabled=true;b.textContent='Sending...';st.innerHTML='';
-  try{const r=await fetch(FORM_URL,{method:'POST',body:new FormData(f),headers:{Accept:'application/json'}});if(!r.ok)throw new Error(r.status);
+  const fd=new FormData(f);fd.set('phone',shinglePhone(f.phone.value));
+  try{const r=await fetch(FORM_URL,{method:'POST',body:fd,headers:{Accept:'application/json'}});if(!r.ok)throw new Error(r.status);
    f.querySelectorAll('input,select,textarea,button').forEach(x=>x.disabled=true);b.textContent='Sent';
    st.innerHTML='<p class="form-ok">Thanks for reaching out. Michael Ingold with 5K Realty will call you shortly. If it\'s urgent, call <a href="tel:7046496781">704.649.6781</a>.</p>'}
   catch(err){b.disabled=false;b.textContent='Send to 5K Realty';st.innerHTML='<p class="form-err">That didn\'t go through. Please call <a href="tel:7046496781">704.649.6781</a> or email <a href="mailto:michael@get5krealty.com">michael@get5krealty.com</a>.</p>'}}}
@@ -107,7 +108,7 @@ function ackText(){const L=S.legal;return ['Shingle: The Seller Assist App, disc
 function mailAck(){S.myEmail=S.legal.email||S.myEmail;mailMe('My Shingle disclaimer acknowledgement, '+(S.legal.addr||''),ackText())}
 // Receipt goes to /api/receipt (Cloudflare D1). The token from the phone check proves the phone was confirmed.
 window.sendAck=function(manual){const L=S.legal;if(!L)return;
- const body={token:(S.otp&&S.otp.token)||'',phone:L.phone,names:L.names||[],addr:L.addr,cityZip:L.cityZip,state:L.state,email:L.email,version:L.version,effective:L.effective||LG_DATE,acceptedAt:L.acceptedAt};
+ const body={token:(S.otp&&S.otp.token)||'',phone:shinglePhone(L.phone),names:L.names||[],addr:L.addr,cityZip:L.cityZip,state:L.state,email:L.email,version:L.version,effective:L.effective||LG_DATE,acceptedAt:L.acceptedAt};
  fetch('/api/receipt',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(j=>{if(!j.ok)throw j;S.legal.receipt='sent';if(S.otp)delete S.otp.token;save();if(manual){toast('Receipt sent');render()}})
   .catch(e=>{S.legal.receipt='failed';save();if(manual)toast(e&&/token/.test(e.error)?'Your phone check timed out, so the receipt could not be sent. Call 5K Realty at 704.649.6781.':'Could not send. Check your connection and try again.')})};
 window.addEventListener('online',()=>{if(S.legal&&S.legal.receipt&&S.legal.receipt!=='sent')sendAck()});

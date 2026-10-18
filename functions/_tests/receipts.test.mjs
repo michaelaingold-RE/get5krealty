@@ -39,3 +39,8 @@ test('Access: valid JWT passes; wrong aud, issuer, expiry, or missing config fai
   assert.equal(await accessOk(req(''), env), false);
   const t = await sign(good); assert.equal(await accessOk(req(t.slice(0, -4) + 'AAAA'), env), false);
 });
+
+test('receipt phone is stored as +1XXXXXXXXXX for every common format', async () => {
+  const { usPhone } = await import('../api/otp/_lib.js');
+  for (const p of ['7046496781', '17046496781', '(704) 649-6781', '+1 704-649-6781']) assert.equal(usPhone(p), '+17046496781');
+});

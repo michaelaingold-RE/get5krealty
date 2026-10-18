@@ -37,7 +37,7 @@ return `<h2>Under-contract timeline</h2><p class="muted">Enter the dates from yo
 <div class="card">${KEYS.map(k=>`<label for="tl-${k[0]}">${k[1]}</label><input type="date" id="tl-${k[0]}" value="${o.dates[k[0]]||''}">`).join('')}
 <label for="tl-rem">Remind me</label><select id="tl-rem">${[['1','1 day before'],['2','2 days before'],['3','3 days before'],['7','1 week before']].map(r=>`<option value="${r[0]}" ${o.remind===r[0]?'selected':''}>${r[1]}</option>`).join('')}</select></div>
 <div class="card"><h3>Your timeline</h3>${ev.length?`<ol style="list-style:none;padding:0;margin:0">${ev.map(e=>{const n=daysFrom(e[1]);return `<li class="item tl-row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)"><span><b>${e[0]}</b><br><span class="muted">${fmt(e[1])}</span></span><span style="display:flex;gap:8px;align-items:center"><span class="pill ${n<0?'':n<=3?'warn':''}">${n<0?'Done':n===0?'Today':n+' days'}</span><button class="btn ghost cal-btn" type="button" data-tlcal="${e[2]}" style="margin:0;width:auto;padding:6px 10px;font-size:13px" aria-label="Add ${e[0]} to calendar">Add to calendar</button></span></li>`}).join('')}</ol>`:'<div class="empty"><img src="assets/empty/no-timeline.svg" alt="" width="160" height="120"><h3>No dates yet</h3><p class="muted">Add your contract date above to start your timeline.</p></div>'}
-<button class="btn" id="tl-ics" ${ev.length?'':'disabled'}>Download calendar file (.ics)</button><p class="muted" style="margin-top:6px">Opens in Google Calendar, Apple Calendar, or Outlook. Each date gets a reminder.</p></div>
+<button class="btn" id="tl-ics" ${ev.length?'':'disabled'}>Add all dates to calendar</button><p class="muted" style="margin-top:6px">Opens in Google Calendar, Apple Calendar, or Outlook. Each date gets a reminder.</p></div>
 ${attyPrompt('Contract, earnest money, and closing')}${earnestNote()}<div class="note">Check every date against your signed contract and with your closing attorney. Deadlines can change if the contract is amended.</div>
 ${want('Want someone watching the deadlines with you?')}${help}`};
 // Shared .ics builder. Each event: {uid, date:'YYYY-MM-DD'} for all-day, or {uid, start:Date, mins} for a timed event (floating local time).
@@ -50,7 +50,11 @@ function icsEvents(list){const now=new Date().toISOString().replace(/[-:]/g,'').
   L.push(`SUMMARY:${icsEsc(e.summary)}`,`DESCRIPTION:${icsEsc(e.desc||'')}`);
   if(e.alarm)L.push('BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${icsEsc(e.summary)}`,`TRIGGER:${e.alarm}`,'END:VALARM');L.push('END:VEVENT')});
  L.push('END:VCALENDAR');return L.join('\r\n')+'\r\n'}
-function dlIcs(text,name){shingleSave(new Blob([text],{type:'text/calendar'}),name,'text/calendar').then(r=>shingleSaveToast(r,'Calendar file'))}
+// Add to calendar. iPhone and iPad (by device, or Apple picked in Settings > Saving files): open the .ics so iOS shows Add to Calendar.
+// Everything else: download the .ics, then open it to add it to Google Calendar, Outlook or Apple Calendar.
+function dlIcs(text,name){const b=new Blob([text],{type:'text/calendar'}),m=shingleSaveMode();
+ if(m==='share'||(m==='auto'&&/iPhone|iPad/.test(shingleDevice()))){location.href=URL.createObjectURL(b);return}
+ shingleSave(b,name,'text/calendar','download').then(r=>shingleSaveToast(r,'Calendar file'))}
 const tlEvent=(k,o)=>({uid:`shingle-${k[0]}-${o.dates[k[0]].replace(/-/g,'')}`,date:o.dates[k[0]],summary:`${k[1]} (${addr().replace(/[,;]/g,' ')})`,desc:'From your Shingle timeline. Check this date against your signed contract.',alarm:`-P${o.remind}D`});
 function ics(){const o=tl();return icsEvents(KEYS.filter(k=>o.dates[k[0]]).map(k=>tlEvent(k,o)))}
 const prev=bind;bind=function(v){prev(v);

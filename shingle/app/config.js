@@ -3,6 +3,10 @@
 // To turn it on: set otpGate to true and paste the public Turnstile site key below (see /workspace/fsbo-toolkit/otp-setup.md).
 window.SHINGLE_CFG = { otpGate: true, turnstileSiteKey: '0x4AAAAAAFXpvbCpe-81k5K6' };
 
+// Every phone that leaves the device uses one format, +1XXXXXXXXXX. Anything that isn't a 10 digit US number is sent as typed.
+// Same rule as usPhone() in functions/api/otp/_lib.js and shinglePhone in /shingle/landing.js.
+window.shinglePhone = function(raw){ const t = String(raw || '').trim(); let d = t.replace(/\D/g, ''); if (d.length === 11 && d[0] === '1') d = d.slice(1); return /^[2-9]\d{2}[2-9]\d{6}$/.test(d) ? '+1' + d : t; };
+
 // Save a file to the device.
 // Automatic: iPhone, iPad, and Android phones and tablets get the share sheet (Save to Files, Drive, Mail, Print).
 // Computers (Windows, Mac, Linux, Chromebook) get a normal download to the Downloads folder.
@@ -18,10 +22,10 @@ window.shingleDevice = function(){
   return tp > 1 && /Mobile|Tablet/.test(ua) ? 'phone or tablet' : 'computer';
 };
 window.shingleSaveMode = function(m){ try { if (m) localStorage.setItem('shingle-save-mode', m); return localStorage.getItem('shingle-save-mode') || 'auto'; } catch (e) { return 'auto'; } };
-window.shingleSave = async function(blob, name, type){
+window.shingleSave = async function(blob, name, type, forceMode){
   const mime = type || blob.type || 'application/octet-stream';
   const b = blob.type === mime ? blob : new Blob([blob], {type: mime});
-  const mode = shingleSaveMode(), dev = shingleDevice();
+  const mode = forceMode || shingleSaveMode(), dev = shingleDevice();
   const wantShare = mode === 'share' || (mode === 'auto' && /iPhone|iPad|Android|phone or tablet/.test(dev));
   if (wantShare && window.File && navigator.canShare && navigator.share) {
     try {
