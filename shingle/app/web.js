@@ -115,22 +115,27 @@ window.otpOn=()=>!!(window.SHINGLE_CFG&&SHINGLE_CFG.otpGate&&SHINGLE_CFG.turnsti
 window.otpVerifiedFor=p=>!!(S.otp&&S.otp.ok&&S.otp.phone&&S.otp.phone===otpDigits(p));
 window.otpBox=()=>`<div class="card" id="otp" style="margin:8px 0"><p class="muted" style="margin:0 0 6px">We text a code to confirm this phone before you sign. US numbers only.</p><div id="otp-ts"></div><button class="btn ghost" type="button" id="otp-send">Send code</button><label for="otp-code">Code</label><input id="otp-code" inputmode="numeric" autocomplete="one-time-code" maxlength="10"><button class="btn ghost" type="button" id="otp-check">Check code</button><button class="btn ghost hidden" type="button" id="otp-resend">Resend code</button><button class="btn ghost hidden" type="button" id="otp-call">Call me instead</button><p class="muted" id="otp-msg" role="status" aria-live="polite"></p></div>`;
 let otpTs=null,otpSends=0;
-const OTP_MSG={us_only:'Enter a 10 digit US phone number.',turnstile:'Please finish the check above and try again.',rate_phone:'Too many tries for this number. Try again in an hour.',rate_ip:'Too many tries. Try again in an hour.',daily_cap:'Phone checks are paused for today. Try again tomorrow.',use_call:'Use Call me instead.',send_failed:'We could not send the code. Try again.',wrong_code:'That code didn\'t match.',expired:'That code expired. Send a new one.',rate_check:'Too many tries. Wait 10 minutes.',not_configured:'Phone check isn\'t set up yet.'};
-function otpBind(){const box=$('#otp');if(!box)return;const msg=t=>{$('#otp-msg').textContent=t};
+const OTP_MSG={us_only:'Enter a 10 digit US phone number.',turnstile:'Please finish the check above and try again.',rate_phone:'Too many tries for this number. Try again in an hour.',rate_ip:'Too many tries. Try again in an hour.',daily_cap:'Phone checks are paused for today. Try again tomorrow.',use_call:'Use Call me instead.',send_failed:'We could not send the code. Try again.',unavailable:'Text codes are down on our end right now. Try again later, or email michael@get5krealty.com.',bad_number:'That number can\'t get texts. Check it and try again.',wrong_code:'That code didn\'t match.',expired:'That code expired. Send a new one.',rate_check:'Too many tries. Wait 10 minutes.',not_configured:'Phone check isn\'t set up yet.'};
+function otpBind(){const box=$('#otp');if(!box)return;const msg=(t,err)=>{const m=$('#otp-msg');m.textContent=t;m.style.color=err?'#b00020':err===false?'#1b7a35':'';m.style.fontWeight=err?'700':'';m.scrollIntoView({block:'center'})},bad=t=>msg(t,true),good=t=>msg(t,false);
  const ensureTs=()=>new Promise(res=>{if(window.turnstile)return res();const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';s.onload=res;s.onerror=res;document.head.appendChild(s)});
- ensureTs().then(()=>{if(window.turnstile&&$('#otp-ts'))otpTs=turnstile.render('#otp-ts',{sitekey:SHINGLE_CFG.turnstileSiteKey})});
+ ensureTs().then(()=>{if(window.turnstile&&$('#otp-ts'))otpTs=turnstile.render('#otp-ts',{sitekey:SHINGLE_CFG.turnstileSiteKey,callback:()=>{if(waitCh){const c=waitCh;waitCh=null;send(c)}}})});
  const tok=()=>window.turnstile&&otpTs!=null?turnstile.getResponse(otpTs):'';
- const send=async ch=>{const d=otpDigits($('#lg-phone').value);if(!d)return msg(OTP_MSG.us_only);msg(ch==='call'?'Calling you now...':'Sending...');
-  try{const r=await fetch('/api/otp/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({phone:d,channel:ch,turnstileToken:tok()})});const j=await r.json();
+ let waitCh=null,busy=false;
+ const send=async ch=>{const d=otpDigits($('#lg-phone').value);if(!d)return bad(OTP_MSG.us_only);if(busy)return;
+  const t=tok();if(!t){waitCh=ch;return msg('One moment, finishing the security check...')}
+  const btns=['#otp-send','#otp-resend','#otp-call'].map(q=>$(q)),btn=$(ch==='call'?'#otp-call':otpSends?'#otp-resend':'#otp-send'),label=btn.textContent;
+  busy=true;btns.forEach(b=>b.disabled=true);btn.textContent='Sending...';msg(ch==='call'?'Calling you now...':'Sending...');
+  try{const r=await fetch('/api/otp/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({phone:d,channel:ch,turnstileToken:t})});const j=await r.json();
    if(window.turnstile&&otpTs!=null)turnstile.reset(otpTs);
-   if(!j.ok)return msg(OTP_MSG[j.error]||'Something went wrong. Try again.');
+   if(!j.ok)return bad(OTP_MSG[j.error]||'Something went wrong. Try again.');
    if(ch==='sms'){otpSends++;$('#otp-send').classList.add('hidden');$('#otp-resend').classList.toggle('hidden',otpSends>=2);$('#otp-call').classList.toggle('hidden',otpSends<2)}else{$('#otp-call').classList.add('hidden')}
-   msg(ch==='call'?'We\'re calling with your code.':'Code sent. Check your texts.')}catch(_){msg('You look offline. Connect and try again.')}};
+   good(ch==='call'?'We\'re calling with your code.':'Code sent. Check your texts.')}catch(_){bad('You look offline. Connect and try again.')}
+  finally{busy=false;btns.forEach(b=>b.disabled=false);btn.textContent=label}};
  $('#otp-send').onclick=()=>send('sms');$('#otp-resend').onclick=()=>send('sms');$('#otp-call').onclick=()=>send('call');
- $('#otp-check').onclick=async()=>{const d=otpDigits($('#lg-phone').value),c=$('#otp-code').value.trim();if(!d)return msg(OTP_MSG.us_only);if(!/^\d{4,10}$/.test(c))return msg('Enter the code you got.');
+ $('#otp-check').onclick=async()=>{const d=otpDigits($('#lg-phone').value),c=$('#otp-code').value.trim();if(!d)return bad(OTP_MSG.us_only);if(!/^\d{4,10}$/.test(c))return bad('Enter the code you got.');
   try{const r=await fetch('/api/otp/check',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({phone:d,code:c})});const j=await r.json();
-   if(!j.ok)return msg(OTP_MSG[j.error]||'Something went wrong. Try again.');S.otp={ok:true,phone:d,at:j.verifiedAt};save();msg('Phone confirmed.');if(window.lgSync)lgSync()}catch(_){msg('You look offline. Connect and try again.')}};
- if(otpVerifiedFor($('#lg-phone').value))msg('Phone confirmed.')}
+   if(!j.ok)return bad(OTP_MSG[j.error]||'Something went wrong. Try again.');S.otp={ok:true,phone:d,at:j.verifiedAt};save();good('Phone confirmed.');if(window.lgSync)lgSync()}catch(_){bad('You look offline. Connect and try again.')}};
+ if(otpVerifiedFor($('#lg-phone').value)){const m=$('#otp-msg');m.textContent='Phone confirmed.';m.style.color='#1b7a35'}}
 const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
  if(v==='disclaimer')otpBind();
  if(v==='settings'){const r=$('#lg-record');if(r)r.onclick=acceptanceRecord;const m=$('#lg-mail');if(m)m.onclick=mailAck;const rs=$('#lg-resend');if(rs)rs.onclick=()=>sendAck(true)}

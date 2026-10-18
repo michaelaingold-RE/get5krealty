@@ -1,5 +1,5 @@
 // Shared helpers for the Shingle phone verification functions (Twilio Verify).
-// Secrets come from Cloudflare Pages environment variables. Nothing is logged.
+// Secrets come from Cloudflare Pages environment variables. Only Twilio error status and code are logged.
 export const LIMITS = { phoneHour: 3, ipHour: 6, dailyCap: 200, checkWindow: 5, smsPerPhone: 2, callPerPhone: 1 };
 
 export const json = (obj, status = 200) =>

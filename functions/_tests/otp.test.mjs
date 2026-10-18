@@ -11,12 +11,12 @@ function env(over = {}) {
     TURNSTILE_SECRET_KEY: 'ts', OTP_KV: kv(), ...over };
 }
 let calls = [];
-function mockFetch({ turnstile = true, verifyStatus = 201, checkStatus = 'approved', checkHttp = 200 } = {}) {
+function mockFetch({ turnstile = true, verifyStatus = 201, verifyCode, checkStatus = 'approved', checkHttp = 200 } = {}) {
   calls = [];
   globalThis.fetch = async (url, init) => {
     calls.push({ url: String(url), init });
     if (String(url).includes('turnstile')) return new Response(JSON.stringify({ success: turnstile }));
-    if (String(url).endsWith('/Verifications')) return new Response(JSON.stringify({ status: 'pending' }), { status: verifyStatus });
+    if (String(url).endsWith('/Verifications')) return new Response(JSON.stringify(verifyCode ? { code: verifyCode, status: verifyStatus } : { status: 'pending' }), { status: verifyStatus });
     if (String(url).endsWith('/VerificationCheck')) return new Response(JSON.stringify({ status: checkStatus }), { status: checkHttp });
     throw new Error('unexpected network call ' + url);
   };
@@ -90,10 +90,45 @@ test('per-IP limit and daily cap', async () => {
   assert.equal(q.error, 'daily_cap');
 });
 
-test('twilio send error returns 502', async () => {
-  mockFetch({ verifyStatus: 400 });
+test('twilio send error returns 502 with the twilio code', async () => {
+  mockFetch({ verifyStatus: 500 });
   const r = await go(start, env(), { phone: '7046496781', turnstileToken: 't' });
-  assert.equal(r.status, 502);
+  assert.equal(r.status, 502); assert.equal(r.error, 'send_failed'); assert.equal(r.twilio, 0);
+});
+
+test('account-level twilio codes map to unavailable', async () => {
+  for (const code of [20003, 21608, 60410, 60203]) {
+    mockFetch({ verifyStatus: 400, verifyCode: code });
+    const r = await go(start, env(), { phone: '7046496781', turnstileToken: 't' });
+    assert.deepEqual(r, { status: 502, ok: false, error: 'unavailable', twilio: code });
+  }
+});
+
+test('bad-number twilio codes map to bad_number', async () => {
+  for (const code of [60200, 21211, 21614]) {
+    mockFetch({ verifyStatus: 400, verifyCode: code });
+    const r = await go(start, env(), { phone: '7046496781', turnstileToken: 't' });
+    assert.deepEqual(r, { status: 502, ok: false, error: 'bad_number', twilio: code });
+  }
+});
+
+test('failed send does not use up the per-phone sms allowance', async () => {
+  const e = env();
+  mockFetch({ verifyStatus: 400, verifyCode: 21608 });
+  await go(start, e, { phone: '7046496781', turnstileToken: 't' });
+  assert.equal(e.OTP_KV.m.get('sms:+17046496781'), undefined);
+  mockFetch();
+  const r = await go(start, e, { phone: '7046496781', turnstileToken: 't' });
+  assert.equal(r.ok, true); assert.equal(r.resendLeft, 1);
+});
+
+test('failure log has status and code only, never the phone', async () => {
+  const logs = []; const orig = console.log; console.log = (...a) => logs.push(a.join(' '));
+  try {
+    mockFetch({ verifyStatus: 400, verifyCode: 21608 });
+    await go(start, env(), { phone: '7046496781', turnstileToken: 't' });
+  } finally { console.log = orig; }
+  assert.deepEqual(logs, ['otp start twilio error 400 21608']);
 });
 
 test('check: approved, wrong, expired, rate limited', async () => {

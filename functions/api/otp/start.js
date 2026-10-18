@@ -2,6 +2,10 @@
 // Sends a code with Twilio Verify. SMS twice at most (first send + one resend), then one voice call.
 import { LIMITS, json, usPhone, configured, twilio, turnstileOk, bump, peek, clientIp, today, readJson } from './_lib.js';
 
+// Twilio error codes. Account-level problems (auth, compliance, fraud block, max attempts) are on our end.
+const ACCOUNT_CODES = [20003, 21608, 60410, 60203];
+const BAD_NUMBER_CODES = [60200, 21211, 21614];
+
 export async function onRequestPost({ request, env }) {
   if (!configured(env)) return json({ ok: false, error: 'not_configured' }, 503);
   const body = await readJson(request);
@@ -29,9 +33,14 @@ export async function onRequestPost({ request, env }) {
   await bump(kv, `cap:${day}`, 86400);
   await bump(kv, `ip:${ip}`, 3600);
   await bump(kv, `ph:${phone}`, 3600);
-  await bump(kv, `${channel}:${phone}`, 3600);
 
   const r = await twilio(env, 'Verifications', { To: phone, Channel: channel });
-  if (!r.ok) return json({ ok: false, error: 'send_failed' }, 502);
+  if (!r.ok) {
+    const code = r.data.code || 0;
+    console.log('otp start twilio error', r.status, code); // status and code only, never the phone
+    const error = ACCOUNT_CODES.includes(code) ? 'unavailable' : BAD_NUMBER_CODES.includes(code) ? 'bad_number' : 'send_failed';
+    return json({ ok: false, error, twilio: code }, 502);
+  }
+  await bump(kv, `${channel}:${phone}`, 3600);
   return json({ ok: true, channel, resendLeft: Math.max(0, LIMITS.smsPerPhone - (channel === 'sms' ? sms + 1 : sms)) });
 }
