@@ -4,7 +4,8 @@
 // Fails closed: without ACCESS_TEAM_DOMAIN (e.g. 5krealty.cloudflareaccess.com) and ACCESS_AUD, every request gets 403.
 // /api/receipts/summary is its own Access app (Michael + the Lookout service token) and passes its own AUD (ACCESS_AUD_SUMMARY).
 export const COLS = ['id', 'accepted_at_utc', 'owner_names', 'property_address', 'city_zip', 'state', 'phone', 'email',
-  'disclaimer_version', 'disclaimer_effective', 'phone_verified_at', 'created_at'];
+  'disclaimer_version', 'disclaimer_effective', 'phone_verified_at', 'created_at', 'is_test'];
+// is_test (migration 0002): 1 = the owner's own test (OWNER_TEST_PHONES), 0 = a real seller. Kept last so id stays column 1.
 
 const dec = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)), c => c.charCodeAt(0));
 let certs = { at: 0, keys: [] };

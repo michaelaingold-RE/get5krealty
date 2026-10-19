@@ -30,9 +30,10 @@ function bindLeadForm(screen){const f=document.getElementById('lead-form');if(!f
   if(!f.checkValidity()){f.reportValidity();return}
   f.needs.value=[...f.querySelectorAll('.lf-need:checked')].map(x=>x.value).join(', ');
   f.screen.value=screen;f._replyto.value=f.email.value.trim();
-  f._subject.value='[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();if(f.subject)f.subject.value=f._subject.value;
+  const ph=shinglePhone(f.phone.value),test=typeof shingleOwnerTest==='function'&&await shingleOwnerTest(ph); // owner test mode: 'TEST - ' subject and test=yes
+  f._subject.value=(test?'TEST - ':'')+'[Shingle Lead] '+f.name.value.trim()+' - '+f.city_zip.value.trim();if(f.subject)f.subject.value=f._subject.value;
   const b=document.getElementById('lf-send');b.disabled=true;b.textContent='Sending...';st.innerHTML='';
-  const fd=new FormData(f);fd.set('phone',shinglePhone(f.phone.value));
+  const fd=new FormData(f);fd.set('phone',ph);if(test)fd.set('test','yes');
   try{const r=await fetch(FORM_URL,{method:'POST',body:fd,headers:{Accept:'application/json'}});if(!r.ok)throw new Error(r.status);
    f.querySelectorAll('input,select,textarea,button').forEach(x=>x.disabled=true);b.textContent='Sent';
    st.innerHTML='<p class="form-ok">Thanks for reaching out. Michael Ingold with 5K Realty will call you shortly. If it\'s urgent, call <a href="tel:7046496781">704.649.6781</a>.</p>'}

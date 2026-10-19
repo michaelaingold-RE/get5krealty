@@ -7,6 +7,15 @@ window.SHINGLE_CFG = { otpGate: true, turnstileSiteKey: '0x4AAAAAAFXpvbCpe-81k5K
 // Same rule as usPhone() in functions/api/otp/_lib.js and shinglePhone in /shingle/landing.js.
 window.shinglePhone = function(raw){ const t = String(raw || '').trim(); let d = t.replace(/\D/g, ''); if (d.length === 11 && d[0] === '1') d = d.slice(1); return /^[2-9]\d{2}[2-9]\d{6}$/.test(d) ? '+1' + d : t; };
 
+// Owner test mode for the Talk to 5K Realty form: SHA-256 (hex) of each owner phone in +1XXXXXXXXXX form, so the list isn't in
+// the code as plain numbers. Keep in sync with OWNER_TEST_PHONES (Cloudflare Pages) and SHINGLE_OWNER_SHA in /shingle/landing.js.
+// Resolves true for an owner phone; false otherwise, or if the browser can't hash (the form then sends as a normal lead).
+window.SHINGLE_OWNER_SHA = ['5053b13ebf025792d97f4ad87e5791ca0f1ec57da00393eaccda492fd3a0a0e3'];
+window.shingleOwnerTest = async function(e164){
+  try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(e164 || '')));
+    return SHINGLE_OWNER_SHA.includes([...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('')); } catch (e) { return false; }
+};
+
 // Save a file to the device.
 // Automatic: iPhone, iPad, and Android phones and tablets get the share sheet (Save to Files, Drive, Mail, Print).
 // Computers (Windows, Mac, Linux, Chromebook) get a normal download to the Downloads folder.

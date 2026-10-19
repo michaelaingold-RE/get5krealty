@@ -2,6 +2,8 @@
 // GET /api/receipts/summary  ->  counts only, for sign-up alerts (Lookout). No names, phones, emails or addresses.
 // Its own Cloudflare Access app (Michael only + the "lookout-receipts-summary" service token); that token cannot reach
 // export.csv. Verifies the summary app's AUD (ACCESS_AUD_SUMMARY), never ACCESS_AUD. Fails closed: missing var -> 403.
+// Owner test rows (is_test = 1) are left out of total, last_24h, last_7d, newest_id and newest_accepted_at_utc;
+// test_total counts them. newest_id is the newest real (non-test) receipt id, or null when there is none.
 import { accessOk, denied } from './_lib.js';
 import { json } from '../otp/_lib.js';
 
@@ -10,14 +12,15 @@ export async function onRequestGet({ request, env }) {
   if (!env.RECEIPTS_DB) return new Response('Not configured', { status: 503, headers: { 'cache-control': 'no-store' } });
   const now = Date.now(), iso = ms => new Date(ms).toISOString();
   const r = await env.RECEIPTS_DB.prepare(`SELECT
-      (SELECT COUNT(*) FROM receipts) AS total,
-      (SELECT COUNT(*) FROM receipts WHERE created_at >= ?1) AS last_24h,
-      (SELECT COUNT(*) FROM receipts WHERE created_at >= ?2) AS last_7d,
-      (SELECT id FROM receipts ORDER BY id DESC LIMIT 1) AS newest_id,
-      (SELECT accepted_at_utc FROM receipts ORDER BY id DESC LIMIT 1) AS newest_accepted_at_utc`)
+      (SELECT COUNT(*) FROM receipts WHERE is_test = 0) AS total,
+      (SELECT COUNT(*) FROM receipts WHERE is_test = 0 AND created_at >= ?1) AS last_24h,
+      (SELECT COUNT(*) FROM receipts WHERE is_test = 0 AND created_at >= ?2) AS last_7d,
+      (SELECT id FROM receipts WHERE is_test = 0 ORDER BY id DESC LIMIT 1) AS newest_id,
+      (SELECT accepted_at_utc FROM receipts WHERE is_test = 0 ORDER BY id DESC LIMIT 1) AS newest_accepted_at_utc,
+      (SELECT COUNT(*) FROM receipts WHERE is_test != 0) AS test_total`)
     .bind(iso(now - 864e5), iso(now - 7 * 864e5)).first();
   const n = v => Number(v) || 0;
   const body = { ok: true, generated_at_utc: iso(now), total: n(r && r.total), last_24h: n(r && r.last_24h), last_7d: n(r && r.last_7d),
-    newest_accepted_at_utc: (r && r.newest_accepted_at_utc) || null, newest_id: r && r.newest_id != null ? n(r.newest_id) : null };
+    newest_accepted_at_utc: (r && r.newest_accepted_at_utc) || null, newest_id: r && r.newest_id != null ? n(r.newest_id) : null, test_total: n(r && r.test_total) };
   return json(body); // json() sets cache-control: no-store
 }

@@ -15,6 +15,14 @@ export function usPhone(raw) {
   return '+1' + d;
 }
 
+// Owner test mode: OWNER_TEST_PHONES is a comma-separated list of E.164 numbers (other US formats are normalized).
+// Those numbers skip the per-phone code limits in /api/otp/start, and their receipts are stored with is_test = 1.
+// Unset or empty: nobody is an owner, so nothing changes.
+export function ownerPhones(env) {
+  return new Set(String((env && env.OWNER_TEST_PHONES) || '').split(',').map(usPhone).filter(Boolean));
+}
+export const isOwnerPhone = (env, phone) => !!phone && ownerPhones(env).has(phone);
+
 export function configured(env) {
   const auth = (env.TWILIO_API_KEY_SID && env.TWILIO_API_KEY_SECRET) || env.TWILIO_AUTH_TOKEN;
   return !!(env.TWILIO_ACCOUNT_SID && auth && env.TWILIO_VERIFY_SERVICE_SID && env.TURNSTILE_SECRET_KEY && env.OTP_KV);

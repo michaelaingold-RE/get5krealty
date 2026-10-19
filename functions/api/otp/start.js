@@ -1,7 +1,9 @@
 // © 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
 // POST /api/otp/start  { phone, channel: "sms" | "call", turnstileToken }
 // Sends a code with Twilio Verify. SMS twice at most (first send + one resend), then one voice call.
-import { LIMITS, json, usPhone, configured, twilio, turnstileOk, bump, peek, clientIp, today, readJson } from './_lib.js';
+// Owner test mode: a number in OWNER_TEST_PHONES skips the per-phone limits (phoneHour, smsPerPhone, callPerPhone) only.
+// It still needs Turnstile and still counts toward the per-IP limit and the daily cap.
+import { LIMITS, json, usPhone, configured, twilio, turnstileOk, bump, peek, clientIp, today, readJson, isOwnerPhone } from './_lib.js';
 
 // Twilio error codes. Account-level problems (auth, compliance, fraud block, max attempts) are on our end.
 const ACCOUNT_CODES = [20003, 21608, 60410, 60203];
@@ -20,15 +22,16 @@ export async function onRequestPost({ request, env }) {
 
   const kv = env.OTP_KV;
   const day = today();
+  const owner = isOwnerPhone(env, phone);
   if ((await peek(kv, `cap:${day}`)) >= LIMITS.dailyCap) return json({ ok: false, error: 'daily_cap' }, 429);
   if ((await peek(kv, `ip:${ip}`)) >= LIMITS.ipHour) return json({ ok: false, error: 'rate_ip' }, 429);
-  if ((await peek(kv, `ph:${phone}`)) >= LIMITS.phoneHour) return json({ ok: false, error: 'rate_phone' }, 429);
+  if (!owner && (await peek(kv, `ph:${phone}`)) >= LIMITS.phoneHour) return json({ ok: false, error: 'rate_phone' }, 429);
 
   const sms = await peek(kv, `sms:${phone}`);
-  if (channel === 'sms' && sms >= LIMITS.smsPerPhone) return json({ ok: false, error: 'use_call' }, 429);
+  if (!owner && channel === 'sms' && sms >= LIMITS.smsPerPhone) return json({ ok: false, error: 'use_call' }, 429);
   if (channel === 'call') {
     if (sms < 1) return json({ ok: false, error: 'sms_first' }, 400);
-    if ((await peek(kv, `call:${phone}`)) >= LIMITS.callPerPhone) return json({ ok: false, error: 'rate_phone' }, 429);
+    if (!owner && (await peek(kv, `call:${phone}`)) >= LIMITS.callPerPhone) return json({ ok: false, error: 'rate_phone' }, 429);
   }
 
   await bump(kv, `cap:${day}`, 86400);
@@ -43,5 +46,6 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error, twilio: code }, 502);
   }
   await bump(kv, `${channel}:${phone}`, 3600);
-  return json({ ok: true, channel, resendLeft: Math.max(0, LIMITS.smsPerPhone - (channel === 'sms' ? sms + 1 : sms)) });
+  // The owner always has a resend (same response shape as everyone else, so the answer doesn't reveal owner numbers).
+  return json({ ok: true, channel, resendLeft: owner ? 1 : Math.max(0, LIMITS.smsPerPhone - (channel === 'sms' ? sms + 1 : sms)) });
 }

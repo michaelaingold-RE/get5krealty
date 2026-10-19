@@ -4,7 +4,8 @@
 // A valid receipt token from /api/otp/check for the same phone is required, unless RECEIPT_ALLOW_UNVERIFIED is "true"
 // (only for when phone checks are turned off); those rows are stored with phone_verified_at NULL (not checked).
 // The same phone, disclaimer version and acceptance time never creates a second row.
-import { json, usPhone, verifyToken, bump, peek, clientIp, readJson } from './otp/_lib.js';
+// Owner test mode: a phone in OWNER_TEST_PHONES is stored with is_test = 1 (shown as TEST; left out of the summary counts).
+import { json, usPhone, verifyToken, bump, peek, clientIp, readJson, isOwnerPhone } from './otp/_lib.js';
 
 const IP_HOUR = 10; // receipts per IP per hour
 const str = (v, max) => { const s = String(v ?? '').trim(); return s && s.length <= max ? s : null; };
@@ -41,10 +42,10 @@ export async function onRequestPost({ request, env }) {
 
   const db = env.RECEIPTS_DB;
   await db.prepare(`INSERT INTO receipts (accepted_at_utc, owner_names, property_address, city_zip, state, phone, email,
-      disclaimer_version, disclaimer_effective, phone_verified_at, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+      disclaimer_version, disclaimer_effective, phone_verified_at, created_at, is_test) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
       ON CONFLICT (phone, disclaimer_version, accepted_at_utc) DO NOTHING`)
     .bind(row.accepted_at_utc, row.owner_names, row.property_address, row.city_zip, row.state, row.phone, row.email,
-      row.disclaimer_version, row.disclaimer_effective, verifiedAt, new Date().toISOString()).run();
+      row.disclaimer_version, row.disclaimer_effective, verifiedAt, new Date().toISOString(), isOwnerPhone(env, phone) ? 1 : 0).run();
   const got = await db.prepare('SELECT id FROM receipts WHERE phone = ? AND disclaimer_version = ? AND accepted_at_utc = ?')
     .bind(row.phone, row.disclaimer_version, row.accepted_at_utc).first();
   return json({ ok: true, id: got.id });
