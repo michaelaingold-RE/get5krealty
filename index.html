@@ -9,6 +9,7 @@
   <link rel="canonical" href="https://get5krealty.com/" />
   <meta name="google-site-verification" content="MVO8PlAO8L878jVkMdPUsupIwTyd8NNTHTvnesS_2YA" />
   <link rel="stylesheet" href="/assets/site.css">
+  <link rel="preload" as="image" href="/images/hero-postcard-house.jpg" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --navy: #0A2540; --gold: #C9A227; }
@@ -16,6 +17,86 @@
     body { font-family: Inter, system-ui, sans-serif; }
     .text-navy { color: var(--navy); } .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); } .bg-gold { background-color: var(--gold); }
+
+    /* Home refresh (Comp 1, charcoal/sage). Page-local; does not rely on Tailwind opacity variants. */
+    :root { --charcoal:#2F3437; --sage:#5E7A64; --sage-dark:#4E6854; --sage-light:#B9CDBE; --cream:#F4F1EA; --paper:#FAF8F3; --ink-2:#555B5E; --ink-3:#6B7174; --line:#E4E1DA; }
+    .home-consult-btn.consult-btn { background:var(--sage); color:#fff !important; }
+    .home-consult-btn.consult-btn:hover { background:var(--sage-dark); opacity:1; }
+    .home-logo { height:40px; width:auto; }
+    @media (min-width:640px){ .home-logo { height:46px; } }
+    @media (max-width:1279px){ .home-nav.space-x-8 > :not([hidden]) ~ :not([hidden]) { margin-left:1.25rem; } }
+    @media (max-width:639px){ .trust-c1 ul { gap:.35rem 1.1rem; } .trust-c1 li + li::before { content:none; } }
+    .home-phone { color:var(--charcoal); font-weight:600; font-size:.875rem; padding:8px 4px; text-decoration:none; }
+    .home-phone:hover { color:var(--sage); }
+    .hero-c1 { position:relative; color:#fff; overflow:hidden; background:var(--charcoal); }
+    .hero-c1 .hero-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:55% 15%; }
+    .hero-c1 .hero-wash { position:absolute; inset:0;
+      background:
+        linear-gradient(to bottom, rgba(47,52,55,0) 60%, rgba(47,52,55,.55) 100%),
+        linear-gradient(to right, rgba(47,52,55,.84) 0%, rgba(47,52,55,.72) 40%, rgba(47,52,55,.45) 100%); }
+    @media (max-width:767px){ .hero-c1 .hero-wash { background:
+        linear-gradient(to bottom, rgba(47,52,55,0) 55%, rgba(47,52,55,.6) 100%),
+        rgba(47,52,55,.72); } }
+    .hero-c1 .hero-inner { position:relative; max-width:72rem; margin:0 auto; padding:5rem 1rem 5.5rem; }
+    @media (min-width:768px){ .hero-c1 .hero-inner { padding:7.5rem 1rem 8rem; } }
+    .hero-eyebrow { display:flex; align-items:center; gap:.5rem; color:var(--sage-light); font-weight:500; font-size:.95rem; margin-bottom:1rem; }
+    .hero-c1 h1 { font-size:2.35rem; line-height:1.08; font-weight:700; letter-spacing:-.02em; margin-bottom:1.25rem; max-width:44rem; color:#F6F3EC; }
+    @media (min-width:640px){ .hero-c1 h1 { font-size:3rem; } }
+    @media (min-width:1024px){ .hero-c1 h1 { font-size:3.6rem; } }
+    .hero-fee { font-size:1.15rem; line-height:1.55; color:#EDEAE3; max-width:38rem; margin-bottom:2rem; }
+    .hero-fee strong { color:#fff; font-weight:600; }
+    .hero-ctas { display:flex; flex-wrap:wrap; align-items:center; gap:1rem 1.75rem; }
+    .btn-sage { display:inline-block; background:var(--sage); color:#fff; font-weight:600; padding:1rem 1.6rem; border-radius:6px; text-decoration:none; text-align:center; }
+    .btn-sage:hover { background:var(--sage-dark); }
+    .hero-link { color:#F6F3EC; text-decoration:underline; text-underline-offset:4px; text-decoration-color:rgba(246,243,236,.6); font-weight:500; }
+    .hero-link:hover { color:#fff; text-decoration-color:#fff; }
+    @media (max-width:639px){ .hero-ctas .btn-sage { width:100%; } }
+    .trust-c1 { background:var(--cream); color:var(--charcoal); border-bottom:1px solid var(--line); }
+    .trust-c1 ul { max-width:72rem; margin:0 auto; padding:.9rem 1rem; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.35rem 0; font-size:.875rem; font-weight:500; list-style:none; }
+    .trust-c1 li { display:inline-flex; align-items:center; gap:.4rem; }
+    .trust-c1 li + li::before { content:"\2022"; color:#9AA19C; margin:0 .9rem; }
+    .trust-c1 img { height:18px; width:auto; }
+    .c1-eb { display:flex; align-items:center; gap:.6rem; font-size:.8rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--sage); margin-bottom:.9rem; }
+    .c1-h2 { font-size:1.9rem; line-height:1.12; font-weight:700; letter-spacing:-.015em; color:var(--charcoal); }
+    @media (min-width:768px){ .c1-h2 { font-size:2.6rem; } }
+    .c1-lede { margin-top:.75rem; font-size:1.075rem; line-height:1.55; color:var(--ink-2); max-width:48rem; }
+    .c1-fine { font-size:.85rem; line-height:1.5; color:var(--ink-3); }
+    .compare-c1 { background:#fff; padding:4.5rem 0 3.5rem; }
+    .calc-c1 { background:var(--paper); padding:4rem 0 4.5rem; }
+    .c1-wrap { max-width:72rem; margin:0 auto; padding:0 1rem; }
+    .cmp-grid { display:grid; gap:1rem; margin-top:2rem; }
+    @media (min-width:768px){ .cmp-grid { grid-template-columns:repeat(3,1fr); gap:1.25rem; } }
+    .cmp-col { border:1px solid var(--line); border-radius:10px; padding:1.5rem 1.75rem; background:#fff; }
+    .cmp-col .t { font-size:.9rem; font-weight:600; color:var(--ink-3); }
+    .cmp-col .v { font-size:2.5rem; font-weight:700; letter-spacing:-.02em; line-height:1.05; margin:.5rem 0 .4rem; color:var(--charcoal); }
+    .cmp-col .s { font-size:.9rem; color:var(--ink-2); }
+    .cmp-col.k { background:var(--charcoal); border-color:var(--charcoal); }
+    .cmp-col.k .t { color:var(--sage-light); } .cmp-col.k .v { color:#F6F3EC; } .cmp-col.k .s { color:#E8E3D8; }
+    .cmp-col.g { background:#E6EDE7; border-color:#C9D6CC; }
+    .cmp-col.g .t, .cmp-col.g .v { color:#3F5A46; }
+    .cmp-buyer { margin-top:1.5rem; font-size:1rem; color:var(--charcoal); max-width:56rem; }
+    .calc-box { margin-top:2rem; display:grid; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    @media (min-width:900px){ .calc-box { grid-template-columns:1fr 26rem; } }
+    .calc-in { padding:2rem 1.75rem; }
+    .calc-in label { display:block; font-size:.9rem; font-weight:600; color:var(--charcoal); margin-bottom:.6rem; }
+    .calc-field { display:flex; align-items:center; height:3.6rem; border:1.5px solid #B9C2BB; border-radius:6px; padding:0 1rem; background:#fff; }
+    .calc-field:focus-within { border-color:var(--sage); box-shadow:0 0 0 3px rgba(94,122,100,.2); }
+    .calc-field span { font-size:1.4rem; font-weight:600; color:var(--ink-3); margin-right:.25rem; }
+    .calc-field input { border:0; outline:0; width:100%; font-size:1.5rem; font-weight:600; color:var(--charcoal); font-family:inherit; background:transparent; }
+    .chips { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem; }
+    .chip { font-size:.9rem; font-weight:600; padding:.5rem 1rem; border-radius:999px; border:1px solid #C9CFC9; color:var(--charcoal); background:var(--cream); cursor:pointer; font-family:inherit; }
+    .chip:hover, .chip[aria-pressed="true"] { border-color:var(--sage); background:#E6EDE7; }
+    .calc-cta { display:flex; flex-wrap:wrap; align-items:center; gap:.75rem 1.5rem; margin-top:1.75rem; }
+    .calc-out { background:var(--charcoal); color:#E8E3D8; padding:2rem 1.75rem; display:flex; flex-direction:column; justify-content:center; }
+    .calc-out .rr { display:flex; justify-content:space-between; align-items:baseline; gap:1rem; padding:.85rem 0; border-bottom:1px solid rgba(232,227,216,.18); font-size:1rem; }
+    .calc-out .rr b { font-size:1.5rem; font-weight:650; color:#F6F3EC; }
+    .calc-out .rr.tot { border-bottom:0; padding-top:1.1rem; }
+    .calc-out .rr.tot span { color:var(--sage-light); font-weight:600; }
+    .calc-out .rr.tot b { font-size:2.3rem; color:#fff; }
+    @media (max-width:1023px){
+      .mobile-cta-bar { background:var(--charcoal); }
+      .mobile-cta-bar a.primary { background:var(--sage); color:#fff; border-color:var(--sage); }
+    }
   </style>
   <script type="application/ld+json">
 {
@@ -126,10 +207,9 @@
   <header class="bg-white shadow-sm sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <a href="/" class="inline-flex flex-col items-start" aria-label="5K Realty home">
-        <img src="images/5k-realty-logo.png" alt="5K Realty" class="h-9 sm:h-11 w-auto">
-        <span class="text-[11px] sm:text-xs text-gray-500 mt-0.5">Keep More of Your Equity</span>
+        <img src="/images/5k-realty-logo-b.png" alt="5K Realty, Ingold Group Properties, LLC" width="360" height="134" class="home-logo">
       </a>
-      <nav class="hidden md:flex space-x-8 text-sm font-medium items-center">
+      <nav class="hidden md:flex space-x-8 text-sm font-medium items-center whitespace-nowrap home-nav">
         <a href="/" class="hover:text-gold">Home</a>
         <a href="/sellers" class="hover:text-gold">Sellers</a>
         <a href="/buyers" class="hover:text-gold">Buyers</a>
@@ -156,25 +236,73 @@
         <a href="/shingle/" class="hover:text-gold">Sell It Yourself</a>
       </nav>
       <div class="flex items-center gap-2">
-        <a href="/consultation" class="consult-btn consult-desktop">Schedule a Free Consultation</a>
-        <a href="tel:7046496781" class="hidden sm:inline-block bg-navy text-white px-4 py-2 rounded text-sm font-medium">704.649.6781</a>
+        <a href="/consultation" class="consult-btn consult-desktop home-consult-btn">Schedule a Free Consultation</a>
+        <a href="tel:7046496781" class="hidden sm:inline-block home-phone">704.649.6781</a>
       </div>
     </div>
     <div class="md:hidden bg-gray-50 border-t text-center text-sm font-medium py-2"><a href="/shingle/" class="text-navy underline">Sell It Yourself</a> &middot; <a href="/flat-fee" class="text-navy underline">FAQ</a></div>
   </header>
-  <section class="relative text-white overflow-hidden">
-    <img src="images/images/fort-mill-lake-scenic.jpg" alt="Lake Wylie" class="absolute inset-0 w-full h-full object-cover">
-    <div class="absolute inset-0 bg-navy/70"></div>
-    <div class="relative max-w-6xl mx-auto px-4 py-16 sm:py-20 md:py-28">
-      <p class="text-gold font-medium mb-2">Michael Ingold &middot; Serving the Greater Charlotte area, NC/SC</p>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight max-w-3xl">Sell your home.<br>Keep more of your equity.</h1>
-      <p class="text-lg text-gray-100 mb-2 max-w-2xl">Listing side: $5,000 or 1%, whichever is greater, paid at closing. Full service. Same work. More equity left for the seller.</p>
-      <p class="mb-4"><a href="/flat-fee" class="text-gold font-semibold underline">Questions about the fee? Read the FAQ</a></p>
-      <p class="text-gray-200 mb-8 max-w-2xl">Licensed since 2004. More than 20 years with builders and developers. NC and SC Broker in Charge since 2017.</p>
-      <div class="flex flex-col sm:flex-row gap-3">
-        <a href="tel:7046496781" class="bg-gold text-navy px-6 py-3 rounded font-semibold text-center">Call 704.649.6781</a>
-        <a href="sms:+17046496781" class="bg-gold text-navy px-6 py-3 rounded font-semibold text-center">Text 704.649.6781</a>
-        <a href="/sellers" class="border-2 border-white text-white px-6 py-3 rounded font-semibold text-center hover:bg-white hover:text-navy">See what it costs to sell your home</a>
+  <section class="hero-c1" aria-labelledby="hero-h1">
+    <img src="/images/hero-postcard-house.jpg" alt="Gray two-story home exterior with a stone chimney and lit windows at dusk, Greater Charlotte area" width="1275" height="684" fetchpriority="high" decoding="async" class="hero-img">
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow"><svg width="18" height="16" viewBox="0 0 18 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M2 7.5 9 1.5l7 6"/><path d="M3.8 6.2V14.5h10.4V6.2"/><path d="M7.4 14.5v-4h3.2v4"/></svg>Michael Ingold &middot; Greater Charlotte area, NC/SC</p>
+      <h1 id="hero-h1">Sell your home.<br>Keep more of your equity.</h1>
+      <p class="hero-fee"><strong>Listing side: $5,000 or 1%,</strong> whichever is greater, paid at closing. Full service.</p>
+      <div class="hero-ctas">
+        <a href="/consultation" class="btn-sage">Schedule a Free Consultation</a>
+        <a href="tel:7046496781" class="hero-link">Call 704.649.6781</a>
+        <a href="sms:+17046496781" class="hero-link">Text 704.649.6781</a>
+      </div>
+    </div>
+  </section>
+  <div class="trust-c1" aria-label="Credentials">
+    <ul>
+      <li>Licensed since 2004</li>
+      <li>NC &amp; SC BIC since 2017</li>
+      <li>Canopy MLS</li>
+      <li>REALTOR&reg;</li>
+      <li><img src="/images/equal-housing-opportunity.png" alt="" width="17" height="18" aria-hidden="true">Equal Housing</li>
+    </ul>
+  </div>
+  <section class="compare-c1" aria-labelledby="compare-h2">
+    <div class="c1-wrap">
+      <p class="c1-eb"><svg width="18" height="16" viewBox="0 0 18 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M2 7.5 9 1.5l7 6"/><path d="M3.8 6.2V14.5h10.4V6.2"/><path d="M7.4 14.5v-4h3.2v4"/></svg>Compare the fees</p>
+      <h2 id="compare-h2" class="c1-h2">Same $500,000 home. See the difference.</h2>
+      <p class="c1-lede">Listing-side fee vs a 5.5% all-in example. This is an illustration, not a standard rate and not what you will pay at closing.</p>
+      <div class="cmp-grid">
+        <div class="cmp-col k"><div class="t">5K listing-side fee</div><div class="v">$5,000</div><div class="s">$5,000 or 1%, whichever is greater</div></div>
+        <div class="cmp-col"><div class="t">5.5% all-in example</div><div class="v">$27,500</div><div class="s">5.5% of $500,000</div></div>
+        <div class="cmp-col g"><div class="t">Additional equity you keep</div><div class="v">$22,500</div><div class="s">Same $500,000 home</div></div>
+      </div>
+      <p class="cmp-buyer">Buyer&rsquo;s agent compensation is optional and the seller&rsquo;s choice. If offered, it sits on top of the 5K listing-side fee and is paid at closing.</p>
+      <p class="c1-fine" style="margin-top:.5rem;max-width:56rem">The 5.5% figure is an example of what sellers once commonly budgeted. Broker fees are negotiated now. They are not set by NAR, Canopy MLS, or any required rate. The 5K figure is the listing side only.</p>
+    </div>
+  </section>
+  <section class="calc-c1" aria-labelledby="calc-h2">
+    <div class="c1-wrap">
+      <p class="c1-eb"><svg width="18" height="16" viewBox="0 0 18 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M2 7.5 9 1.5l7 6"/><path d="M3.8 6.2V14.5h10.4V6.2"/><path d="M7.4 14.5v-4h3.2v4"/></svg>Seller calculator</p>
+      <h2 id="calc-h2" class="c1-h2">See what you&rsquo;d keep.</h2>
+      <p class="c1-lede">Enter a sale price to compare the 5K listing-side fee with a 5.5% all-in example.</p>
+      <div class="calc-box">
+        <div class="calc-in">
+          <label for="homeSalePrice">Sale price</label>
+          <div class="calc-field"><span aria-hidden="true">$</span><input id="homeSalePrice" type="text" inputmode="numeric" autocomplete="off" value="500,000" aria-describedby="homeCalcNote"></div>
+          <div class="chips" role="group" aria-label="Example sale prices">
+            <button type="button" class="chip" data-price="400000">$400k</button>
+            <button type="button" class="chip" data-price="550000">$550k</button>
+            <button type="button" class="chip" data-price="750000">$750k</button>
+          </div>
+          <div class="calc-cta">
+            <a href="/sellers#calculator" class="btn-sage">Open full calculator</a>
+            <span id="homeCalcNote" class="c1-fine">Net sheet, iBuyer comparison, and print version on the Sellers page.</span>
+          </div>
+        </div>
+        <div class="calc-out" aria-live="polite">
+          <div class="rr"><span>5K listing-side fee</span><b id="homeFee">$5,000</b></div>
+          <div class="rr"><span>5.5% all-in example</span><b id="homeTrad">$27,500</b></div>
+          <div class="rr tot"><span>Additional equity you keep</span><b id="homeKeep">$22,500</b></div>
+        </div>
       </div>
     </div>
   </section>
@@ -206,7 +334,7 @@
       <div class="grid md:grid-cols-3 gap-6">
         <div class="border border-gray-200 rounded-lg p-6">
           <h3 class="text-lg font-bold text-navy mb-2">The fee</h3>
-          <p class="text-gray-600">$5,000 or 1%, whichever is greater, paid at closing. Full Canopy MLS, photos, contracts, and negotiation. Not a listing-only dump. A buyer&rsquo;s agent commission is optional and up to you. The savings are still significant next to a more traditional listing, and each plan is tailored to the home.</p>
+          <p class="text-gray-600">$5,000 or 1%, whichever is greater, paid at closing. Full Canopy MLS listing, professional photos, contracts, and negotiation, start to close. A buyer&rsquo;s agent commission is optional and up to you. The savings are still significant next to a more traditional listing, and each plan is tailored to the home.</p>
         </div>
         <div class="border border-gray-200 rounded-lg p-6">
           <h3 class="text-lg font-bold text-navy mb-2">The background</h3>
@@ -231,7 +359,8 @@
         <a href="/tega-cay" class="text-navy font-medium hover:underline">Tega Cay</a> &nbsp;
         <a href="/ballantyne" class="text-navy font-medium hover:underline">Ballantyne</a> &nbsp;
         <a href="/rock-hill" class="text-navy font-medium hover:underline">Rock Hill</a> &nbsp;
-        <a href="/indian-land" class="text-navy font-medium hover:underline">Indian Land</a>
+        <a href="/indian-land" class="text-navy font-medium hover:underline">Indian Land</a> &nbsp;
+        <a href="/sell-york-lancaster-county" class="text-navy font-medium hover:underline">York &amp; Lancaster County</a>
       </p>
     </div>
   </section>
@@ -259,5 +388,31 @@
     </div>
   </footer>
   <nav class="mobile-cta-bar" aria-label="Quick actions"><a href="/flat-fee">FAQ</a><a href="/consultation" class="primary">Schedule a Free Consultation</a></nav>
+  <script>
+    (function(){
+      // Same math as /sellers: fee = max($5,000, 1%); 5.5% all-in example.
+      var input=document.getElementById('homeSalePrice'); if(!input) return;
+      function money(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+      function parse(v){ return parseFloat(String(v).replace(/[^0-9.]/g,''))||0; }
+      function calc(){
+        var price=parse(input.value), ids=['homeFee','homeTrad','homeKeep'];
+        if(price<=0){ ids.forEach(function(id){document.getElementById(id).textContent='-';}); return; }
+        var trad=price*0.055, fee=Math.max(5000,price*0.01);
+        document.getElementById('homeFee').textContent=money(fee);
+        document.getElementById('homeTrad').textContent=money(trad);
+        document.getElementById('homeKeep').textContent=money(trad-fee);
+      }
+      input.addEventListener('input',calc);
+      input.addEventListener('blur',function(){ var p=parse(input.value); if(p>0) input.value=Math.round(p).toLocaleString('en-US'); });
+      document.querySelectorAll('.calc-c1 .chip').forEach(function(b){
+        b.addEventListener('click',function(){
+          document.querySelectorAll('.calc-c1 .chip').forEach(function(x){x.setAttribute('aria-pressed','false');});
+          b.setAttribute('aria-pressed','true');
+          input.value=Number(b.getAttribute('data-price')).toLocaleString('en-US'); calc();
+        });
+      });
+      calc();
+    })();
+  </script>
 </body>
 </html>
