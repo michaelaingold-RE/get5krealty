@@ -1,0 +1,24 @@
+/* 5K Realty brand sync — Comp 1 charcoal/sage (2026-10-28).
+   Loaded last on brokerage pages so legacy navy/gold utility names render the Comp 1 palette. */
+:root{--navy:#2F3437;--gold:#5E7A64;--charcoal:#2F3437;--sage:#5E7A64;--sage-dark:#4E6854;--sage-light:#B9CDBE;--cream:#F4F1EA}
+.text-navy{color:#2F3437}
+.bg-navy{background-color:#2F3437}
+.border-navy{border-color:#2F3437}
+.text-gold{color:#5E7A64}
+.bg-gold{background-color:#5E7A64;color:#fff}
+.bg-gold.text-navy{color:#fff}
+.bg-gold:hover{background-color:#4E6854;opacity:1}
+.hover\:text-gold:hover{color:#5E7A64}
+.hover\:text-navy:hover{color:#2F3437}
+.focus\:border-navy:focus{border-color:#2F3437}
+.focus\:ring-navy\/30:focus{--tw-ring-color:rgba(47,52,55,.3)}
+/* On charcoal surfaces, sage text is low-contrast: use sage-light */
+.bg-navy .text-gold,.bg-navy.text-gold,.cta .text-gold{color:#B9CDBE}
+.bg-navy .hover\:text-gold:hover{color:#B9CDBE}
+.bg-navy .bg-gold{color:#fff}
+/* Area/town page skin */
+.area-nav a{color:#2F3437}
+.area-nav a.current{color:#5E7A64}
+.cta{background:#2F3437}
+.cta a{background:#5E7A64;color:#fff}
+.cta a:hover{background:#4E6854}
