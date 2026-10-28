@@ -22,3 +22,62 @@
 .cta{background:#2F3437}
 .cta a{background:#5E7A64;color:#fff}
 .cta a:hover{background:#4E6854}
+
+/* Dark panels: brighter cream body (Michael 2026-10-28). No blanket bold. */
+.bg-navy,
+.cta {
+  --on-dark: #F6F3EC;
+  --on-dark-muted: #EDEAE3;
+  --on-dark-fine: #E0DBD0;
+}
+/* Remap soft Tailwind grays that sit on charcoal footers / dark bands */
+.bg-navy .text-gray-100,
+.bg-navy .text-gray-200,
+.bg-navy .text-gray-300 {
+  color: var(--on-dark);
+  font-weight: 500;
+}
+.bg-navy .text-gray-400,
+.bg-navy .text-gray-500 {
+  color: var(--on-dark-muted);
+  font-weight: 400;
+}
+/* Tiny legal / Equal Housing lines: slightly softer cream, still AA on charcoal */
+.bg-navy .text-xs.text-gray-400,
+.bg-navy p.text-gray-400.text-xs,
+.bg-navy span.text-xs.text-gray-400 {
+  color: var(--on-dark-fine);
+  font-weight: 400;
+}
+/* Accent links on dark: cream, semibold — not gray, not blanket 700 */
+.bg-navy a.text-gold,
+.bg-navy .text-gold {
+  color: var(--on-dark);
+  font-weight: 600;
+}
+.bg-navy a.text-gold:hover,
+.bg-navy .hover\:text-gold:hover,
+.bg-navy a.hover\:text-white:hover {
+  color: #fff;
+}
+.bg-navy a:not(.bg-gold):not(.consult-btn) {
+  font-weight: 500;
+}
+/* Headings / strong labels on dark stay bold; body stays regular/medium */
+.bg-navy h1, .bg-navy h2, .bg-navy h3,
+.cta h1, .cta h2, .cta h3 {
+  font-weight: 700;
+  color: #fff;
+}
+.cta p {
+  color: var(--on-dark);
+  font-weight: 500;
+}
+.cta a {
+  font-weight: 600;
+}
+/* Mobile sticky secondary links already white; keep primary sage */
+.mobile-cta-bar a {
+  color: #fff;
+  font-weight: 600;
+}
