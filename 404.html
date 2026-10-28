@@ -25,29 +25,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --navy: #2F3437; --gold: #5E7A64; }
+    :root { --navy: #16191A; --gold: #3F6B4F; }
     body { font-family: 'Inter', system-ui, sans-serif; }
     .text-navy { color: var(--navy); }
     .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); }
     .bg-gold { background-color: var(--gold); }
   </style>
-  <link rel="stylesheet" href="/assets/lead-form.css">
-  <link rel="stylesheet" href="/assets/brand-c1.css?v=2">
+  <link rel="stylesheet" href="/assets/lead-form.css?v=3">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+  <link rel="stylesheet" href="/assets/brand-c1.css?v=3">
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col">
-  <header class="bg-white shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <a href="/" class="inline-flex flex-col items-start" aria-label="5K Realty home">
-        <img src="/images/5k-realty-logo-b.png" alt="5K Realty · Ingold Group Properties, LLC" width="168" height="48" class="h-9 sm:h-11 w-auto max-w-[200px] sm:max-w-[240px] object-contain object-left" decoding="async">
-        <span class="text-[11px] sm:text-xs text-gray-500 tracking-wide mt-0.5 whitespace-nowrap">Keep More of Your Equity</span>
-      </a>
-      <div class="flex items-center gap-2">
-        <a href="/consultation" class="consult-btn consult-desktop">Schedule a Free Consultation</a>
-        <a href="tel:7046496781" class="bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-opacity-90">704.649.6781</a>
-      </div>
-    </div>
-  </header>
+  <header class="df-hdr no-print">
+  <div class="df-wrap">
+    <a class="df-logo" href="/" aria-label="5K Realty home"><img src="/images/5k-realty-logo-forest.png" srcset="/images/5k-realty-logo-forest.png 1x, /images/5k-realty-logo-forest-720.png 2x" alt="5K Realty, Ingold Group Properties, LLC" width="124" height="46"></a>
+    <nav class="df-nav" aria-label="Main"><a href="/sellers">Sellers</a><a href="/buyers">Buyers</a><div class="df-dd"><a href="/#areas">Areas<span class="caret" aria-hidden="true"></span></a><div class="df-menu"><a href="/charlotte">Charlotte</a><a href="/fort-mill">Fort Mill</a><a href="/tega-cay">Tega Cay</a><a href="/lake-wylie">Lake Wylie</a><a href="/rock-hill">Rock Hill</a><a href="/indian-land">Indian Land</a><a href="/ballantyne">Ballantyne</a><a href="/sell-york-lancaster-county">York &amp; Lancaster County</a></div></div><a href="/about">About</a><a href="/flat-fee">FAQ</a></nav>
+    <div class="df-right"><a class="df-quiet" href="/shingle/">Sell It Yourself</a><a class="df-phone" href="tel:7046496781"><small>Call or text</small>704.649.6781</a><a class="df-btn" href="/consultation">Schedule a Free Consultation</a></div>
+  </div>
+  <nav class="df-mnav" aria-label="Main, mobile"><a href="/sellers">Sellers</a><a href="/buyers">Buyers</a><a href="/#areas">Areas</a><a href="/about">About</a><a href="/flat-fee">FAQ</a><a href="/shingle/">Sell It Yourself</a></nav>
+</header>
 
   <main class="flex-1 bg-navy text-white flex items-center">
     <div class="max-w-3xl mx-auto px-4 py-20 text-center">
@@ -64,15 +61,30 @@
     </div>
   </main>
 
-  <footer class="bg-navy border-t border-white/10 text-gray-300 text-sm py-6">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <p>&copy; 2026 5K Realty · Ingold Group Properties, LLC</p>
-      <p class="text-gray-400 text-xs mt-3"><a href="https://www.facebook.com/profile.php?id=61593697977199" class="hover:text-white underline" target="_blank" rel="noopener noreferrer">Facebook</a></p>
-      <p class="text-gray-400 text-xs mt-3"><a href="/shingle/" class="hover:text-white underline">Selling on your own? Try Shingle: The Seller Assist App, free</a></p>
-      <p class="text-gray-400 text-xs mt-3">Mailing: PO Box 633, Fort Mill, SC 29716</p>
-      <p class="text-gray-400 text-xs mt-3"><a href="/disclosures/" class="hover:text-white underline">Agency Disclosures</a></p>
+  <footer class="df-ftr no-print">
+  <div class="df-top">
+    <div class="df-contact">
+      <a class="df-logo" href="/" aria-label="5K Realty home"><img src="/images/5k-realty-logo-forest-on-dark.png" srcset="/images/5k-realty-logo-forest-on-dark.png 1x, /images/5k-realty-logo-forest-on-dark-720.png 2x" alt="5K Realty" width="156" height="58"></a>
+      <p class="df-area">Serving the Greater Charlotte area, NC/SC</p>
+      <a class="ph" href="tel:7046496781">704.649.6781</a>
+      <span class="sub">Call or <a href="sms:+17046496781">text</a></span>
+      <a class="em" href="mailto:michael@get5krealty.com">michael@get5krealty.com</a>
     </div>
-  </footer>
+    <div><h4>Sellers</h4><ul><li><a href="/sellers">Sell with 5K</a></li><li><a href="/sellers#calculator">What it costs to sell</a></li><li><a href="/consultation">Schedule a consultation</a></li><li><a href="/flat-fee">FAQ</a></li><li><a href="/buyers">Buyers</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul></div>
+    <div><h4>Areas</h4><ul><li><a href="/charlotte">Charlotte</a></li><li><a href="/fort-mill">Fort Mill</a></li><li><a href="/tega-cay">Tega Cay</a></li><li><a href="/lake-wylie">Lake Wylie</a></li><li><a href="/rock-hill">Rock Hill</a></li><li><a href="/indian-land">Indian Land</a></li><li><a href="/ballantyne">Ballantyne</a></li><li><a href="/sell-york-lancaster-county">York &amp; Lancaster County</a></li></ul></div>
+    <div class="df-office"><h4>Office</h4>
+      <p><b>5K Realty</b>Ingold Group Properties, LLC<br>Mailing: PO Box 633, Fort Mill, SC 29716</p>
+      <p>REALTOR&reg; member &middot; Canopy MLS</p>
+      <p>Selling on your own? <a href="/shingle/">Try Shingle: The Seller Assist App, free</a></p>
+      <p><a href="https://www.facebook.com/profile.php?id=61593697977199" target="_blank" rel="noopener noreferrer">Facebook</a></p>
+    </div>
+  </div>
+  <div class="df-legal"><div class="df-lw">
+    <span class="df-eho"><img src="/images/equal-housing-opportunity.png" alt="" width="26" height="28">Equal Housing Opportunity</span>
+    <span class="df-sp">&copy; 2026 5K Realty &middot; Ingold Group Properties, LLC. All rights reserved.</span>
+    <span><a href="/privacy">Privacy Policy</a><a href="/disclosures/">Agency Disclosures</a></span>
+  </div></div>
+</footer>
   <nav class="mobile-cta-bar" aria-label="Quick actions"><a href="/flat-fee">FAQ</a><a href="/consultation" class="primary">Schedule a Free Consultation</a></nav>
 </body>
 </html>
