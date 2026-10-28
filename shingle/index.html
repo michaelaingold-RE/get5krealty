@@ -6,8 +6,8 @@
   <title>Shingle: The Seller Assist App | Sell Your Own Home in NC and SC</title>
   <meta name="description" content="Selling your home yourself in Greater Charlotte? Shingle is free. Plan showings, track buyers' proof of funds, compare offers and find the NC or SC forms you need.">
   <link rel="canonical" href="https://get5krealty.com/shingle/">
-  <meta name="theme-color" content="#f6f1e8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1f2a24" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F6F1E6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1B3328" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light">
   <link rel="icon" href="/shingle/assets/icons/favicon.ico" sizes="32x32">
   <link rel="icon" href="/shingle/assets/icons/favicon.svg" type="image/svg+xml">
@@ -47,28 +47,39 @@
   <link rel="stylesheet" href="/shingle/assets/install-card.css">
   <!-- Cloudflare Web Analytics: the Pages project already injects the beacon automatically, so no manual snippet here (it would load twice). The app, privacy and support pages block it with a Content-Security-Policy in /_headers. -->
   <style>
+    /* Deep Forest tokens (match /assets/brand-c1.css). Content rules are scoped to .container so they never override .df-hdr / .df-ftr. */
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.7;color:#1a1a1a;background:#f8f9fa}
+    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.7;color:#16191A;background:#FBF8F1}
     .container{max-width:720px;margin:0 auto;padding:40px 20px 60px}
-    header{text-align:center;margin-bottom:28px}header a{color:#1a1a1a;text-decoration:none;display:inline-block}
-    header img{height:48px;width:auto;max-width:240px;display:block;margin:0 auto}
-    header .tagline{display:block;font-size:.75rem;color:#5f6670;letter-spacing:.04em;margin-top:4px;font-weight:500}
-    .site-links{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin-bottom:28px;font-size:.9rem}.site-links a{color:#0A2540;font-weight:500;text-decoration:none}
-    h1{font-size:1.85rem;line-height:1.25;margin-bottom:14px;color:#111}.intro{font-size:1.1rem;color:#444;margin-bottom:24px}
-    h2{font-size:1.35rem;margin:36px 0 14px;color:#111}h3{font-size:1.05rem;margin:22px 0 6px;color:#111}
-    p,ul,ol{margin-bottom:16px;color:#333}ul,ol{padding-left:22px}li{margin-bottom:8px}a{color:#0A2540}
-    .highlight{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:22px 24px;margin:24px 0}
-    .note{font-size:.95rem;background:#fff8e6;border-left:4px solid #C9A227;padding:12px 16px;border-radius:6px}
-    .start{display:inline-block;background:#2f5d4a;color:#fff;text-decoration:none;font-weight:700;padding:14px 30px;border-radius:8px;font-size:1.05rem}
-    .cta{background:#0A2540;color:#fff;padding:28px 24px;border-radius:10px;margin-top:40px}.cta h2{color:#fff;margin-top:0}.cta p{color:#fff}.cta a{color:#fff}
-    form.sl label{display:block;font-weight:600;font-size:.95rem;margin:12px 0 4px;color:#fff}
-    form.sl input,form.sl select,form.sl textarea{width:100%;padding:11px;border:1px solid #c9ced6;border-radius:6px;font:inherit;font-size:16px;background:#fff;color:#111}
-    form.sl fieldset{border:0;margin:12px 0 0}form.sl legend{font-weight:600;font-size:.95rem;color:#fff}form.sl .ck{display:flex;gap:8px;align-items:center;font-weight:400;margin:6px 0}form.sl .ck input{width:auto}
-    form.sl button{margin-top:16px;background:#C9A227;color:#0A2540;border:0;font-weight:700;padding:13px 28px;border-radius:6px;font-size:1rem;cursor:pointer}
-    .hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}.ok{background:#e3ece6;color:#1f4a37;padding:12px;border-radius:6px;margin-top:12px}.err{background:#fde8e1;color:#7a3416;padding:12px;border-radius:6px;margin-top:12px}.ok a,.err a{color:inherit}
-    .page-footer{text-align:center;margin-top:40px;font-size:.8rem;color:#5f6670}.page-footer a{color:#5f6670}.fine{font-size:.85rem;color:#4b5563}
-    @media(max-width:480px){.container{padding:28px 16px 50px}h1{font-size:1.55rem}}
-    .peek{margin:22px auto 6px;max-width:260px;text-align:center}.peek video{display:block;width:100%;aspect-ratio:9/16;height:auto;border-radius:14px;background:#2f5d4a;box-shadow:0 6px 22px rgba(0,0,0,.14)}.peek figcaption{font-size:.85rem;color:#4b5563;margin-top:8px}
+    :where(.container) h1{font-family:"Source Serif 4","Source Serif Pro",Georgia,serif;font-weight:600;letter-spacing:-.01em;font-size:2.1rem;line-height:1.2;margin-bottom:14px;color:#16191A}
+    .container .intro{font-size:1.1rem;color:#4E5A53;margin-bottom:24px}:where(.container) .intro b{color:#16191A}
+    :where(.container) h2{font-size:1.35rem;margin:36px 0 14px;color:#16191A}:where(.container) h3{font-size:1.05rem;margin:22px 0 6px;color:#16191A}
+    :where(.container) p,:where(.container) ul,:where(.container) ol{margin-bottom:16px;color:#16191A}:where(.container) ul,:where(.container) ol{padding-left:22px}:where(.container) li{margin-bottom:8px}
+    :where(.container) a{color:#2F5A40}:where(.container) a:hover{color:#3F6B4F}
+    .container .highlight{background:#fff;border:1px solid #E4DDCE;border-radius:6px;padding:22px 24px;margin:24px 0}
+    .container .highlight.accent{border-left:4px solid #3F6B4F}
+    .container .note{font-size:.95rem;background:#DDE7D8;border-left:4px solid #3F6B4F;padding:12px 16px;border-radius:6px}
+    .container a.start{display:inline-block;background:#3F6B4F;color:#fff;text-decoration:none;font-weight:600;padding:14px 30px;border-radius:4px;font-size:1.05rem}
+    .container a.start:hover{background:#2F5A40;color:#fff}
+    /* CTA band: forest-ink, cream-on-dark text. Overrides the area-page .cta link-button skin in the shared sheet so inline links stay links. */
+    #talk.cta{background:#1B3328 !important;color:#F6F3EC;padding:28px 24px;border-radius:6px;margin-top:40px}
+    #talk.cta h2{color:#fff;margin-top:0}#talk.cta p{color:#F6F3EC !important}
+    #talk.cta a,#talk.cta a + a{background:none !important;border:0 !important;color:#fff !important;font-weight:600;text-decoration:underline;text-decoration-color:#A9C9AF;text-underline-offset:3px}
+    #talk.cta a:hover{color:#A9C9AF !important}
+    form.sl label{display:block;font-weight:600;font-size:.95rem;margin:12px 0 4px;color:#F6F3EC}
+    form.sl input,form.sl select,form.sl textarea{width:100%;padding:11px;border:1px solid #D3CBB9;border-radius:4px;font:inherit;font-size:16px;background:#fff;color:#16191A}
+    form.sl input:focus,form.sl select:focus,form.sl textarea:focus{outline:none;border-color:#A9C9AF;box-shadow:0 0 0 3px rgba(169,201,175,.35)}
+    form.sl fieldset{border:0;margin:12px 0 0}form.sl legend{font-weight:600;font-size:.95rem;color:#F6F3EC}form.sl .ck{display:flex;gap:8px;align-items:center;font-weight:400;margin:6px 0}form.sl .ck input{width:auto}
+    form.sl button{margin-top:16px;background:#3F6B4F;color:#fff;border:0;font-weight:600;padding:13px 28px;border-radius:4px;font-size:1rem;cursor:pointer;font-family:inherit}
+    form.sl button:hover{background:#2F5A40}
+    .hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}.ok{background:#DDE7D8;color:#1B3328;padding:12px;border-radius:6px;margin-top:12px}.err{background:#fde8e1;color:#7a3416;padding:12px;border-radius:6px;margin-top:12px}
+    #talk.cta .ok,#talk.cta p.ok{color:#1B3328 !important}#talk.cta .err,#talk.cta p.err{color:#7a3416 !important}#talk.cta .ok a,#talk.cta .err a{color:inherit !important}
+    .container .fine{font-size:.85rem;color:#4E5A53}
+    .shingle-legal{text-align:center;font-size:.85rem;color:#4E5A53}.container .shingle-legal{margin-top:28px;color:#4E5A53}
+    @media(max-width:480px){.container{padding:28px 16px 50px}:where(.container) h1{font-size:1.7rem}}
+    .peek{margin:22px auto 6px;max-width:260px;text-align:center}.peek video{display:block;width:100%;aspect-ratio:9/16;height:auto;border-radius:14px;background:#1B3328;box-shadow:0 6px 22px rgba(0,0,0,.14)}.container .peek figcaption{font-size:.85rem;color:#4E5A53;margin-top:8px}
+    /* Current page in the shared header: Sell It Yourself */
+    .df-hdr .df-quiet.on{color:#2F5A40;font-weight:600;text-decoration:underline;text-decoration-color:#3F6B4F;text-decoration-thickness:2px;text-underline-offset:6px}
   </style>
   <script type="application/ld+json">
 {
@@ -165,16 +176,19 @@
   ]
 }
   </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+  <link rel="stylesheet" href="/assets/brand-c1.css?v=3">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <a href="/" aria-label="5K Realty home, Ingold Group Properties, LLC">
-        <img src="/images/5k-realty-logo.png" alt="5K Realty · Ingold Group Properties, LLC" width="168" height="48">
-        <span class="tagline">Keep More of Your Equity</span>
-      </a>
-    </header>
-    <nav class="site-links" aria-label="Site pages"><a href="/">Home</a> · <a href="/sellers">Sellers</a> · <a href="/buyers">Buyers</a> · <a href="/contact">Contact</a> · <a href="/flat-fee">FAQ</a> · <a href="/shingle/">Sell It Yourself</a></nav>
+  <header class="df-hdr no-print">
+  <div class="df-wrap">
+    <a class="df-logo" href="/" aria-label="5K Realty home"><img src="/images/5k-realty-logo-forest.png" srcset="/images/5k-realty-logo-forest.png 1x, /images/5k-realty-logo-forest-720.png 2x" alt="5K Realty, Ingold Group Properties, LLC" width="124" height="46"></a>
+    <nav class="df-nav" aria-label="Main"><a href="/sellers">Sellers</a><a href="/buyers">Buyers</a><div class="df-dd"><a href="/#areas">Areas<span class="caret" aria-hidden="true"></span></a><div class="df-menu"><a href="/charlotte">Charlotte</a><a href="/fort-mill">Fort Mill</a><a href="/tega-cay">Tega Cay</a><a href="/lake-wylie">Lake Wylie</a><a href="/rock-hill">Rock Hill</a><a href="/indian-land">Indian Land</a><a href="/ballantyne">Ballantyne</a><a href="/sell-york-lancaster-county">York &amp; Lancaster County</a></div></div><a href="/about">About</a><a href="/flat-fee">FAQ</a></nav>
+    <div class="df-right"><a class="df-quiet on" href="/shingle/" aria-current="page">Sell It Yourself</a><a class="df-phone" href="tel:7046496781"><small>Call or text</small>704.649.6781</a><a class="df-btn" href="/consultation">Schedule a Free Consultation</a></div>
+  </div>
+  <nav class="df-mnav" aria-label="Main, mobile"><a href="/sellers">Sellers</a><a href="/buyers">Buyers</a><a href="/#areas">Areas</a><a href="/about">About</a><a href="/flat-fee">FAQ</a><a href="/shingle/" class="on" aria-current="page">Sell It Yourself</a></nav>
+</header>
+  <main class="container">
 
     <h1>Shingle: The Seller Assist App</h1>
     <p class="intro" style="margin-bottom:8px"><b>Sell your own home in Greater Charlotte. Free.</b></p>
@@ -195,7 +209,7 @@
      else addEventListener('load',go)})();
     </script>
 
-    <div class="highlight" id="before-you-start" role="note" style="border-left:4px solid #C9A227">
+    <div class="highlight accent" id="before-you-start" role="note">
       <p style="margin:0"><b>Before you start:</b> Selling a home on your own comes with real legal and financial hurdles. Shingle can help you stay organized, but it is not the final stop for everything a sale involves. It is educational only and not legal, tax or real estate advice. Always consult a real estate attorney before you sign anything or close.</p>
     </div>
 
@@ -292,15 +306,34 @@
     </section>
 
     <p class="fine" style="margin-top:28px">Shingle gives you educational information. It is not legal, tax, or real estate advice. Shingle is not representation or brokerage services from 5K Realty. Using Shingle does not create an agency relationship with 5K Realty. You are responsible for following North Carolina, South Carolina, and federal law when you sell your home. 5K Realty (Ingold Group Properties, LLC) is a licensed real estate brokerage. "Want us to handle it?" is optional. You can use all of Shingle without hiring 5K Realty.</p>
-    <p class="page-footer">
-      <img src="/shingle/assets/hud/equal-housing-opportunity-hud.png" alt="Equal Housing Opportunity logo" width="36" height="38" style="height:38px;width:36px;display:block;margin:0 auto 8px"><br>
-      Shingle: The Seller Assist App is made by 5K Realty · Ingold Group Properties, LLC<br>
-      <a href="tel:7046496781">Call 704.649.6781</a> · <a href="sms:+17046496781">Text</a> · <a href="mailto:michael@get5krealty.com">michael@get5krealty.com</a><br>
-      Mailing: PO Box 633, Fort Mill, SC 29716<br>
-      <a href="/shingle/terms/">Shingle terms</a> · <a href="/shingle/privacy/">Shingle privacy policy</a> · <a href="/shingle/support/">Shingle support</a> · <a href="/privacy">Site privacy policy</a> · <a href="/disclosures/">Agency Disclosures</a><br>
-      &copy; 2026 Ingold Group Properties, LLC dba 5K Realty. All rights reserved.
+    <p class="shingle-legal">Shingle: The Seller Assist App is made by 5K Realty · Ingold Group Properties, LLC<br>
+      <a href="/shingle/terms/">Shingle terms</a> · <a href="/shingle/privacy/">Shingle privacy policy</a> · <a href="/shingle/support/">Shingle support</a>
     </p>
+  </main>
+  <footer class="df-ftr no-print">
+  <div class="df-top">
+    <div class="df-contact">
+      <a class="df-logo" href="/" aria-label="5K Realty home"><img src="/images/5k-realty-logo-forest-on-dark.png" srcset="/images/5k-realty-logo-forest-on-dark.png 1x, /images/5k-realty-logo-forest-on-dark-720.png 2x" alt="5K Realty" width="156" height="58"></a>
+      <p class="df-area">Serving the Greater Charlotte area, NC/SC</p>
+      <a class="ph" href="tel:7046496781">704.649.6781</a>
+      <span class="sub">Call or <a href="sms:+17046496781">text</a></span>
+      <a class="em" href="mailto:michael@get5krealty.com">michael@get5krealty.com</a>
+    </div>
+    <div><h4>Sellers</h4><ul><li><a href="/sellers">Sell with 5K</a></li><li><a href="/sellers#calculator">What it costs to sell</a></li><li><a href="/consultation">Schedule a consultation</a></li><li><a href="/flat-fee">FAQ</a></li><li><a href="/buyers">Buyers</a></li><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul></div>
+    <div><h4>Areas</h4><ul><li><a href="/charlotte">Charlotte</a></li><li><a href="/fort-mill">Fort Mill</a></li><li><a href="/tega-cay">Tega Cay</a></li><li><a href="/lake-wylie">Lake Wylie</a></li><li><a href="/rock-hill">Rock Hill</a></li><li><a href="/indian-land">Indian Land</a></li><li><a href="/ballantyne">Ballantyne</a></li><li><a href="/sell-york-lancaster-county">York &amp; Lancaster County</a></li></ul></div>
+    <div class="df-office"><h4>Office</h4>
+      <p><b>5K Realty</b>Ingold Group Properties, LLC<br>Mailing: PO Box 633, Fort Mill, SC 29716</p>
+      <p>REALTOR&reg; member &middot; Canopy MLS</p>
+      <p>Selling on your own? <a href="/shingle/">Try Shingle: The Seller Assist App, free</a></p>
+      <p><a href="https://www.facebook.com/profile.php?id=61593697977199" target="_blank" rel="noopener noreferrer">Facebook</a></p>
+    </div>
   </div>
+  <div class="df-legal"><div class="df-lw">
+    <span class="df-eho"><img src="/images/equal-housing-opportunity.png" alt="" width="26" height="28">Equal Housing Opportunity</span>
+    <span class="df-sp">&copy; 2026 5K Realty &middot; Ingold Group Properties, LLC. All rights reserved.</span>
+    <span><a href="/privacy">Privacy Policy</a><a href="/disclosures/">Agency Disclosures</a></span>
+  </div></div>
+</footer>
   <script src="/shingle/assets/install-card.js" defer></script>
   <script src="/shingle/landing.js" defer></script>
 </body>
