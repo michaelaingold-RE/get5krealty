@@ -22,7 +22,7 @@ function leadForm(source){return `<div class="card" id="lead"><h3>Talk to 5K Rea
 <label for="lf-time">Best time to reach you</label><input id="lf-time" name="best_time" placeholder="For example, weekday evenings">
 <label for="lf-msg">Message</label><textarea id="lf-msg" name="message" rows="4"></textarea>
 <!-- Consent placeholder: a call or text consent checkbox is intentionally NOT included yet (Chief of Staff, Oct 15, 2026). Add it here only after Michael approves the wording. -->
-<p class="muted" style="margin-top:12px">When you tap Send, these details go to 5K Realty through Formspree, our form service. Apart from this form, Shingle only sends your disclaimer receipt and your phone number for the code check, both during the start-up step. <a href="/shingle/privacy/">Privacy policy</a></p>
+<p class="muted" style="margin-top:12px">When you tap Send, these details go to 5K Realty through Formspree, our form service. Apart from this form, Shingle only sends your disclaimer receipt and, if you gave a phone, your number for the code check, both during the start-up step. <a href="/shingle/privacy/">Privacy policy</a></p>
 <button class="btn" type="submit" id="lf-send">Send to 5K Realty</button><div id="lf-status" role="status" aria-live="polite" style="margin-top:8px"></div>
 </form></div>`}
 function bindLeadForm(screen){const f=document.getElementById('lead-form');if(!f)return;
@@ -106,16 +106,17 @@ function acceptanceRecord(){const L=S.legal;if(!L)return;const {jsPDF}=window.js
  line('Disclaimer text',{b:1});LG.disc.forEach(t=>line(t));line(LG.broker);line(LG.accept,{gap:12});
  line('This record was made on your device from what you entered in Shingle. It is not legal advice. Shingle by 5K Realty, Ingold Group Properties, LLC.',{s:9});
  shingleSave(d.output('blob'),'shingle-disclaimer-acceptance-'+L.acceptedAt.slice(0,10)+'.pdf','application/pdf').then(r=>shingleSaveToast(r,'Acceptance record'))}
-function ackText(){const L=S.legal;return ['Shingle: The Seller Assist App, disclaimer acknowledgement','Owners: '+(L.names||[]).join(', '),'Property: '+(L.addr||'')+(L.cityZip?', '+L.cityZip:'')+(L.state?' ('+L.state+')':''),'Phone: '+(L.phone||''),'Email: '+(L.email||''),'Date: '+L.date,'Time: '+L.time,'Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')','','I accepted this disclaimer:',...LG.disc,LG.accept].join('\n')}
+function ackText(){const L=S.legal;return ['Shingle: The Seller Assist App, disclaimer acknowledgement','Owners: '+(L.names||[]).join(', '),'Property: '+(L.addr||'')+(L.cityZip?', '+L.cityZip:'')+(L.state?' ('+L.state+')':''),...(L.phone?['Phone: '+L.phone]:[]),...(L.email?['Email: '+L.email]:[]),'Date: '+L.date,'Time: '+L.time,'Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')','','I accepted this disclaimer:',...LG.disc,LG.accept].join('\n')}
 function mailAck(){S.myEmail=S.legal.email||S.myEmail;mailMe('My Shingle disclaimer acknowledgement, '+(S.legal.addr||''),ackText())}
-// Receipt goes to /api/receipt (Cloudflare D1). The token from the phone check proves the phone was confirmed.
+// Receipt goes to /api/receipt (Cloudflare D1): 5K Realty's record copy. Phone path: the token from the phone check
+// proves the phone was confirmed. Email-only path: no phone and no token. The unused contact is sent as ''.
 // Returns a Promise: resolves with {ok:true,id} once the receipt is stored, rejects otherwise. The app stays locked until it resolves.
-window.sendAck=function(manual){const L=S.legal;if(!L)return Promise.reject({error:'no_legal'});
- const body={token:(S.otp&&S.otp.token)||'',phone:shinglePhone(L.phone),names:L.names||[],addr:L.addr,cityZip:L.cityZip,state:L.state,email:L.email,version:L.version,effective:L.effective||LG_DATE,acceptedAt:L.acceptedAt};
+window.sendAck=function(manual){const L=S.legal;if(!L)return Promise.reject({error:'no_legal'});const ph=!!(L.phone||'').trim();
+ const body={token:ph?((S.otp&&S.otp.token)||''):'',phone:ph?shinglePhone(L.phone):'',names:L.names||[],addr:L.addr,cityZip:L.cityZip,state:L.state,email:(L.email||'').trim(),version:L.version,effective:L.effective||LG_DATE,acceptedAt:L.acceptedAt};
  return fetch('/api/receipt',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json().catch(()=>({ok:false,error:'http_'+r.status}))).then(j=>{if(!j||!j.ok)throw j||{};S.legal.receipt='sent';if(j.id)S.legal.receiptId=j.id;if(S.otp)delete S.otp.token;save();if(manual){toast('Receipt sent');render()}return j})
-  .catch(e=>{e=e||{};S.legal.receipt='failed';if(/token/.test(e.error||'')){S.otp=null;if(S.legal)S.legal.phoneVerified=false}save();if(manual)toast(ackErrMsg(e));throw e})};
-window.ackErrMsg=e=>/token/.test((e&&e.error)||'')?'Your phone check timed out. Get a new code to confirm your phone, then tap Accept again.':'Could not save your acknowledgement. Check your connection and try again.';
-window.addEventListener('online',()=>{if(S.legal&&S.legal.receipt&&S.legal.receipt!=='sent'&&S.otp&&S.otp.token)sendAck().then(()=>{if(legalOk()&&document.getElementById('lg-go')){if(!location.hash||location.hash==='#disclaimer')location.hash='welcome';render()}}).catch(()=>{})});
+  .catch(e=>{e=e||{};S.legal.receipt='failed';if(ph&&/token/.test(e.error||'')){S.otp=null;if(S.legal)S.legal.phoneVerified=false}save();if(manual)toast(ackErrMsg(e));throw e})};
+window.ackErrMsg=e=>{const er=(e&&e.error)||'',f=(e&&e.fields)||[];if(/token/.test(er))return 'Your phone check timed out. Get a new code to confirm your phone, then tap Accept again.';if(er==='invalid'&&f.length)return f.includes('phone')?'Check your phone number and try again.':f.includes('email')?'Check your email address and try again.':f.includes('phone_or_email')?'Enter a phone or an email, then tap Accept again.':'Check the fields above and try again.';if(er==='rate_ip')return 'Too many tries from this connection. Wait a while and try again, or call 5K Realty at 704.649.6781.';return 'Could not save your acknowledgement. Check your connection and try again.'};
+window.addEventListener('online',()=>{const L=S.legal;if(L&&L.receipt&&L.receipt!=='sent'&&((L.phone||'').trim()?(S.otp&&S.otp.token):(L.email||'').trim()))sendAck().then(()=>{if(legalOk()&&document.getElementById('lg-go')){if(!location.hash||location.hash==='#disclaimer')location.hash='welcome';render()}}).catch(()=>{})});
 // Phone verification (Twilio Verify through /api/otp/*). Off unless SHINGLE_CFG.otpGate is true.
 const otpDigits=p=>{let d=String(p||'').replace(/\D/g,'');if(d.length===11&&d[0]==='1')d=d.slice(1);return d.length===10&&/^[2-9]\d{2}[2-9]/.test(d)?d:''};
 window.otpOn=()=>!!(window.SHINGLE_CFG&&SHINGLE_CFG.otpGate&&SHINGLE_CFG.turnstileSiteKey);
