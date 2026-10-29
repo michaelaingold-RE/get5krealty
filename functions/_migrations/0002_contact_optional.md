@@ -15,6 +15,6 @@ The disclaimer gate now asks for a name and **either** a phone **or** an email (
 Notes for exports and lookups:
 - Treat `''` in `phone` or `email` as "not given". `phone_verified_at IS NULL AND phone = ''` means the email-only path.
 - `UNIQUE (phone, disclaimer_version, accepted_at_utc)`: email-only rows all share `phone = ''`, so two different
-  email-only sellers accepting the same version in the same millisecond would collide (the API returns 409 `conflict`;
-  the app shows a retry message and a new tap gets a new timestamp). Accepted as negligible.
+  email-only sellers accepting the same version in the same millisecond would collide (the API returns 409 `retry`;
+  the app retries once automatically with a fresh acceptedAt). Accepted as negligible.
 - 5K Realty keeps this row as its record copy. It does not contact the seller from it; 5K only reaches out if the seller asks.

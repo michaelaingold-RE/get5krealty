@@ -127,7 +127,9 @@ if(v==='disclaimer'){const g=$('#lg-go');
   // Stay on the disclaimer until /api/receipt confirms the acknowledgement was stored.
   const st=()=>{let p=$('#lg-status');if(!p){($('#lg-go')||g).insertAdjacentHTML('afterend','<p class="muted" id="lg-status" role="status" aria-live="polite"></p>');p=$('#lg-status')}return p};
   g.disabled=true;g.textContent='Saving…';st().textContent='Saving your acknowledgement…';
-  try{if(!window.sendAck)throw {error:'not_loaded'};await sendAck()}catch(e){const msg=window.ackErrMsg?ackErrMsg(e):'Could not save your acknowledgement. Check your connection and try again.';if(/token/.test((e&&e.error)||'')){render()}else{g.textContent='Accept and continue';sync()}st().textContent=msg;toast(msg);return}
+  // 409 retry: rare email-only collision on the same acceptedAt; retry once with a fresh timestamp.
+  const fresh=()=>{const n=new Date();Object.assign(S.legal,{acceptedAt:n.toISOString(),date:n.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),time:n.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZoneName:'short'}),receipt:'pending'});save()};
+  try{if(!window.sendAck)throw {error:'not_loaded'};try{await sendAck()}catch(e1){if(!e1||e1.error!=='retry')throw e1;fresh();await sendAck()}}catch(e){const msg=window.ackErrMsg?ackErrMsg(e):'Could not save your acknowledgement. Check your connection and try again.';if(/token/.test((e&&e.error)||'')){render()}else{g.textContent='Accept and continue';sync()}st().textContent=msg;toast(msg);return}
   if(!legalOk()){g.textContent='Accept and continue';sync();st().textContent='Could not save your acknowledgement. Check your connection and try again.';return}
   // Your copy: the acceptance PDF always downloads; with an email, an email draft to you opens too (no server email, no text).
   try{acceptanceRecord()}catch(_){}if(em&&window.mailAck)setTimeout(()=>{try{mailAck()}catch(_){}},800);
