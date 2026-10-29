@@ -22,7 +22,7 @@ function leadForm(source){return `<div class="card" id="lead"><h3>Talk to 5K Rea
 <label for="lf-time">Best time to reach you</label><input id="lf-time" name="best_time" placeholder="For example, weekday evenings">
 <label for="lf-msg">Message</label><textarea id="lf-msg" name="message" rows="4"></textarea>
 <!-- Consent placeholder: a call or text consent checkbox is intentionally NOT included yet (Chief of Staff, Oct 15, 2026). Add it here only after Michael approves the wording. -->
-<p class="muted" style="margin-top:12px">When you tap Send, these details go to 5K Realty through Formspree, our form service. Apart from this form, Shingle only sends your disclaimer receipt and, if you gave a phone, your number for the code check, both during the start-up step. <a href="/shingle/privacy/">Privacy policy</a></p>
+<p class="muted" style="margin-top:12px">When you tap Send, these details go to 5K Realty through our form service. Apart from this form, Shingle only sends your disclaimer receipt and, if you gave a phone, your number for the code check, both during the start-up step. <a href="/shingle/privacy/">Privacy policy</a></p>
 <button class="btn" type="submit" id="lf-send">Send to 5K Realty</button><div id="lf-status" role="status" aria-live="polite" style="margin-top:8px"></div>
 </form></div>`}
 function bindLeadForm(screen){const f=document.getElementById('lead-form');if(!f)return;
