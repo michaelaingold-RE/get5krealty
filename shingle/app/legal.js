@@ -15,7 +15,9 @@ const LG_VERSION='1.1',LG_DATE='2026-10-15';
 // Production mode hides demo controls. Add ?demo=1 to show them. ?mode=store always hides them.
 const QS=new URLSearchParams(location.search);const DEMO=QS.get('demo')==='1'&&QS.get('mode')!=='store';
 const demoBtn=html=>DEMO?html:'';
-const legalOk=()=>!!(S.legal&&S.legal.acceptedAt&&S.legal.version===LG_VERSION);
+// Unlocks the app only after accept + server receipt (/api/receipt ok) + phone confirmed when the phone gate is on.
+const lgOtpGate=()=>typeof window.otpOn==='function'?window.otpOn():!!(window.SHINGLE_CFG&&SHINGLE_CFG.otpGate);
+const legalOk=()=>!!(S.legal&&S.legal.acceptedAt&&S.legal.version===LG_VERSION&&S.legal.receipt==='sent'&&(!lgOtpGate()||S.legal.phoneVerified===true));
 const lgDate=d=>new Date(d+(d.length===10?'T12:00:00':'')).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
 function attyPrompt(step){return `<aside class="legal atty" aria-label="Talk to a real estate attorney"><h3>Talk to a real estate attorney</h3><p><b>${step}.</b> ${LG.atty}</p></aside>`}
 function earnestNote(){return `<aside class="legal" aria-label="Earnest money"><p>${LG.earnest}</p></aside>`}

@@ -109,11 +109,13 @@ function acceptanceRecord(){const L=S.legal;if(!L)return;const {jsPDF}=window.js
 function ackText(){const L=S.legal;return ['Shingle: The Seller Assist App, disclaimer acknowledgement','Owners: '+(L.names||[]).join(', '),'Property: '+(L.addr||'')+(L.cityZip?', '+L.cityZip:'')+(L.state?' ('+L.state+')':''),'Phone: '+(L.phone||''),'Email: '+(L.email||''),'Date: '+L.date,'Time: '+L.time,'Disclaimer version: '+L.version+' (effective '+lgDate(L.effective||LG_DATE)+')','','I accepted this disclaimer:',...LG.disc,LG.accept].join('\n')}
 function mailAck(){S.myEmail=S.legal.email||S.myEmail;mailMe('My Shingle disclaimer acknowledgement, '+(S.legal.addr||''),ackText())}
 // Receipt goes to /api/receipt (Cloudflare D1). The token from the phone check proves the phone was confirmed.
-window.sendAck=function(manual){const L=S.legal;if(!L)return;
+// Returns a Promise: resolves with {ok:true,id} once the receipt is stored, rejects otherwise. The app stays locked until it resolves.
+window.sendAck=function(manual){const L=S.legal;if(!L)return Promise.reject({error:'no_legal'});
  const body={token:(S.otp&&S.otp.token)||'',phone:shinglePhone(L.phone),names:L.names||[],addr:L.addr,cityZip:L.cityZip,state:L.state,email:L.email,version:L.version,effective:L.effective||LG_DATE,acceptedAt:L.acceptedAt};
- fetch('/api/receipt',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(j=>{if(!j.ok)throw j;S.legal.receipt='sent';if(S.otp)delete S.otp.token;save();if(manual){toast('Receipt sent');render()}})
-  .catch(e=>{S.legal.receipt='failed';save();if(manual)toast(e&&/token/.test(e.error)?'Your phone check timed out, so the receipt could not be sent. Call 5K Realty at 704.649.6781.':'Could not send. Check your connection and try again.')})};
-window.addEventListener('online',()=>{if(S.legal&&S.legal.receipt&&S.legal.receipt!=='sent')sendAck()});
+ return fetch('/api/receipt',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json().catch(()=>({ok:false,error:'http_'+r.status}))).then(j=>{if(!j||!j.ok)throw j||{};S.legal.receipt='sent';if(j.id)S.legal.receiptId=j.id;if(S.otp)delete S.otp.token;save();if(manual){toast('Receipt sent');render()}return j})
+  .catch(e=>{e=e||{};S.legal.receipt='failed';if(/token/.test(e.error||'')){S.otp=null;if(S.legal)S.legal.phoneVerified=false}save();if(manual)toast(ackErrMsg(e));throw e})};
+window.ackErrMsg=e=>/token/.test((e&&e.error)||'')?'Your phone check timed out. Get a new code to confirm your phone, then tap Accept again.':'Could not save your acknowledgement. Check your connection and try again.';
+window.addEventListener('online',()=>{if(S.legal&&S.legal.receipt&&S.legal.receipt!=='sent'&&S.otp&&S.otp.token)sendAck().then(()=>{if(legalOk()&&document.getElementById('lg-go')){if(!location.hash||location.hash==='#disclaimer')location.hash='welcome';render()}}).catch(()=>{})});
 // Phone verification (Twilio Verify through /api/otp/*). Off unless SHINGLE_CFG.otpGate is true.
 const otpDigits=p=>{let d=String(p||'').replace(/\D/g,'');if(d.length===11&&d[0]==='1')d=d.slice(1);return d.length===10&&/^[2-9]\d{2}[2-9]/.test(d)?d:''};
 window.otpOn=()=>!!(window.SHINGLE_CFG&&SHINGLE_CFG.otpGate&&SHINGLE_CFG.turnstileSiteKey);
@@ -147,7 +149,7 @@ function otpBind(){const box=$('#otp');if(!box)return;const msg=(t,err)=>{const 
  if(otpVerifiedFor($('#lg-phone').value)){const m=$('#otp-msg');m.textContent='Phone confirmed.';m.style.color='#1b7a35'}}
 const prevWebBind=webBind;webBind=function(v){prevWebBind(v);
  if(v==='disclaimer')otpBind();
- if(v==='settings'){const r=$('#lg-record');if(r)r.onclick=acceptanceRecord;const m=$('#lg-mail');if(m)m.onclick=mailAck;const rs=$('#lg-resend');if(rs)rs.onclick=()=>sendAck(true)}
+ if(v==='settings'){const r=$('#lg-record');if(r)r.onclick=acceptanceRecord;const m=$('#lg-mail');if(m)m.onclick=mailAck;const rs=$('#lg-resend');if(rs)rs.onclick=()=>sendAck(true).catch(()=>{})}
  if(v==='showings'&&S.booked.length){const list=[...document.querySelectorAll('.card.list .item')];
   list.forEach((it,i)=>{const b=S.booked[i];if(!b)return;it.insertAdjacentHTML('beforeend',`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${smallBtn(`data-shcal="${i}"`,'Add to calendar','Add showing with '+b.n+' to calendar')}</span>`)});
   const card=document.querySelector('.card.list');card.insertAdjacentHTML('beforeend','<button class="btn ghost" type="button" id="sh-mail">Email this to me</button>');
