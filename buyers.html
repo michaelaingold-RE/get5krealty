@@ -36,6 +36,29 @@
     .bg-navy { background-color: var(--navy); }
     .text-gold { color: var(--gold); }
     .bg-gold { background-color: var(--gold); }
+    /* Area guide cards (buyers, 2026-11-14) */
+    .area-guide{width:min(1040px,calc(100vw - 2rem));margin-left:50%;transform:translateX(-50%)}
+    .area-guide>h2{text-align:left}
+    .ag-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:1.25rem}
+    @media (min-width:768px){.ag-grid{grid-template-columns:1fr 1fr;gap:1.25rem}}
+    .ag-card{display:flex;flex-direction:column;background:var(--cream,#F6F1E6);border:1px solid var(--line,#E4DDCE);border-top:3px solid var(--accent,#3F6B4F);border-radius:10px;padding:1.25rem 1.25rem .75rem}
+    @media (min-width:768px){.ag-card{padding:1.5rem 1.5rem .9rem}}
+    .ag-card h3{margin:0 0 .5rem;font-family:var(--display,Georgia,serif);font-size:1.4rem;line-height:1.25;font-weight:600}
+    .ag-card h3 a{color:var(--ink,#1B3328);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;min-height:44px}
+    .ag-card h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+    .ag-arrow{color:var(--accent,#3F6B4F);font-family:Inter,system-ui,sans-serif;font-size:1rem;transition:transform .15s}
+    .ag-card h3 a:hover .ag-arrow{transform:translateX(3px)}
+    .ag-blurb{color:var(--muted,#4E5A53);font-size:.975rem;line-height:1.6;margin:0 0 1rem}
+    .ag-label{margin:0 0 .25rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark,#2F5A40)}
+    .ag-links{list-style:none;margin:0;padding:0}
+    .ag-links li+li{border-top:1px solid var(--line,#E4DDCE)}
+    .ag-links a{display:flex;align-items:center;flex-wrap:wrap;column-gap:.35rem;min-height:44px;padding:.5rem 1.6rem .5rem 0;position:relative;color:var(--accent-dark,#2F5A40);text-decoration:none;line-height:1.35;font-size:.95rem}
+    .ag-links a:hover .ag-name,.ag-links a:focus-visible .ag-name{text-decoration:underline;text-underline-offset:3px}
+    .ag-name{font-weight:600}
+    .ag-src{color:var(--muted,#4E5A53);font-size:.85rem}
+    .ag-ext{position:absolute;right:.15rem;top:50%;transform:translateY(-50%);color:var(--accent,#3F6B4F)}
+    .area-guide a:focus-visible{outline:2px solid var(--accent,#3F6B4F);outline-offset:2px;border-radius:3px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   </style>
   <script type="application/ld+json">
 {
@@ -175,46 +198,99 @@
       <ul class="list-disc pl-5 space-y-2 mb-8 text-gray-700">
         <li>Local market knowledge across the Greater Charlotte area, NC/SC</li>
         <li>Clear guidance from first showing through closing</li>
-        <li>Help evaluating neighborhoods, schools, and lifestyle fit</li>
+        <li>Help comparing areas, commutes, and everyday amenities</li>
         <li>Strong negotiation support</li>
         <li>Straightforward communication throughout the process</li>
       </ul>
-      <!-- Local Area Images - Stacked Full Width -->
-      <div class="mb-10">
-        <p class="text-gray-600 mb-5">A few local favorites:</p>
-       
-        <div class="space-y-6">
-          <div>
-            <img src="images/images/fort-mill-baxter-village.jpg"
-                 alt="Baxter Village in Fort Mill"
-                 class="w-full rounded-lg shadow-sm"
-                 loading="lazy">
-            <p class="text-sm text-gray-600 mt-2">Baxter Village</p>
-          </div>
-         
-          <div>
-            <img src="images/images/fort-mill-kingsley-street.jpg"
-                 alt="Kingsley area in Fort Mill"
-                 class="w-full rounded-lg shadow-sm"
-                 loading="lazy">
-            <p class="text-sm text-gray-600 mt-2">Kingsley</p>
-          </div>
-         
-          <div>
-            <img src="images/images/fort-mill-lake-scenic.jpg"
-                 alt="Scenic view near Lake Wylie"
-                 class="w-full rounded-lg shadow-sm"
-                 loading="lazy">
-            <p class="text-sm text-gray-600 mt-2">Lake Wylie</p>
-          </div>
-         
-          <div>
-            <img src="images/images/fort-mill-peach-stand.jpg"
-                 alt="The Peach Stand in Fort Mill"
-                 class="w-full rounded-lg shadow-sm"
-                 loading="lazy">
-            <p class="text-sm text-gray-600 mt-2">The Peach Stand</p>
-          </div>
+      <!-- Area guide cards (replaced the four local photos, 2026-11-14) -->
+      <div class="area-guide mb-10" aria-labelledby="area-guide-title">
+        <h2 id="area-guide-title" class="text-2xl font-bold text-navy mb-2">Get to know the areas</h2>
+        <div class="ag-grid">
+          <article class="ag-card">
+            <h3><a href="/charlotte">Charlotte<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">On Charlotte&#x27;s south side, the Little Sugar Creek Greenway runs more than 17 miles from NoDa all the way to the South Carolina state line. Park Road Park, one of south Charlotte&#x27;s busiest parks, has a lake, about three miles of mountain bike trail, and a lakeside pavilion. For a bigger day out, Carowinds has rides and the Carolina Harbor Waterpark.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://parkandrec.mecknc.gov/Places-to-Visit/greenways" target="_blank" rel="noopener"><span class="ag-name">Little Sugar Creek Greenway</span> <span class="ag-src">(Mecklenburg County greenways)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://parkandrec.mecknc.gov/facility/park-road-park-pavilion" target="_blank" rel="noopener"><span class="ag-name">Park Road Park lakeside pavilion</span> <span class="ag-src">(Mecklenburg County)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.tarheeltrailblazers.org/trails/park-road-park" target="_blank" rel="noopener"><span class="ag-name">Park Road Park trails</span> <span class="ag-src">(Tarheel Trailblazers)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.carowinds.com/" target="_blank" rel="noopener"><span class="ag-name">Carowinds</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
+          <article class="ag-card">
+            <h3><a href="/fort-mill">Fort Mill<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">Fort Mill pairs a historic Main Street with two walkable town centers near I-77 Exit 85: Baxter Village, with Main Street-style shops and restaurants, and Kingsley, with dining, a hotel, and offices that nod to the town&#x27;s textile past. The 2,100-acre Anne Springs Close Greenway has trails for hiking, biking, and horseback riding, plus lakes for paddling. Walter Y. Elisha Park, a short walk from downtown, hosts the South Carolina Strawberry Festival, and The Peach Stand on Highway 160 West has sold local produce since 1980.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://www.visityorkcounty.com/plan/our-cities/fort-mill/" target="_blank" rel="noopener"><span class="ag-name">Visit York County guide to Fort Mill</span> <span class="ag-src">(Main Street, Baxter Village, Kingsley)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.ascgreenway.org/" target="_blank" rel="noopener"><span class="ag-name">Anne Springs Close Greenway</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.fortmillsc.gov/Facilities/Facility/Details/Walter-Elisha-Park-9" target="_blank" rel="noopener"><span class="ag-name">Walter Y. Elisha Park</span> <span class="ag-src">(Town of Fort Mill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.peachstand.com/" target="_blank" rel="noopener"><span class="ag-name">The Peach Stand</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
+          <article class="ag-card">
+            <h3><a href="/tega-cay">Tega Cay<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">Tega Cay sits a few miles south of the state line with several miles of shoreline on Lake Wylie, and its name is Polynesian for &quot;beautiful peninsula.&quot; Windjammer Park has a lake beach and swimming area, and Catawba Park covers 62 acres with ball fields, walking trails, and a river launch. Tega Cay Golf Club has 27 holes on more than 200 acres around the lake.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://www.tegacaysc.org/Facilities/Facility/Details/Windjammer-Park-1" target="_blank" rel="noopener"><span class="ag-name">Windjammer Park</span> <span class="ag-src">(City of Tega Cay)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.tegacaysc.org/1714/Catawba-Park" target="_blank" rel="noopener"><span class="ag-name">Catawba Park</span> <span class="ag-src">(City of Tega Cay)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://tegacaygolfclub.com/" target="_blank" rel="noopener"><span class="ag-name">Tega Cay Golf Club</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
+          <article class="ag-card">
+            <h3><a href="/lake-wylie">Lake Wylie<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">Lake Wylie is a Duke Energy lake on the Catawba River, right on the line between North and South Carolina, with about 325 miles of shoreline. Public spots include York County&#x27;s Ebenezer Park for swimming, fishing, and camping, and Mecklenburg County&#x27;s McDowell Nature Preserve on York Road, with trails and a launch for kayaks and canoes.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://www.yorkcountysc.gov/212/Ebenezer-Park" target="_blank" rel="noopener"><span class="ag-name">Ebenezer Park</span> <span class="ag-src">(York County)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://parkandrec.mecknc.gov/Places-to-Visit/Nature/mcdowell-nature-center-and-preserve" target="_blank" rel="noopener"><span class="ag-name">McDowell Nature Center and Preserve</span> <span class="ag-src">(Mecklenburg County)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.lakewyliemarinecommission.com/public-access-areas/" target="_blank" rel="noopener"><span class="ag-name">Lake Wylie public access areas</span> <span class="ag-src">(Lake Wylie Marine Commission)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.dnr.sc.gov/lakes/wylie/description.html" target="_blank" rel="noopener"><span class="ag-name">Lake Wylie facts</span> <span class="ag-src">(SC Department of Natural Resources)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
+          <article class="ag-card">
+            <h3><a href="/rock-hill">Rock Hill<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">Rock Hill sits along I-77 about 20 miles south of Charlotte, and its historic Old Town is centered on Fountain Park, home to a fountain that reaches over 100 feet high, food truck nights, and a farmers market. Glencairn Garden started as a backyard garden in 1928 and is now 11 acres of lawns, walkways, and spring azaleas. Along the Catawba River, Riverwalk has trails, a BMX track, and the Rock Hill Velodrome.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://www.visitrockhillsc.com/location/fountain-park/" target="_blank" rel="noopener"><span class="ag-name">Fountain Park in Old Town</span> <span class="ag-src">(Visit Rock Hill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.visitrockhillsc.com/location/glencairn-garden/" target="_blank" rel="noopener"><span class="ag-name">Glencairn Garden</span> <span class="ag-src">(Visit Rock Hill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.visitrockhillsc.com/riverwalk/" target="_blank" rel="noopener"><span class="ag-name">Riverwalk district</span> <span class="ag-src">(Visit Rock Hill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.visitrockhillsc.com/location/rock-hill-velodrome/" target="_blank" rel="noopener"><span class="ag-name">Rock Hill Velodrome</span> <span class="ag-src">(Visit Rock Hill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
+          <article class="ag-card">
+            <h3><a href="/indian-land">Indian Land<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">Indian Land is in Lancaster County, with Charlotte Highway running through it past the Del Webb Library and the Indian Land Recreation Center. Walnut Creek Park covers 60 acres with ball fields, tennis courts, two playgrounds, and a 3.5-mile walking trail, and the Bailes Ridge Nature Trail offers a quieter walk off Highway 160.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://www.lancastercountysc.gov/Facilities/Facility/Details/Walnut-Creek-Park-13" target="_blank" rel="noopener"><span class="ag-name">Walnut Creek Park</span> <span class="ag-src">(Lancaster County)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.lancastercountysc.gov/319/Indian-Land-Branch" target="_blank" rel="noopener"><span class="ag-name">Del Webb Library at Indian Land</span> <span class="ag-src">(Lancaster County)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.lancastercountysc.gov/344/Parks-Facilities-Other-Properties" target="_blank" rel="noopener"><span class="ag-name">Lancaster County parks list</span> <span class="ag-src">(Bailes Ridge Nature Trail, Indian Land Recreation Center)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
+          <article class="ag-card">
+            <h3><a href="/ballantyne">Ballantyne<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">Ballantyne is in south Charlotte, where The Bowl at Ballantyne gathers restaurants, shops, and rooftop decks around a central green. Ballantyne&#x27;s Backyard turned a former golf course into more than 100 acres of open space with walking and running trails and catch-and-release ponds. Its paths connect to The Bowl and to TD Amp Ballantyne, an outdoor venue for concerts, festivals, and markets.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://www.goballantyne.com/ballantyne-reimagined/the-bowl-at-ballantyne" target="_blank" rel="noopener"><span class="ag-name">The Bowl at Ballantyne</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.goballantyne.com/things-to-do/explore/ballantynes-backyard" target="_blank" rel="noopener"><span class="ag-name">Ballantyne&#x27;s Backyard</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.tdampballantyne.com/" target="_blank" rel="noopener"><span class="ag-name">TD Amp Ballantyne</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
+          <article class="ag-card">
+            <h3><a href="/sell-york-lancaster-county">York &amp; Lancaster County<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-blurb">Beyond the towns, York and Lancaster counties hold some of the region&#x27;s biggest outdoor and history sites. Kings Mountain State Park has two fishing lakes and more than 20 miles of hiking trails, Historic Brattonsville is an 800-acre living history site with a Revolutionary War battlefield, and Andrew Jackson State Park near Lancaster has a museum, a fishing lake, and nature trails. In Clover, the town&#x27;s Main Street program centers on its historic downtown.</p>
+            <p class="ag-label">Places to visit</p>
+            <ul class="ag-links">
+              <li><a href="https://southcarolinaparks.com/kings-mountain" target="_blank" rel="noopener"><span class="ag-name">Kings Mountain State Park</span> <span class="ag-src">(SC State Parks)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://chmuseums.org/brattonsville/" target="_blank" rel="noopener"><span class="ag-name">Historic Brattonsville</span> <span class="ag-src">(Culture &amp; Heritage Museums)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://southcarolinaparks.com/andrew-jackson" target="_blank" rel="noopener"><span class="ag-name">Andrew Jackson State Park</span> <span class="ag-src">(SC State Parks)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+              <li><a href="https://www.cloversc.org/55029/Clover-Main-Street" target="_blank" rel="noopener"><span class="ag-name">Clover Main Street and historic downtown</span> <span class="ag-src">(Town of Clover)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+            </ul>
+          </article>
         </div>
       </div>
       <h2 class="text-2xl font-bold text-navy mb-4">Buyer Agent Fees</h2>
