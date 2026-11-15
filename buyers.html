@@ -59,7 +59,71 @@
     .ag-ext{position:absolute;right:.15rem;top:50%;transform:translateY(-50%);color:var(--accent,#3F6B4F)}
     .area-guide a:focus-visible{outline:2px solid var(--accent,#3F6B4F);outline-offset:2px;border-radius:3px}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .ag-known{margin:0 0 .35rem;font-size:.9rem;line-height:1.5;color:var(--ink,#1B3328);font-weight:600}
+    .ag-k{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-dark,#2F5A40);margin-right:.2rem}
+    .ag-dot{color:var(--accent,#3F6B4F);padding:0 .1rem}
+    .ag-drive{margin:0 0 .75rem;padding:.5rem .7rem;background:#fff;border-left:3px solid var(--accent,#3F6B4F);border-radius:4px;font-size:.875rem;line-height:1.5;color:var(--muted,#4E5A53)}
+    .ag-links.ag-map{margin-top:.1rem;border-top:1px solid var(--line,#E4DDCE)}
+    .ag-note{margin:.85rem 0 0;font-size:.85rem;color:var(--muted,#4E5A53)}
+    .ag-note a{color:var(--accent-dark,#2F5A40);text-decoration:underline;text-underline-offset:3px}
+    .ag-faq{margin-top:2rem}
+    .ag-faq-item{border-top:1px solid var(--line,#E4DDCE)}
+    .ag-faq-item:last-child{border-bottom:1px solid var(--line,#E4DDCE)}
+    .ag-faq-item summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:48px;padding:.6rem 0}
+    .ag-faq-item summary::-webkit-details-marker{display:none}
+    .ag-faq-item summary::after{content:"+";flex:none;font-size:1.35rem;line-height:1;color:var(--accent,#3F6B4F)}
+    .ag-faq-item[open] summary::after{content:"\2212"}
+    .ag-faq-item summary h3{margin:0;font-size:1.05rem;line-height:1.4;font-weight:600;color:var(--ink,#1B3328)}
+    .ag-faq-item p{margin:0 0 1rem;color:var(--muted,#4E5A53);line-height:1.6;font-size:.975rem}
   </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How long is the drive from Fort Mill, Lake Wylie, or Indian Land to Uptown Charlotte?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In light traffic, plan on about 22 to 35 minutes from downtown Fort Mill, 28 to 55 minutes from Lake Wylie, and 26 to 45 minutes from Indian Land. At weekday rush hour, those trips often take 35 minutes to 1 hour 40 minutes, depending on the route and the day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which of these areas are in South Carolina, and which are in North Carolina?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fort Mill, Tega Cay, Rock Hill, and the Lake Wylie community are in York County, South Carolina. Indian Land is in Lancaster County, South Carolina. Charlotte and Ballantyne are in Mecklenburg County, North Carolina. Lake Wylie itself sits on the state line, so its shoreline is in both states."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I search live listings in these areas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the free listings app on this page to search live listings on your phone and save favorites I can see. Or request a private search, and I will run a personalized search of current listings and keep you updated on new matches."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you help me buy a home in all of these areas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. I am a REALTOR® and a broker licensed in North Carolina and South Carolina, and I help buyers across the Greater Charlotte area, including every area above."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do the drive times come from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They are typical weekday ranges from an online map, checked in November 2026. Each one runs from a central point in the area to Independence Square in Uptown. Light traffic means a late-morning trip, and rush hour means leaving around 7:30 AM. Your own trip may be shorter or longer."
+      }
+    }
+  ]
+}
+  </script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -208,6 +272,8 @@
         <div class="ag-grid">
           <article class="ag-card">
             <h3><a href="/charlotte">Charlotte<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> Little Sugar Creek Greenway <span class="ag-dot" aria-hidden="true">&bull;</span> Park Road Park lake and trails <span class="ag-dot" aria-hidden="true">&bull;</span> Carowinds theme park</p>
+            <p class="ag-drive">Drive to Uptown from the Park Road Park area: about 16 to 28 minutes in light traffic, often 18 to 40 minutes at rush hour.</p>
             <p class="ag-blurb">On Charlotte&#x27;s south side, the Little Sugar Creek Greenway runs more than 17 miles from NoDa all the way to the South Carolina state line. Park Road Park, one of south Charlotte&#x27;s busiest parks, has a lake, about three miles of mountain bike trail, and a lakeside pavilion. For a bigger day out, Carowinds has rides and the Carolina Harbor Waterpark.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -216,9 +282,12 @@
               <li><a href="https://www.tarheeltrailblazers.org/trails/park-road-park" target="_blank" rel="noopener"><span class="ag-name">Park Road Park trails</span> <span class="ag-src">(Tarheel Trailblazers)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://www.sixflags.com/carowinds" target="_blank" rel="noopener"><span class="ag-name">Carowinds</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Charlotte,+NC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Charlotte</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
           <article class="ag-card">
             <h3><a href="/fort-mill">Fort Mill<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> Historic Main Street <span class="ag-dot" aria-hidden="true">&bull;</span> Baxter Village and Kingsley <span class="ag-dot" aria-hidden="true">&bull;</span> Anne Springs Close Greenway</p>
+            <p class="ag-drive">Drive to Uptown Charlotte: about 22 to 35 minutes in light traffic, often 40 minutes to 1 hour 40 minutes at rush hour.</p>
             <p class="ag-blurb">Fort Mill pairs a historic Main Street with two walkable town centers near I-77 Exit 85: Baxter Village, with Main Street-style shops and restaurants, and Kingsley, with dining, a hotel, and offices that nod to the town&#x27;s textile past. The 2,100-acre Anne Springs Close Greenway has trails for hiking, biking, and horseback riding, plus lakes for paddling. Walter Y. Elisha Park, a short walk from downtown, hosts the South Carolina Strawberry Festival, and The Peach Stand on Highway 160 West has sold local produce since 1980.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -227,9 +296,12 @@
               <li><a href="https://www.fortmillsc.gov/Facilities/Facility/Details/Walter-Elisha-Park-9" target="_blank" rel="noopener"><span class="ag-name">Walter Y. Elisha Park</span> <span class="ag-src">(Town of Fort Mill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://www.peachstand.com/" target="_blank" rel="noopener"><span class="ag-name">The Peach Stand</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Fort+Mill,+SC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Fort Mill</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
           <article class="ag-card">
             <h3><a href="/tega-cay">Tega Cay<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> Lake Wylie shoreline <span class="ag-dot" aria-hidden="true">&bull;</span> Windjammer Park beach <span class="ag-dot" aria-hidden="true">&bull;</span> 27-hole golf club</p>
+            <p class="ag-drive">Drive to Uptown Charlotte: about 22 to 40 minutes in light traffic, often 40 minutes to 1 hour 40 minutes at rush hour.</p>
             <p class="ag-blurb">Tega Cay sits a few miles south of the state line with several miles of shoreline on Lake Wylie, and its name is Polynesian for &quot;beautiful peninsula.&quot; Windjammer Park has a lake beach and swimming area, and Catawba Park covers 62 acres with ball fields, walking trails, and a river launch. Tega Cay Golf Club has 27 holes on more than 200 acres around the lake.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -237,9 +309,12 @@
               <li><a href="https://www.tegacaysc.org/1714/Catawba-Park" target="_blank" rel="noopener"><span class="ag-name">Catawba Park</span> <span class="ag-src">(City of Tega Cay)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://tegacaygolfclub.com/" target="_blank" rel="noopener"><span class="ag-name">Tega Cay Golf Club</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Tega+Cay,+SC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Tega Cay</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
           <article class="ag-card">
             <h3><a href="/lake-wylie">Lake Wylie<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> About 325 miles of shoreline <span class="ag-dot" aria-hidden="true">&bull;</span> Ebenezer Park beach and campground <span class="ag-dot" aria-hidden="true">&bull;</span> Paddle launch at McDowell</p>
+            <p class="ag-drive">Drive to Uptown Charlotte: about 28 to 55 minutes in light traffic, often 50 minutes to 1 hour 40 minutes at rush hour.</p>
             <p class="ag-blurb">Lake Wylie is a Duke Energy lake on the Catawba River, right on the line between North and South Carolina, with about 325 miles of shoreline. Public spots include York County&#x27;s Ebenezer Park for swimming, fishing, and camping, and Mecklenburg County&#x27;s McDowell Nature Preserve on York Road, with trails and a launch for kayaks and canoes.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -248,9 +323,12 @@
               <li><a href="https://www.lakewyliemarinecommission.com/public-access-areas/" target="_blank" rel="noopener"><span class="ag-name">Lake Wylie public access areas</span> <span class="ag-src">(Lake Wylie Marine Commission)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://www.dnr.sc.gov/lakes/wylie/description.html" target="_blank" rel="noopener"><span class="ag-name">Lake Wylie facts</span> <span class="ag-src">(SC Department of Natural Resources)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Lake+Wylie,+SC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Lake Wylie</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
           <article class="ag-card">
             <h3><a href="/rock-hill">Rock Hill<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> Old Town and Fountain Park <span class="ag-dot" aria-hidden="true">&bull;</span> Glencairn Garden <span class="ag-dot" aria-hidden="true">&bull;</span> Rock Hill Velodrome</p>
+            <p class="ag-drive">Drive to Uptown Charlotte: about 30 to 45 minutes in light traffic, often 45 minutes to 1 hour 50 minutes at rush hour.</p>
             <p class="ag-blurb">Rock Hill sits along I-77 about 20 miles south of Charlotte, and its historic Old Town is centered on Fountain Park, home to a fountain that reaches over 100 feet high, food truck nights, and a farmers market. Glencairn Garden started as a backyard garden in 1928 and is now 11 acres of lawns, walkways, and spring azaleas. Along the Catawba River, Riverwalk has trails, a BMX track, and the Rock Hill Velodrome.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -259,9 +337,12 @@
               <li><a href="https://www.visitrockhillsc.com/riverwalk/" target="_blank" rel="noopener"><span class="ag-name">Riverwalk district</span> <span class="ag-src">(Visit Rock Hill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://www.visitrockhillsc.com/location/rock-hill-velodrome/" target="_blank" rel="noopener"><span class="ag-name">Rock Hill Velodrome</span> <span class="ag-src">(Visit Rock Hill)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Rock+Hill,+SC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Rock Hill</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
           <article class="ag-card">
             <h3><a href="/indian-land">Indian Land<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> Walnut Creek Park <span class="ag-dot" aria-hidden="true">&bull;</span> Bailes Ridge Nature Trail <span class="ag-dot" aria-hidden="true">&bull;</span> Del Webb Library</p>
+            <p class="ag-drive">Drive to Uptown Charlotte: about 26 to 45 minutes in light traffic, often 35 minutes to 1 hour 20 minutes at rush hour.</p>
             <p class="ag-blurb">Indian Land is in Lancaster County, with Charlotte Highway running through it past the Del Webb Library and the Indian Land Recreation Center. Walnut Creek Park covers 60 acres with ball fields, tennis courts, two playgrounds, and a 3.5-mile walking trail, and the Bailes Ridge Nature Trail offers a quieter walk off Highway 160.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -269,9 +350,12 @@
               <li><a href="https://www.lancastercountysc.gov/319/Indian-Land-Branch" target="_blank" rel="noopener"><span class="ag-name">Del Webb Library at Indian Land</span> <span class="ag-src">(Lancaster County)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://www.lancastercountysc.gov/344/Parks-Facilities-Other-Properties" target="_blank" rel="noopener"><span class="ag-name">Lancaster County parks list</span> <span class="ag-src">(Bailes Ridge Nature Trail, Indian Land Recreation Center)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Indian+Land,+SC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Indian Land</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
           <article class="ag-card">
             <h3><a href="/ballantyne">Ballantyne<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> The Bowl at Ballantyne <span class="ag-dot" aria-hidden="true">&bull;</span> Ballantyne&#x27;s Backyard trails <span class="ag-dot" aria-hidden="true">&bull;</span> Concerts at TD Amp</p>
+            <p class="ag-drive">Drive to Uptown Charlotte: about 20 to 26 minutes in light traffic, often 26 to 55 minutes at rush hour.</p>
             <p class="ag-blurb">Ballantyne is in south Charlotte, where The Bowl at Ballantyne gathers restaurants, shops, and rooftop decks around a central green. Ballantyne&#x27;s Backyard turned a former golf course into more than 100 acres of open space with walking and running trails and catch-and-release ponds. Its paths connect to The Bowl and to TD Amp Ballantyne, an outdoor venue for concerts, festivals, and markets.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -279,9 +363,12 @@
               <li><a href="https://www.goballantyne.com/things-to-do/explore/ballantynes-backyard" target="_blank" rel="noopener"><span class="ag-name">Ballantyne&#x27;s Backyard</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://www.tdampballantyne.com/" target="_blank" rel="noopener"><span class="ag-name">TD Amp Ballantyne</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Ballantyne,+Charlotte,+NC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Ballantyne</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
           <article class="ag-card">
             <h3><a href="/sell-york-lancaster-county">York &amp; Lancaster County<span class="ag-arrow" aria-hidden="true">&rarr;</span></a></h3>
+            <p class="ag-known"><span class="ag-k">Known for:</span> Kings Mountain State Park <span class="ag-dot" aria-hidden="true">&bull;</span> Historic Brattonsville <span class="ag-dot" aria-hidden="true">&bull;</span> Andrew Jackson State Park</p>
+            <p class="ag-drive">Drive to Uptown Charlotte from York or Lancaster: about 45 minutes to 1 hour 10 minutes in light traffic, often 1 to 2 hours at rush hour.</p>
             <p class="ag-blurb">Beyond the towns, York and Lancaster counties hold some of the region&#x27;s biggest outdoor and history sites. Kings Mountain State Park has two fishing lakes and more than 20 miles of hiking trails, Historic Brattonsville is an 800-acre living history site with a Revolutionary War battlefield, and Andrew Jackson State Park near Lancaster has a museum, a fishing lake, and nature trails. In Clover, the town&#x27;s Main Street program centers on its historic downtown.</p>
             <p class="ag-label">Places to visit</p>
             <ul class="ag-links">
@@ -290,7 +377,17 @@
               <li><a href="https://southcarolinaparks.com/andrew-jackson" target="_blank" rel="noopener"><span class="ag-name">Andrew Jackson State Park</span> <span class="ag-src">(SC State Parks)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
               <li><a href="https://www.cloversc.org/55029/Clover-Main-Street" target="_blank" rel="noopener"><span class="ag-name">Clover Main Street and historic downtown</span> <span class="ag-src">(Town of Clover)</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li>
             </ul>
+            <ul class="ag-links ag-map"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=York+County,+SC" target="_blank" rel="noopener"><span class="ag-name">Open a map of York County</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Lancaster+County,+SC" target="_blank" rel="noopener"><span class="ag-name">Open a map of Lancaster County</span><span class="ag-ext" aria-hidden="true">&#8599;</span><span class="sr-only"> (opens in a new tab)</span></a></li></ul>
           </article>
+        </div>
+        <p class="ag-note">Drive times are typical weekday ranges from an online map, checked in November 2026. Your trip may differ. See <a href="#area-faq">how these were measured</a>.</p>
+        <div class="ag-faq">
+          <h2 id="area-faq" class="text-2xl font-bold text-navy mb-2">Area questions</h2>
+          <details class="ag-faq-item"><summary><h3>How long is the drive from Fort Mill, Lake Wylie, or Indian Land to Uptown Charlotte?</h3></summary><p>In light traffic, plan on about 22 to 35 minutes from downtown Fort Mill, 28 to 55 minutes from Lake Wylie, and 26 to 45 minutes from Indian Land. At weekday rush hour, those trips often take 35 minutes to 1 hour 40 minutes, depending on the route and the day.</p></details>
+          <details class="ag-faq-item"><summary><h3>Which of these areas are in South Carolina, and which are in North Carolina?</h3></summary><p>Fort Mill, Tega Cay, Rock Hill, and the Lake Wylie community are in York County, South Carolina. Indian Land is in Lancaster County, South Carolina. Charlotte and Ballantyne are in Mecklenburg County, North Carolina. Lake Wylie itself sits on the state line, so its shoreline is in both states.</p></details>
+          <details class="ag-faq-item"><summary><h3>How can I search live listings in these areas?</h3></summary><p>Use the free listings app on this page to search live listings on your phone and save favorites I can see. Or request a private search, and I will run a personalized search of current listings and keep you updated on new matches.</p></details>
+          <details class="ag-faq-item"><summary><h3>Can you help me buy a home in all of these areas?</h3></summary><p>Yes. I am a REALTOR&reg; and a broker licensed in North Carolina and South Carolina, and I help buyers across the Greater Charlotte area, including every area above.</p></details>
+          <details class="ag-faq-item"><summary><h3>Where do the drive times come from?</h3></summary><p>They are typical weekday ranges from an online map, checked in November 2026. Each one runs from a central point in the area to Independence Square in Uptown. Light traffic means a late-morning trip, and rush hour means leaving around 7:30 AM. Your own trip may be shorter or longer.</p></details>
         </div>
       </div>
       <h2 class="text-2xl font-bold text-navy mb-4">Buyer Agent Fees</h2>
